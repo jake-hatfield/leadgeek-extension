@@ -1,0 +1,37 @@
+{
+	"manifest_version": 3,
+	"version": "1.0.3",
+	"name": "Leadgeek",
+	"description": "An Amazon product analysis tool for arbitrage and wholesale.",
+	"homepage_url": "https://leadgeek.io/",
+	"permissions": ["activeTab"],
+	"host_permissions": ["https://app.leadgeek.io/api/*"],
+	"action": {
+		"default_title": "Analyze an Amazon product",
+		"default_icon": "favicon.png",
+		"default_popup": "index.html"
+	},
+	"background": {
+		"service_worker": "background.js"
+	},
+	"content_scripts": [
+		{
+			"js": ["content.js"],
+			"matches": [
+				"*://*.amazon.com/*",
+				"*://*.amazon.co.uk/*",
+				"*://*.amazon.de/*",
+				"*://*.amazon.fr/*",
+				"*://*.amazon.co.jp/*",
+				"*://*.amazon.ca/*",
+				"*://*.amazon.it/*",
+				"*://*.amazon.es/*",
+				"*://*.amazon.in/*",
+				"*://*.amazon.com.mx/*"
+			]
+		}
+	],
+	"icons": {
+		"48": "favicon.png"
+	}
+}

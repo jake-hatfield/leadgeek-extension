@@ -1,0 +1,50 @@
+{
+  "name": "leadgeek-extension",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "cpx -C build/** build/** && rollup -c && cpx public/**/*.* build",
+    "dev": "rollup -c -w",
+    "start": "sirv public --no-clear",
+    "check": "svelte-check --tsconfig ./tsconfig.json"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-node-resolve": "^11.0.0",
+    "@rollup/plugin-typescript": "^8.3.1",
+    "@testing-library/dom": "^8.11.3",
+    "@testing-library/jest-dom": "^5.16.2",
+    "@testing-library/svelte": "^3.0.3",
+    "@testing-library/user-event": "^13.5.0",
+    "@tsconfig/svelte": "^2.0.0",
+    "@types/axios": "^0.14.0",
+    "@types/chrome": "^0.0.179",
+    "@types/jest": "^27.4.1",
+    "@types/luxon": "^2.0.9",
+    "@types/tailwindcss": "^3.0.9",
+    "autoprefixer": "^9.8.8",
+    "concurrently": "^7.0.0",
+    "jest": "^27.5.1",
+    "postcss": "^8.4.7",
+    "rollup": "^2.3.4",
+    "rollup-plugin-css-only": "^3.1.0",
+    "rollup-plugin-livereload": "^2.0.0",
+    "rollup-plugin-svelte": "^7.0.0",
+    "rollup-plugin-terser": "^7.0.0",
+    "svelte": "^3.0.0",
+    "svelte-check": "^2.0.0",
+    "svelte-preprocess": "^4.0.0",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17",
+    "ts-jest": "^27.1.3",
+    "tslib": "^2.0.0",
+    "typescript": "^4.0.0",
+    "webextension-polyfill": "^0.8.0"
+  },
+  "dependencies": {
+    "@fontsource/inter": "^4.5.4",
+    "axios": "^0.26.0",
+    "cpx": "^1.5.0",
+    "luxon": "^2.3.1",
+    "sirv-cli": "^2.0.0"
+  }
+}
