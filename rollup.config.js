@@ -1,13 +1,18 @@
 import svelte from 'rollup-plugin-svelte';
-import sveltePreprocess from 'svelte-preprocess';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
-import livereload from 'rollup-plugin-livereload';
-import { terser } from 'rollup-plugin-terser';
+import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
+import alias from '@rollup/plugin-alias';
 import css from 'rollup-plugin-css-only';
+import { config } from 'dotenv';
+import livereload from 'rollup-plugin-livereload';
+import path from 'path';
+import replace from '@rollup/plugin-replace';
+import { terser } from 'rollup-plugin-terser';
 
 const production = !process.env.ROLLUP_WATCH;
+const projectRootDir = path.resolve(__dirname);
 
 function serve() {
 	let server;
@@ -36,26 +41,25 @@ function serve() {
 
 export default [
 	{
-		input: 'src/main.ts',
+		input: 'src/index.ts',
 		output: {
 			sourcemap: true,
 			format: 'iife',
 			name: 'app',
-			file: 'build/bundle.js',
+			file: 'public/build/bundle.js',
 		},
 		plugins: [
 			svelte({
-				preprocess: sveltePreprocess({ sourceMap: !production }),
-				compilerOptions: {
-					// enable run-time checks when not in production
-					dev: !production,
-				},
 				preprocess: sveltePreprocess({
 					sourceMap: !production,
 					postcss: {
 						plugins: [require('tailwindcss')(), require('autoprefixer')()],
 					},
 				}),
+				compilerOptions: {
+					// enable run-time checks when not in production
+					dev: !production,
+				},
 			}),
 
 			// we'll extract any component CSS out into
@@ -73,45 +77,92 @@ export default [
 			}),
 			commonjs(),
 			typescript({
+				rootDir: './src',
 				sourceMap: !production,
 				inlineSources: !production,
 			}),
-
 			// In dev mode, call `npm run start` once
 			// the bundle has been generated
 			!production && serve(),
-
 			// Watches directories and refresh the
 			// browser on changes when not in production
 			!production && livereload('public'),
 			!production && livereload('src'),
-
 			// If we're building for production (npm run build
 			// instead of npm run dev), minify
 			production && terser(),
+			// env variables
+			replace({
+				_env: JSON.stringify({
+					env: {
+						isProd: production,
+						...config().parsed, // attached the .env config
+					},
+				}),
+				preventAssignment: true,
+			}),
+			// paths
+			alias({
+				entries: [
+					{
+						find: '@assets',
+						replacement: path.resolve(projectRootDir, 'src/assets'),
+					},
+					{
+						find: '@components',
+						replacement: path.resolve(projectRootDir, 'src/components'),
+					},
+					{
+						find: '@lib',
+						replacement: path.resolve(projectRootDir, 'src/lib'),
+					},
+					{
+						find: '@pages',
+						replacement: path.resolve(projectRootDir, 'src/pages'),
+					},
+					{
+						find: '@routes',
+						replacement: path.resolve(projectRootDir, 'src/routes'),
+					},
+					{
+						find: '@stores',
+						replacement: path.resolve(projectRootDir, 'src/stores'),
+					},
+					{
+						find: '$types',
+						replacement: path.resolve(projectRootDir, 'src/types'),
+					},
+					{
+						find: '@utils',
+						replacement: path.resolve(projectRootDir, 'src/utils'),
+					},
+				],
+			}),
 		],
 		watch: {
 			clearScreen: false,
 		},
 	},
+	// compile background script
 	{
-		input: 'src/background.js',
+		input: 'src/background.ts',
 		output: {
 			sourcemap: true,
 			format: 'iife',
-			file: 'build/background.js',
+			file: 'public/build/background.js',
 		},
 		plugins: [resolve(), commonjs()],
 		watch: {
 			clearScreen: false,
 		},
 	},
+	// compile content script
 	{
-		input: 'src/content.js',
+		input: 'src/content.ts',
 		output: {
 			sourcemap: true,
 			format: 'iife',
-			file: 'build/content.js',
+			file: 'public/build/content.js',
 		},
 		plugins: [resolve(), commonjs()],
 		watch: {

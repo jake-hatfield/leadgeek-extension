@@ -12,11 +12,11 @@
 		"default_popup": "index.html"
 	},
 	"background": {
-		"service_worker": "background.js"
+		"service_worker": "build/background.js"
 	},
 	"content_scripts": [
 		{
-			"js": ["content.js"],
+			"js": ["build/content.js"],
 			"matches": [
 				"*://*.amazon.com/*",
 				"*://*.amazon.co.uk/*",
