@@ -78,6 +78,8 @@ export const login = async (email: string, password: string) => {
 			token: string | null;
 		}>(`https://app.leadgeek.io/api/auth/`, body, config);
 
+		console.log(res);
+
 		//   if status is not successful, alert user with message
 		if (res.status !== 200) {
 			//   TODO<Jake>: Handle this error

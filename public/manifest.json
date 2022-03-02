@@ -2,6 +2,7 @@
 	"manifest_version": 3,
 	"version": "1.0.3",
 	"name": "Leadgeek",
+	"key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxmuFFkqX1lYiAVAzj4ri5oddoSfnwKByrn9IDzAKllSdL5Bh/9YI/83xcXYF7oXblzY5THhVfFRuCsb5bNylRLzWqj1ZiJf+b7+cM1HUkXsNhFtE4taVscblwB5E2Xwt+gkB2tobYCxYQk6uRhxYEe7nlyMZbVhHv2bycSfa2yQTyIy1mBD5K1Rqpyl+y0eGwFJd18jW9+pFQeWUFA3NEEDspvQ2rTAONr0UAWygb06klLKKq+02my2AncyEwYL+TgP1SGT63oHEw9Wo1iOPmvOi1cigkXfHPv0gf3j4OBUQxi1WIbEQ8LKEaNbw8ShBdRFGo3M9mtduVdGHAl8D5wIDAQAB",
 	"description": "An Amazon product analysis tool for arbitrage and wholesale.",
 	"homepage_url": "https://leadgeek.io/",
 	"permissions": ["activeTab"],

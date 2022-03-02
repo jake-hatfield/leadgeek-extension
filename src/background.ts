@@ -1,3 +1,3 @@
 import browser from 'webextension-polyfill';
 
-console.log('background');
+console.log('background script active...');
