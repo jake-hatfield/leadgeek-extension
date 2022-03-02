@@ -5,11 +5,13 @@ import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
 import alias from '@rollup/plugin-alias';
 import css from 'rollup-plugin-css-only';
-import { config } from 'dotenv';
 import livereload from 'rollup-plugin-livereload';
 import path from 'path';
-import replace from '@rollup/plugin-replace';
 import { terser } from 'rollup-plugin-terser';
+import injectProcessEnv from 'rollup-plugin-inject-process-env';
+import { config } from 'dotenv';
+
+config();
 
 const production = !process.env.ROLLUP_WATCH;
 const projectRootDir = path.resolve(__dirname);
@@ -43,7 +45,7 @@ export default [
 	{
 		input: 'src/index.ts',
 		output: {
-			sourcemap: true,
+			sourcemap: 'inline',
 			format: 'iife',
 			name: 'app',
 			file: 'public/build/bundle.js',
@@ -52,9 +54,6 @@ export default [
 			svelte({
 				preprocess: sveltePreprocess({
 					sourceMap: !production,
-					postcss: {
-						plugins: [require('tailwindcss')(), require('autoprefixer')()],
-					},
 				}),
 				compilerOptions: {
 					// enable run-time checks when not in production
@@ -76,11 +75,17 @@ export default [
 				dedupe: ['svelte'],
 			}),
 			commonjs(),
+			// env variables
+			injectProcessEnv({
+				isProd: production,
+				keepaApiSecret: process.env.KEEPA_API_SECRET,
+			}),
 			typescript({
 				rootDir: './src',
 				sourceMap: !production,
 				inlineSources: !production,
 			}),
+
 			// In dev mode, call `npm run start` once
 			// the bundle has been generated
 			!production && serve(),
@@ -91,16 +96,7 @@ export default [
 			// If we're building for production (npm run build
 			// instead of npm run dev), minify
 			production && terser(),
-			// env variables
-			replace({
-				_env: JSON.stringify({
-					env: {
-						isProd: production,
-						...config().parsed, // attached the .env config
-					},
-				}),
-				preventAssignment: true,
-			}),
+
 			// paths
 			alias({
 				entries: [
@@ -147,7 +143,7 @@ export default [
 	{
 		input: 'src/background.ts',
 		output: {
-			sourcemap: true,
+			sourcemap: 'inline',
 			format: 'iife',
 			file: 'public/build/background.js',
 		},
@@ -160,7 +156,7 @@ export default [
 	{
 		input: 'src/content.ts',
 		output: {
-			sourcemap: true,
+			sourcemap: 'inline',
 			format: 'iife',
 			file: 'public/build/content.js',
 		},

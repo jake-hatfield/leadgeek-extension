@@ -3,9 +3,11 @@
 	import { Route } from 'svelte-navigator';
 
 	// components
-	import Home from '@pages/Home.svelte';
-	import Login from '@pages/login/Login.svelte';
 	import PrivateRoute from '@routes/PrivateRoute.svelte';
+
+	// pages
+	import Home from '@pages/index.svelte';
+	import Login from '@pages/login/index.svelte';
 </script>
 
 <main>
