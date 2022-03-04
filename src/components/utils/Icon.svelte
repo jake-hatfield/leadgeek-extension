@@ -1,6 +1,6 @@
 <script lang="ts">
 	// types
-	import type IconTitles from '@types/Icon';
+	import type IconTitles from '$types/Icon';
 
 	//   props
 	export let type: 'solid' | 'outline';

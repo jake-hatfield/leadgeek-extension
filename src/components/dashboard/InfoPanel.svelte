@@ -1,6 +1,4 @@
 <script lang="ts">
-	//   components
-
 	//   global state
 	import { data } from '@stores/product';
 

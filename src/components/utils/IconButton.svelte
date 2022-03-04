@@ -3,7 +3,7 @@
 	import Icon from '@components/utils/Icon.svelte';
 
 	//   types
-	import type IconTitles from '@types/Icon';
+	import type IconTitles from '$types/Icon';
 
 	// props
 

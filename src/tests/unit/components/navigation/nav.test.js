@@ -9,7 +9,7 @@ import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 
 // component
-import Nav from '@components/navigation/Nav.svelte';
+import Nav from '@components/navigation/AuthNav.svelte';
 
 describe('main nav without props', () => {
 	let nav;
