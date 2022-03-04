@@ -117,6 +117,10 @@ export default [
 						replacement: path.resolve(projectRootDir, 'src/pages'),
 					},
 					{
+						find: '@public',
+						replacement: path.resolve(projectRootDir, 'src/public'),
+					},
+					{
 						find: '@routes',
 						replacement: path.resolve(projectRootDir, 'src/routes'),
 					},

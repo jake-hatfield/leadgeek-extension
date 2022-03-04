@@ -76,4 +76,7 @@ export default interface User {
 			}[];
 		}[];
 	};
+	extension: {
+		dashboards: [{ id: 123 }];
+	};
 }

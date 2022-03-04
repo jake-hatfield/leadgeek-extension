@@ -5,21 +5,21 @@
 	import AuthNav from '@components/navigation/AuthNav.svelte';
 
 	//   utils
-	// import { getUserData, removeUserData } from '@utils/authHelpers';
+	import { getUserData, handleJwt, removeUserData } from '@utils/authHelpers';
 
 	//   onMount functions
-	// onMount(async () => {
-	// check for a token in LS
-	// handleJwt(localStorage.token);
+	onMount(async () => {
+		// check for a token in LS
+		handleJwt(localStorage.token);
 
-	// load the user data
-	// getUserData();
+		// load the user data
+		getUserData();
 
-	// log user out from all tabs if they log out from one tab
-	// window.addEventListener('storage', () => {
-	// if (!localStorage.token) removeUserData();
-	// });
-	// });
+		// log user out from all tabs if they log out from one tab
+		window.addEventListener('storage', () => {
+			if (!localStorage.token) removeUserData();
+		});
+	});
 </script>
 
 <main class="text-base">

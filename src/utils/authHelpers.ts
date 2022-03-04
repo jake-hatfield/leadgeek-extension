@@ -26,7 +26,7 @@ export const getUserData = async () => {
 
 		// return user data to store
 		if (res.data.user) {
-			// user.set(res.data.user);
+			user.set(res.data.user);
 			isAuthenticated.set(true);
 		}
 
@@ -79,16 +79,12 @@ export const login = async (email: string, password: string) => {
 			token: string | null;
 		}>(`https://app.leadgeek.io/api/auth/`, body, config);
 
-		console.log(res);
-
 		//   if status is not successful, alert user with message
 		if (res.status !== 200) {
 			//   TODO<Jake>: Handle this error
 			status.set('error');
 			return;
 		}
-
-		console.log(res.data);
 
 		if (res.data.token) {
 			// set token in store

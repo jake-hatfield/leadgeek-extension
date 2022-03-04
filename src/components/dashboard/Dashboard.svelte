@@ -8,7 +8,7 @@
 	//   TODO<Jake>: Handle null state for no widgets active
 </script>
 
-<section class="content p-3 bg-gray-100" data-testId="dashboard">
+<section class="content p-3" data-testId="dashboard">
 	<!-- null state for widgets -->
 	{#if $dashboards[0].widgets.length === 0}
 		<div class="p-3 bg-white card-200"><p>Add a widget to get started</p></div>

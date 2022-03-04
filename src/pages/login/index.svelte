@@ -11,12 +11,10 @@
 	import { getCurrentTime } from '@lib/dateTimeHelpers';
 
 	//   utils
-	// import { getUserData, login } from '@utils/authHelpers';
+	import { login } from '@utils/authHelpers';
 
 	//   store
 	import { isAuthenticated, user } from '@stores/auth';
-	import { onMount } from 'svelte';
-	import axios from 'axios';
 
 	//   state
 	let emailValue = '';
@@ -41,37 +39,12 @@
 	};
 	setWelcomeMessage(currentTime.hour);
 
-	// onMount(async () => {
-	// 	getUserData();
-	// });
-
-	$: if (!$isAuthenticated) {
-		navigate('/login', {
+	$: if ($isAuthenticated) {
+		navigate(`/123`, {
 			state: { from: $location.pathname },
 			replace: true,
 		});
 	}
-
-	const login = async () => {
-		const body = JSON.stringify({
-			email: 'jake@leadgeek.io',
-			password: 'KIp@sslol7788123',
-		});
-		console.log(body);
-		const res = await axios.post<{
-			message:
-				| 'Email & password combination not correct.'
-				| 'Login success'
-				| 'Server error';
-			token: string | null;
-		}>(`https://app.leadgeek.io/api/auth/`, body, {
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		});
-
-		console.log(res);
-	};
 </script>
 
 <UnauthLayout>
@@ -111,7 +84,7 @@
 					title="Log in"
 					class="w-full mt-6"
 					action={() => {
-						login();
+						login(emailValue, passwordValue);
 					}}
 				/>
 				<p class="mt-3 text-100">

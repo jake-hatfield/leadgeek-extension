@@ -60,3 +60,9 @@
 		<div>{$data}</div>
 	{/if}
 </section>
+
+<style>
+	section {
+		max-width: 400px;
+	}
+</style>
