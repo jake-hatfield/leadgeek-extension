@@ -7,10 +7,12 @@ html {
 }
 
 ::selection {
-	background: #c6f7e2;
+	background: #243b53;
+	color: #fff;
 }
 ::-moz-selection {
-	background: #c6f7e2;
+	background: #243b53;
+	color: #fff;
 }
 
 .content {
@@ -236,3 +238,9 @@ html {
 /* .minimal-scrollbar {
     @apply scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-300;
   } */
+
+.bg-splatter {
+	background: #fff url('../assets/pngs/bg-splatter.png') top;
+	background-size: 400px 550px;
+	@apply relative z-0 overflow-hidden !important;
+}

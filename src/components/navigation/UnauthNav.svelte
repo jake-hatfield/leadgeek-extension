@@ -1,4 +1,7 @@
 <script lang="ts">
+	// packages
+	import { Link } from 'svelte-navigator';
+
 	// components
 	import Icon from '@components/utils/Icon.svelte';
 	import Logo from '@components/utils/Logo.svelte';
@@ -30,13 +33,13 @@
 		<div />
 		<!-- logo -->
 		<div>
-			<a
-				href="/login"
+			<Link
+				to="/login"
 				class="block py-2 rounded-lg ring-gray"
 				data-testId="main-nav-logo-link"
 			>
 				<Logo class="w-14" />
-			</a>
+			</Link>
 		</div>
 		<!-- close button -->
 		<button

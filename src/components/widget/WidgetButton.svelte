@@ -1,4 +1,7 @@
 <script lang="ts">
+	// packages
+	import { Link } from 'svelte-navigator';
+
 	// components
 	import Badge from '@components/utils/Badge.svelte';
 	import Icon from '@components/utils/Icon.svelte';
@@ -13,8 +16,8 @@
 </script>
 
 {#if id}
-	<a
-		href={`/widget/${id}/`}
+	<Link
+		to={`/widget/${id}/`}
 		on:mouseenter={() => (hoverActive = true)}
 		on:mouseleave={() => (hoverActive = false)}
 		class={`relative flex items-center p-1 border rounded-md ring-gray transition-main group ${
@@ -27,5 +30,5 @@
 		{#if hoverActive}
 			<Badge badge={{ title: 'View details' }} position="right-8" />
 		{/if}
-	</a>
+	</Link>
 {/if}

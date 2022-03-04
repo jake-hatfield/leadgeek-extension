@@ -8,13 +8,17 @@
 	// pages
 	import Home from '@pages/index.svelte';
 	import Login from '@pages/login/index.svelte';
+	import Widget from '@pages/widget.svelte';
 </script>
 
 <main>
 	<Route path="login">
 		<Login />
 	</Route>
-	<PrivateRoute path="/" let:location>
+	<PrivateRoute path="/:id" let:location>
 		<Home />
+	</PrivateRoute>
+	<PrivateRoute path="/widget/:id" let:location>
+		<Widget />
 	</PrivateRoute>
 </main>

@@ -1,6 +1,9 @@
 <script lang="ts">
 	import { fade, fly } from 'svelte/transition';
 
+	// packages
+	import { Link } from 'svelte-navigator';
+
 	// components
 	import Icon from '@components/utils/Icon.svelte';
 	import Logo from '@components/utils/Logo.svelte';
@@ -10,7 +13,7 @@
 	import { handleClickOutside } from '@lib/clickHelpers';
 
 	//   utils
-	// import { removeUserData } from '@utils/authHelpers';
+	import { removeUserData } from '@utils/authHelpers';
 
 	//   types
 	import type IconTitles from '$types/Icon';
@@ -27,10 +30,7 @@
 		title: string;
 		link: string;
 		icon: IconTitles;
-	}[] = [
-		{ title: 'Login', link: 'login', icon: 'user' },
-		{ title: 'Settings', link: 'settings', icon: 'cog' },
-	];
+	}[] = [{ title: 'Issue scanner', link: 'issue-scanner', icon: 'cog' }];
 
 	// functions
 	const closeExtension = () => {
@@ -156,17 +156,17 @@
 									</li>
 								{/each}
 							</ul>
-							<!-- <button -->
-							<!-- on:click={removeUserData} -->
-							<!-- class="flex items-center w-full p-3 hover:bg-gray-100 text-left" -->
-							<!-- > -->
-							<!-- <Icon -->
-							<!-- type="solid" -->
-							<!-- title="logout" -->
-							<!-- class="transform rotate-180" -->
-							<!-- /> -->
-							<!-- <span class="ml-3">Logout</span> -->
-							<!-- </button> -->
+							<button
+								on:click={removeUserData}
+								class="flex items-center w-full p-3 hover:bg-gray-100 text-left"
+							>
+								<Icon
+									type="solid"
+									title="logout"
+									class="transform rotate-180"
+								/>
+								<span class="ml-3">Logout</span>
+							</button>
 						</div>
 					{/if}
 				</div>
@@ -175,13 +175,13 @@
 
 		<!-- logo -->
 		<div>
-			<a
-				href="/"
+			<Link
+				to="/"
 				class="block py-2 rounded-lg ring-gray"
 				data-testId="main-nav-logo-link"
 			>
 				<Logo class="w-14" />
-			</a>
+			</Link>
 		</div>
 
 		<!-- close button -->
