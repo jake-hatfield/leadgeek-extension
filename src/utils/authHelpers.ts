@@ -26,13 +26,14 @@ export const getUserData = async () => {
 
 		// return user data to store
 		if (res.data.user) {
-			user.set(res.data.user);
+			// user.set(res.data.user);
 			isAuthenticated.set(true);
 		}
 
 		return status.set('idle');
 	} catch (error) {
-		console.log(error.response.data.message);
+		console.log(error);
+		// console.log(error.response.data.message);
 		token.set(null);
 		isAuthenticated.set(false);
 		user.set(null);
@@ -98,7 +99,8 @@ export const login = async (email: string, password: string) => {
 
 		return status.set('idle');
 	} catch (error) {
-		console.log(error.response.data.message);
+		console.log(error);
+		// console.log(error.response.data.message);
 		// TODO<Jake>: Dispatch a login error
 		token.set(null);
 		isAuthenticated.set(false);

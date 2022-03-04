@@ -4,7 +4,6 @@
 
 html {
 	font-size: 14px;
-	font-family: 'Inter';
 }
 
 ::selection {
@@ -171,11 +170,11 @@ html {
 }
 
 .card-padding-y {
-	@apply py-2 md:py-4 lg:py-6;
+	@apply py-6;
 }
 
 .card-padding-x {
-	@apply px-4 md:px-6 lg:px-8;
+	@apply px-8;
 }
 
 .card-padding {
@@ -207,7 +206,7 @@ html {
 }
 
 .default-logo-sm {
-	@apply md:hidden w-12;
+	@apply w-12;
 }
 
 .default-logo-lg {

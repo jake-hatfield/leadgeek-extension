@@ -6,7 +6,6 @@
 	import Routes from '@routes/Routes.svelte';
 
 	// assets
-	import '@fontsource/inter';
 	import '../public/assets/index.css';
 	import '../public/assets/global.css';
 

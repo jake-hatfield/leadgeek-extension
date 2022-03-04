@@ -1,17 +1,22 @@
 <script lang="ts">
+	// packages
+	import { useNavigate, useLocation } from 'svelte-navigator';
+
 	//   components
 	import Button from '@components/utils/Button.svelte';
 	import Input from '@components/utils/Input.svelte';
+	import UnauthLayout from '@components/layouts/UnauthLayout.svelte';
 
 	//   lib
 	import { getCurrentTime } from '@lib/dateTimeHelpers';
 
 	//   utils
-	import { getUserData, login } from '@utils/authHelpers';
+	// import { getUserData, login } from '@utils/authHelpers';
 
 	//   store
 	import { isAuthenticated, user } from '@stores/auth';
 	import { onMount } from 'svelte';
+	import axios from 'axios';
 
 	//   state
 	let emailValue = '';
@@ -20,6 +25,9 @@
 	const currentTime = getCurrentTime();
 
 	//   functions
+	const navigate = useNavigate();
+	const location = useLocation();
+
 	export const setWelcomeMessage = (currentHour: number) => {
 		if (currentHour < 12) {
 			welcomeText = 'Good morning!';
@@ -31,60 +39,93 @@
 
 		return welcomeText;
 	};
-
-	onMount(async () => {
-		getUserData();
-	});
-
 	setWelcomeMessage(currentTime.hour);
+
+	// onMount(async () => {
+	// 	getUserData();
+	// });
+
+	$: if (!$isAuthenticated) {
+		navigate('/login', {
+			state: { from: $location.pathname },
+			replace: true,
+		});
+	}
+
+	const login = async () => {
+		const body = JSON.stringify({
+			email: 'jake@leadgeek.io',
+			password: '***REMOVED***',
+		});
+		console.log(body);
+		const res = await axios.post<{
+			message:
+				| 'Email & password combination not correct.'
+				| 'Login success'
+				| 'Server error';
+			token: string | null;
+		}>(`https://app.leadgeek.io/api/auth/`, body, {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
+
+		console.log(res);
+	};
 </script>
 
-<section class="all-center p-3 bg-splatter" data-testId="login-page">
-	<article class="w-full card-padding-y cs-light-100 card-200">
-		<header class="card-padding-x pb-1.5 border-b border-300">
-			<h1 class="text-xl font-bold text-200">
-				{welcomeText}
-				{$user && $user.name}
-			</h1>
-			<p class="text-sm">Log in to continue</p>
-		</header>
-		<form on:submit|preventDefault class="card-padding-x">
-			<Input
-				bind:value={emailValue}
-				id="login-email"
-				label="Email"
-				type="email"
-				class="mt-3"
-			/>
-			<Input
-				bind:value={passwordValue}
-				id="login-password"
-				isPassword={true}
-				label="Password"
-				type="password"
-				class="mt-3"
-			/>
-			<a href="/login/forgot-password" class="block mt-3 link"
-				>Forgot password?</a
-			>
-			<Button
-				title="Log in"
-				class="w-full mt-3"
-				action={() => {
-					login(emailValue, passwordValue);
-				}}
-			/>
-			<p class="mt-3">
-				Need a Leadgeek account? <a
-					href="https://leadgeek.io/"
-					target="__blank"
-					rel="noopener noreferrer"
-					class="link">Join now</a
+<UnauthLayout>
+	<section class="all-center p-3 bg-splatter" data-testId="login-page">
+		<article class="w-full card-padding-y cs-light-100 card-200">
+			<header class="card-padding-x pb-3 border-b border-300">
+				<h1 class="text-2xl font-bold text-300 outline-none">
+					Log in to Leadgeek
+				</h1>
+				<p class="mt-2 text-100">
+					{welcomeText} Please enter your account credentials below
+					<span role="img" aria-label="Point down emoji">👇</span>
+				</p>
+			</header>
+			<form on:submit|preventDefault class="pt-3 card-padding-x">
+				<Input
+					bind:value={emailValue}
+					id="login-email"
+					label="Email"
+					type="email"
+					class="mt-3"
+				/>
+				<Input
+					bind:value={passwordValue}
+					id="login-password"
+					isPassword={true}
+					label="Password"
+					type="password"
+					class="mt-3"
+				/>
+				<a
+					href="/login/forgot-password"
+					class="inline-block mt-3 rounded-lg link ring-gray"
+					>Forgot password?</a
 				>
-			</p>
-		</form>
-	</article>
-</section>
+				<Button
+					title="Log in"
+					class="w-full mt-6"
+					action={() => {
+						login();
+					}}
+				/>
+				<p class="mt-3 text-100">
+					Need a Leadgeek account? <a
+						href="https://leadgeek.io/"
+						target="__blank"
+						rel="noopener noreferrer"
+						class="rounded-lg link ring-gray">Join now</a
+					>
+				</p>
+			</form>
+		</article>
+	</section>
+</UnauthLayout>
 
 <style>
 	section {
