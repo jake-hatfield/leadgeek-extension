@@ -21,7 +21,7 @@
 	//   props
 
 	//   global state
-	import { status } from '@stores/auth';
+	import { status, user } from '@stores/auth';
 
 	//   state
 	let userModalActive = false;
@@ -89,7 +89,7 @@
 						class="relative flex items-end justify-between py-3 px-3 border-b border-300"
 					>
 						<h4 class="text-lg font-bold text-200">
-							<span role="img" aria-label="Waving emoji">👋</span>{' '}Hi, Sam
+							<span role="img" aria-label="Waving emoji">👋</span>{' '}Hi, {$user.name}
 						</h4>
 
 						<!-- user modal search -->
