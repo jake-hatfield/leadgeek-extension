@@ -6,7 +6,7 @@
 	import PrivateRoute from '@routes/PrivateRoute.svelte';
 
 	// pages
-	import Home from '@pages/index.svelte';
+	import Dashboard from '@pages/index.svelte';
 	import Login from '@pages/login/index.svelte';
 	import Widget from '@pages/widget.svelte';
 </script>
@@ -15,10 +15,13 @@
 	<Route path="login">
 		<Login />
 	</Route>
-	<PrivateRoute path="/:id" let:location>
-		<Home />
+	<PrivateRoute path="/" let:location>
+		<Dashboard />
 	</PrivateRoute>
-	<PrivateRoute path="/widget/:id" let:location>
+	<PrivateRoute path="/:dId" let:location>
+		<Dashboard />
+	</PrivateRoute>
+	<PrivateRoute path=":dId/:wId" let:location>
 		<Widget />
 	</PrivateRoute>
 </main>

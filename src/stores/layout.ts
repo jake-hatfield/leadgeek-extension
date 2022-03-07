@@ -1,12 +1,23 @@
-import { writable } from 'svelte/store';
+import { writable, Writable } from 'svelte/store';
 
-export const dashboards = writable([
+// types
+import type Dashboard from '$types/Dashboard';
+import type Widget from '$types/Widget';
+
+export const layout: Writable<
+	{
+		dashboard: Dashboard;
+		widgets: Widget[];
+	}[]
+> = writable([
 	{
 		dashboard: {
-			id: '123',
+			dId: '1',
+			title: 'Dashboard 1',
 		},
 		widgets: [
 			{
+				wId: '123',
 				title: 'Profit analysis',
 				data: [
 					{ title: 'Est.sales/mo', value: 1500000 },
@@ -16,6 +27,7 @@ export const dashboards = writable([
 				],
 			},
 			{
+				wId: '1234',
 				title: 'Sales/mo',
 				data: [
 					{ title: 'Est.sales/mo', value: 79 },
@@ -24,6 +36,7 @@ export const dashboards = writable([
 				],
 			},
 			{
+				wId: '1263',
 				title: 'Competition',
 				data: [
 					{ title: 'Est.sales/mo', value: 79 },
@@ -32,9 +45,10 @@ export const dashboards = writable([
 				],
 			},
 			{
+				wId: '12333',
 				title: 'Variations',
 				data: [
-					{ title: 'Est.sales/mo', value: 79 },
+					{ title: 'Est.sales/mo', value: 80 },
 					{ title: 'Est.sales/mo', value: 79 },
 					{ title: 'Est.sales/mo', value: 79 },
 				],

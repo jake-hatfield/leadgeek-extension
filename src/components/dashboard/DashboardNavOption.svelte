@@ -1,26 +1,40 @@
 <script lang="ts">
+	// packages
+	import { Link } from 'svelte-navigator';
+
 	// components
 	import Icon from '@components/utils/Icon.svelte';
 
+	// types
+	import type Dashboard from '$types/Dashboard';
+	import type Widget from '$types/Widget';
+
 	// props
-	export let option;
+	export let option: {
+		dashboard: Dashboard;
+		widgets: Widget[];
+	};
 
 	// state
 	let hoverActive = false;
+
+	console.log(option);
 
 	//   TODO<Jake>: Write tests to make sure that the edit/delete buttons are visible on hover
 </script>
 
 <li
-	class="py-3 pl-5 pr-4 hover:bg-gray-100"
 	on:mouseenter={() => (hoverActive = true)}
 	on:mouseleave={() => (hoverActive = false)}
 >
-	<div class="center-between">
+	<Link
+		to={`./${option.dashboard.dId}`}
+		class="py-3 pl-5 pr-4 hover:bg-gray-100 center-between"
+	>
 		<!-- icon and title -->
 		<div class="flex items-center">
 			<span class="inline-block h-2 w-2 rounded-full bg-teal-500" />
-			<span class="ml-3 text-base">{option.title}</span>
+			<span class="ml-3 text-base">{option.dashboard.title}</span>
 		</div>
 		<!-- buttons -->
 		{#if hoverActive}
@@ -51,5 +65,5 @@
 				</button>
 			</div>
 		{/if}
-	</div>
+	</Link>
 </li>

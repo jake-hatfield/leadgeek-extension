@@ -1,13 +1,18 @@
 import '@testing-library/jest-dom';
 
 // functions
-import { getInitials } from '@lib/stringHelpers';
+import { getInitial } from '@lib/stringHelpers';
 
 describe('getInitials helper', () => {
 	test('it should be defined', () => {
-		expect(getInitials('Jacob Hatfield')).toBeDefined();
+		expect(getInitial('Jacob Hatfield')).toBeDefined;
 	});
+
+	test('it returns the first letter of a word', () => {
+		expect(getInitial('Jacob')).toBe('J');
+	});
+
 	test('it returns the first letter of the first word', () => {
-		expect(getInitials('Jacob Hatfield')).toBeDefined;
+		expect(getInitial('Jacob Hatfield')).toBe('J');
 	});
 });
