@@ -11,6 +11,7 @@
 
 	//   lib
 	import { handleClickOutside } from '@lib/clickHelpers';
+	import { getInitial } from '@lib/stringHelpers';
 
 	//   utils
 	import { removeUserData } from '@utils/authHelpers';
@@ -49,7 +50,7 @@
 	//   TODO<Jake>: User nav search
 </script>
 
-{#if $status === 'loading'}
+{#if $status === 'loading' || !$user}
 	<div class="border-b border-300">
 		<Skeleton width={400} height={49}>
 			<!-- user icon -->
@@ -75,7 +76,7 @@
 				class="h-10 w-10 all-center p-1.5 cs-purple rounded-full shadow-sm transition-main ring-purple"
 				data-testId="main-nav-user-modal-button"
 			>
-				<span class="text-lg font-bold">S</span>
+				<span class="text-lg font-bold">{getInitial($user.name)}</span>
 			</button>
 
 			<!-- user modal -->

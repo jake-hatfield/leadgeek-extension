@@ -8,26 +8,22 @@
 	import IconButton from '@components/utils/IconButton.svelte';
 	import Skeleton from '@components/utils/Skeleton.svelte';
 
-	//   utils
+	// utils
 	import { handleClickOutside } from '@lib/clickHelpers';
 
-	//   props
-
-	export let dashboardOptions = [
-		{ title: 'Dashboard #1' },
-		{ title: 'Dashboard #2' },
-	];
-
-	//   global state
+	// store
 	import { status } from '@stores/product';
+	import { layout } from '@stores/layout';
 
 	// state
 	let dashboardSelectActive = false;
 
-	//   functions
+	// functions
 	const toggleDashboardSelect = () => {
 		dashboardSelectActive = !dashboardSelectActive;
 	};
+
+	console.log($layout);
 
 	//   TODO<Jake>: Create dashboard
 	//   TODO<Jake>: Edit dashboard
@@ -59,10 +55,10 @@
 				class="center-between w-full py-1.5 pl-5 pr-4 rounded-lg border border-300 text-left ring-gray"
 				data-testId="dashboard-select"
 			>
-				{#if dashboardOptions.length > 0}
+				{#if $layout.length > 0}
 					<span class="flex items-center" data-testId="dashboard-select-title">
 						<span class="inline-block h-2 w-2 rounded-full bg-purple-500" />
-						<span class="ml-3">Dashboard #1</span>
+						<span class="ml-3">{$layout[0].dashboard.title}</span>
 					</span>
 				{:else}
 					<span class="text-gray-300">Create a dashboard...</span>
@@ -77,9 +73,9 @@
 					transition:fade={{ duration: 100 }}
 					data-testId="dashboard-select-options"
 				>
-					{#if dashboardOptions.length > 0}
+					{#if $layout.length > 0}
 						<ul class="mt-1.5">
-							{#each dashboardOptions as option}
+							{#each $layout as option}
 								<DashboardNavOption {option} />
 							{/each}
 						</ul>

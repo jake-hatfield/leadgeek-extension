@@ -8,6 +8,9 @@ import {
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 
+// stores
+import { status, user } from '@stores/auth';
+
 // component
 import Nav from '@components/navigation/AuthNav.svelte';
 
@@ -15,6 +18,49 @@ describe('main nav without props', () => {
 	let nav;
 
 	beforeEach(async () => {
+		status.set('idle');
+		user.set({
+			archivedLeads: [],
+			billing: {
+				paymentMethod: 'pm_1IikZyDdWoP4Ck9RAgZZ2EuB',
+				last4: '4242',
+				brand: 'visa',
+			},
+			comments: [],
+			dateCreated: '2020-09-01T18:15:18.627Z',
+			email: 'jake@leadgeek.io',
+			lastLoggedIn: '2022-03-07T20:07:33.265Z',
+			likedLeads: [],
+			name: 'Jake Hatfield',
+			notifications: [],
+			referrals: {
+				referred: {
+					referrerlgid: null,
+					wasReferred: false,
+				},
+				referrer: {
+					clients: [],
+					isReferrer: true,
+					lgid: 'h4jj2q13',
+
+					paypalEmail: null,
+					pendingApplication: false,
+				},
+			},
+			resetPwExpires: '2022-01-25T04:32:35.439Z',
+			resetPwToken: null,
+			role: 'master',
+			settings: { filterGroups: Array(1) },
+			subscription: {
+				planIds: Array(1),
+				cusId: 'cus_IlXa2jZr3AY8CW',
+				subIds: Array(1),
+			},
+			extension: {
+				dashboards: [{ id: 123 }],
+			},
+		});
+
 		const { findByRole } = render(Nav);
 
 		nav = await findByRole('navigation');

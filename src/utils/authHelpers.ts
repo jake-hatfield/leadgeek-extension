@@ -32,8 +32,7 @@ export const getUserData = async () => {
 
 		return status.set('idle');
 	} catch (error) {
-		console.log(error);
-		// console.log(error.response.data.message);
+		console.log(error.response.data.message);
 		token.set(null);
 		isAuthenticated.set(false);
 		user.set(null);
@@ -91,12 +90,12 @@ export const login = async (email: string, password: string) => {
 			token.set(res.data.token);
 			handleJwt(res.data.token);
 			isAuthenticated.set(true);
+			return getUserData();
 		}
 
 		return status.set('idle');
 	} catch (error) {
-		console.log(error);
-		// console.log(error.response.data.message);
+		console.log(error.response.data.message);
 		// TODO<Jake>: Dispatch a login error
 		token.set(null);
 		isAuthenticated.set(false);

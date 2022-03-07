@@ -926,12 +926,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .pt-5 {
   padding-top: 1.25rem;
 }
-.pb-2\.5 {
-  padding-bottom: 0.625rem;
-}
-.pb-2 {
-  padding-bottom: 0.5rem;
-}
 .pt-4 {
   padding-top: 1rem;
 }
@@ -1055,10 +1049,6 @@ html {
 ::-moz-selection {
 	background: #243b53;
 	color: #fff;
-}
-
-.content {
-	min-height: 444.5px;
 }
 
 .all-center {

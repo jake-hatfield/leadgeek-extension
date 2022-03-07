@@ -15,10 +15,6 @@ html {
 	color: #fff;
 }
 
-.content {
-	min-height: 444.5px;
-}
-
 .all-center {
 	@apply flex items-center justify-center;
 }

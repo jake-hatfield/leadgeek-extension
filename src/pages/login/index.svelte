@@ -14,7 +14,8 @@
 	import { login } from '@utils/authHelpers';
 
 	//   store
-	import { isAuthenticated, user } from '@stores/auth';
+	import { isAuthenticated, status, user } from '@stores/auth';
+	import { layout } from '@stores/layout';
 
 	//   state
 	let emailValue = '';
@@ -39,8 +40,9 @@
 	};
 	setWelcomeMessage(currentTime.hour);
 
-	$: if ($isAuthenticated) {
-		navigate(`/123`, {
+	$: if ($status === 'idle' && $isAuthenticated && $user) {
+		console.log($user);
+		navigate(`/${$layout[0].dashboard.dId}`, {
 			state: { from: $location.pathname },
 			replace: true,
 		});

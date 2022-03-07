@@ -7,7 +7,8 @@
 	import Icon from '@components/utils/Icon.svelte';
 
 	//   props
-	export let id = '';
+	export let dId = '';
+	export let wId = '';
 
 	//   state
 	let hoverActive = false;
@@ -15,9 +16,9 @@
 	//   test that the button only renders if an ID is passed to the component's link
 </script>
 
-{#if id}
+{#if dId && wId}
 	<Link
-		to={`/widget/${id}/`}
+		to={`./${wId}/`}
 		on:mouseenter={() => (hoverActive = true)}
 		on:mouseleave={() => (hoverActive = false)}
 		class={`relative flex items-center p-1 border rounded-md ring-gray transition-main group ${

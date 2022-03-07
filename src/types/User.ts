@@ -11,8 +11,8 @@ export default interface User {
 	name: string;
 	email: string;
 	password?: string;
-	dateCreated: Date;
-	lastLoggedIn: Date | null;
+	dateCreated: string;
+	lastLoggedIn: string | null;
 	subscription: {
 		cusId?: string;
 		subIds: { id: string | null; active: boolean }[];
@@ -24,7 +24,7 @@ export default interface User {
 		brand?: string;
 	};
 	resetPwToken: string | null;
-	resetPwExpires: Date | null;
+	resetPwExpires: string | null;
 	role: Role;
 	referrals: {
 		referred: {
