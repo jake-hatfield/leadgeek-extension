@@ -14,11 +14,12 @@
 		dashboard: Dashboard;
 		widgets: Widget[];
 	};
+	// export let toggleDashboardSelect: () => void;
 
 	// state
+	let editTitle = false;
 	let hoverActive = false;
-
-	console.log(option);
+	let titleValue = option.dashboard.title;
 
 	//   TODO<Jake>: Write tests to make sure that the edit/delete buttons are visible on hover
 </script>
@@ -27,19 +28,34 @@
 	on:mouseenter={() => (hoverActive = true)}
 	on:mouseleave={() => (hoverActive = false)}
 >
-	<Link
-		to={`./${option.dashboard.dId}`}
-		class="py-3 pl-5 pr-4 hover:bg-gray-100 center-between"
+	<div
+		class={`pl-5 pr-4 hover:bg-gray-100 center-between ${
+			editTitle ? 'py-2' : 'py-3'
+		}`}
 	>
 		<!-- icon and title -->
 		<div class="flex items-center">
-			<span class="inline-block h-2 w-2 rounded-full bg-teal-500" />
-			<span class="ml-3 text-base">{option.dashboard.title}</span>
+			<span
+				class={`inline-block h-2 w-2 rounded-full ${option.dashboard.color}`}
+			/>
+			{#if !editTitle}
+				<span
+					on:dblclick={() => (editTitle = true)}
+					class={`ml-3 text-base ${hoverActive ? 'bg-white' : ''}`}
+					>{option.dashboard.title}</span
+				>
+			{:else}
+				<input
+					class="min-w-max ml-2 py-1 px-2 rounded-md bg-white outline-none"
+					bind:value={titleValue}
+				/>
+			{/if}
 		</div>
+
 		<!-- buttons -->
 		{#if hoverActive}
 			<div class="flex items-center" data-testId="dashboard-nav-option-actions">
-				<button>
+				<button on:click|preventDefault|stopPropagation={() => alert('star')}>
 					<Icon
 						type="outline"
 						title="star"
@@ -47,15 +63,10 @@
 						class="hover:text-purple-500"
 					/>
 				</button>
-				<button class="ml-3">
-					<Icon
-						type="solid"
-						title="pencil"
-						size="sm"
-						class="hover:text-gray-900"
-					/>
-				</button>
-				<button class="ml-3">
+				<button
+					on:click|preventDefault|stopPropagation={() => alert('delete')}
+					class="ml-3"
+				>
 					<Icon
 						type="solid"
 						title="trash"
@@ -65,5 +76,5 @@
 				</button>
 			</div>
 		{/if}
-	</Link>
+	</div>
 </li>

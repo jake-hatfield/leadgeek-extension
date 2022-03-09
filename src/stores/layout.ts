@@ -1,5 +1,7 @@
 import { writable, Writable } from 'svelte/store';
 
+// packages
+
 // types
 import type Dashboard from '$types/Dashboard';
 import type Widget from '$types/Widget';
@@ -12,12 +14,13 @@ export const layout: Writable<
 > = writable([
 	{
 		dashboard: {
-			dId: '1',
+			id: '1',
 			title: 'Dashboard 1',
+			color: 'bg-teal-500',
 		},
 		widgets: [
 			{
-				wId: '123',
+				id: '123',
 				title: 'Profit analysis',
 				data: [
 					{ title: 'Est.sales/mo', value: 1500000 },
@@ -27,7 +30,7 @@ export const layout: Writable<
 				],
 			},
 			{
-				wId: '1234',
+				id: '1234',
 				title: 'Sales/mo',
 				data: [
 					{ title: 'Est.sales/mo', value: 79 },
@@ -36,7 +39,7 @@ export const layout: Writable<
 				],
 			},
 			{
-				wId: '1263',
+				id: '1263',
 				title: 'Competition',
 				data: [
 					{ title: 'Est.sales/mo', value: 79 },
@@ -45,7 +48,7 @@ export const layout: Writable<
 				],
 			},
 			{
-				wId: '12333',
+				id: '12333',
 				title: 'Variations',
 				data: [
 					{ title: 'Est.sales/mo', value: 80 },

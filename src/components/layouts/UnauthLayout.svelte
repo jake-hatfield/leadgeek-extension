@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 
 	// components
+	import Alert from '@components/utils/Alert.svelte';
 	import UnauthNav from '@components/navigation/UnauthNav.svelte';
 
 	//   utils
@@ -22,7 +23,8 @@
 	});
 </script>
 
-<main class="text-base">
+<main class="relative text-base">
 	<UnauthNav />
 	<slot />
+	<Alert />
 </main>

@@ -3,6 +3,7 @@
 
 	// components
 	import AuthNav from '@components/navigation/AuthNav.svelte';
+	import Alert from '@components/utils/Alert.svelte';
 
 	//   utils
 	import { getUserData, handleJwt, removeUserData } from '@utils/authHelpers';
@@ -22,7 +23,8 @@
 	});
 </script>
 
-<main class="text-base">
+<main class="relative text-base">
 	<AuthNav />
 	<slot />
+	<Alert />
 </main>

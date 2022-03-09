@@ -1,4 +1,5 @@
 export default interface Dashboard {
-	dId: string;
+	id: string;
 	title: string;
+	color: string;
 }

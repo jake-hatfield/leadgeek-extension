@@ -1,17 +1,18 @@
 <script lang="ts">
-	//   global state
+	//  stores
+	import { alert } from '@stores/alert';
 	import { data } from '@stores/product';
 
-	//   utils
+	//  utils
 	import { handleClickOutside } from '@lib/clickHelpers';
 
-	//   props
+	//  props
 	export let issues = ['ree'];
 
-	//   state
+	//  state
 	let issuesPanelActive = false;
 
-	//   functions
+	//  functions
 	const toggleIssues = () => {
 		issuesPanelActive = !issuesPanelActive;
 	};
@@ -38,7 +39,12 @@
 		</h3>
 		{#if issues.length !== 0}
 			<button
-				on:click={toggleIssues}
+				on:click={() =>
+					alert.create({
+						type: 'danger',
+						title: 'hello',
+						description: 'RE',
+					})}
 				class="py-1.5 px-3 rounded-lg bg-red-300 hover:bg-red-400 border border-red-400 hover:border-red-500 text-sm text-red-900 font-semibold ring-red transition-main"
 			>
 				{#if issuesPanelActive}

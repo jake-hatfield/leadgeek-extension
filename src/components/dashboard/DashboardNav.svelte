@@ -1,6 +1,7 @@
 <script lang="ts">
 	// packages
 	import { fade } from 'svelte/transition';
+	import { v4 as uuidv4 } from 'uuid';
 
 	// components
 	import DashboardNavOption from '@components/dashboard/DashboardNavOption.svelte';
@@ -17,13 +18,31 @@
 
 	// state
 	let dashboardSelectActive = false;
+	let addDashboardActive = false;
 
 	// functions
-	const toggleDashboardSelect = () => {
-		dashboardSelectActive = !dashboardSelectActive;
+	const createDashboard = (title: string) => {
+		$layout = [
+			...$layout,
+			{
+				dashboard: {
+					title,
+					id: uuidv4(),
+					color: 'bg-purple-500',
+				},
+				widgets: [],
+			},
+		];
 	};
 
-	console.log($layout);
+	const toggleAddDashboard = () => {
+		addDashboardActive = !addDashboardActive;
+	};
+
+	const toggleDashboardSelect = () => {
+		dashboardSelectActive = !dashboardSelectActive;
+		addDashboardActive && toggleAddDashboard();
+	};
 
 	//   TODO<Jake>: Create dashboard
 	//   TODO<Jake>: Edit dashboard
@@ -57,7 +76,9 @@
 			>
 				{#if $layout.length > 0}
 					<span class="flex items-center" data-testId="dashboard-select-title">
-						<span class="inline-block h-2 w-2 rounded-full bg-purple-500" />
+						<span
+							class={`inline-block h-2 w-2 rounded-full ${$layout[0].dashboard.color}`}
+						/>
 						<span class="ml-3">{$layout[0].dashboard.title}</span>
 					</span>
 				{:else}
@@ -87,12 +108,23 @@
 							>
 						</p>
 					{/if}
+
+					<!-- add a dashboard -->
+					{#if addDashboardActive}
+						<div class="py-1.5 pl-5 pr-4 bg-purple-200">
+							<input
+								placeholder="Name this dashboard..."
+								class="pt-1.5 pb-1 px-3 bg-gray-100 rounded-lg border border-300 text-base focus:border-purple-500 dark:focus:border-purple-300 outline-none"
+							/>
+						</div>
+					{/if}
 					<button
+						on:click={() => (addDashboardActive = true)}
 						class="flex items-center w-full mb-1.5 py-3 px-5 hover:bg-gray-100 border-t border-300 text-purple-500"
 						data-testId="dashboard-select-button"
 					>
 						<Icon type="solid" title="plus" size="sm" />
-						<span class="ml-2">Create a dashboard</span>
+						<span class="ml-2">Add a dashboard</span>
 					</button>
 				</div>
 			{/if}
