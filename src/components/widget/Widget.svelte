@@ -3,18 +3,14 @@
 	import Skeleton from '@components/utils/Skeleton.svelte';
 	import WidgetButton from '@components/widget/WidgetButton.svelte';
 
+	// types
+	import type Widget from '$types/Widget';
+
 	//   global state
 	import { status } from '@stores/product';
 
 	//   props
-	export let widget: {
-		title: string;
-		data: { title: string; value: string | number }[];
-	} = { title: '', data: [] };
-
-	//   state
-	let wId = '12345';
-	let dId = '123';
+	export let widget: Widget;
 
 	//   TODO<Jake>: Truncate text in widgets OR max character length in widget title (15 chars?)
 </script>
@@ -27,7 +23,7 @@
 			<h3 class="uppercase tracking-wider font-semibold text-sm text-gray-700">
 				{widget.title}
 			</h3>
-			<WidgetButton {dId} {wId} />
+			<WidgetButton id={widget.id} />
 		</header>
 		<ul class="pt-4 bg-white rounded-b-md">
 			{#each widget.data as widgetItem}

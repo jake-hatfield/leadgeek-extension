@@ -41,8 +41,7 @@
 	setWelcomeMessage(currentTime.hour);
 
 	$: if ($status === 'idle' && $isAuthenticated && $user) {
-		console.log($user);
-		navigate(`/${$layout[0].dashboard.dId}`, {
+		navigate(`/${$layout[0].dashboard.id}`, {
 			state: { from: $location.pathname },
 			replace: true,
 		});

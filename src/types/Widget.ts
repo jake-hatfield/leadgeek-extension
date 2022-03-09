@@ -1,5 +1,5 @@
 export default interface Widget {
-	wId: string;
+	id: string;
 	title: string;
 	data: { title: string; value: number }[];
 }

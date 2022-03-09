@@ -1,30 +1,29 @@
 <script lang="ts">
 	import { fade, fly } from 'svelte/transition';
 
-	// packages
+	//  packages
 	import { Link } from 'svelte-navigator';
 
-	// components
+	//  components
 	import Icon from '@components/utils/Icon.svelte';
 	import Logo from '@components/utils/Logo.svelte';
 	import Skeleton from '@components/utils/Skeleton.svelte';
 
-	//   lib
+	//  lib
 	import { handleClickOutside } from '@lib/clickHelpers';
 	import { getInitial } from '@lib/stringHelpers';
 
-	//   utils
+	//  utils
 	import { removeUserData } from '@utils/authHelpers';
 
-	//   types
+	//  types
 	import type IconTitles from '$types/Icon';
 
-	//   props
-
-	//   global state
+	//  stores
 	import { status, user } from '@stores/auth';
+	import { layout } from '@stores/layout';
 
-	//   state
+	//  state
 	let userModalActive = false;
 	let userModalSearchActive = false;
 	let userModalLinks: {
@@ -33,7 +32,7 @@
 		icon: IconTitles;
 	}[] = [{ title: 'Issue scanner', link: 'issue-scanner', icon: 'cog' }];
 
-	// functions
+	//  functions
 	const closeExtension = () => {
 		return window.close();
 	};
@@ -177,7 +176,7 @@
 		<!-- logo -->
 		<div>
 			<Link
-				to="/"
+				to={`/${$layout[0].dashboard.id}`}
 				class="block py-2 rounded-lg ring-gray"
 				data-testId="main-nav-logo-link"
 			>
