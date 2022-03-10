@@ -42,7 +42,7 @@ describe('alert with props', () => {
 	describe('closing functionality', () => {
 		test('should close automatically after 3 seconds', async () => {
 			// wait 3 seconds and 200 ms for animation
-			await new Promise((r) => setTimeout(r, 3200));
+			await new Promise((r) => setTimeout(r, 4200));
 
 			alertModal = queryByTestId(containerEl, 'alert');
 

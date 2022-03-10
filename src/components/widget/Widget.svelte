@@ -16,16 +16,16 @@
 </script>
 
 {#if $status === 'idle'}
-	<li class="bg-white card-100">
+	<li class="cs-light-400 card-100">
 		<header
 			class="relative flex items-end justify-between p-3 pb-1.5 border-b border-300"
 		>
-			<h3 class="uppercase tracking-wider font-semibold text-sm text-gray-700">
+			<h3 class="uppercase tracking-wider font-semibold text-sm text-100">
 				{widget.title}
 			</h3>
 			<WidgetButton id={widget.id} />
 		</header>
-		<ul class="pt-4 bg-white rounded-b-md">
+		<ul class="pt-4 cs-light-400 rounded-b-md">
 			{#each widget.data as widgetItem}
 				<li class="center-between pb-4 px-3 text-100">
 					<div>{widgetItem.title}</div>
