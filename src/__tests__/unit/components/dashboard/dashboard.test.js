@@ -31,6 +31,6 @@ describe('dashboard without props', () => {
 			expect(dashboard).toBeInTheDocument();
 		});
 
-		test('should not render widgets', () => {});
+		test.todo('should not render widgets', () => {});
 	});
 });

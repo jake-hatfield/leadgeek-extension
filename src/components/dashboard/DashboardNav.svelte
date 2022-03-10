@@ -8,6 +8,7 @@
 	import Icon from '@components/utils/Icon.svelte';
 	import IconButton from '@components/utils/IconButton.svelte';
 	import Skeleton from '@components/utils/Skeleton.svelte';
+	import Modal from '@components/utils/Modal.svelte';
 
 	// utils
 	import { handleClickOutside } from '@lib/clickHelpers';
@@ -19,22 +20,9 @@
 	// state
 	let dashboardSelectActive = false;
 	let addDashboardActive = false;
+	let modalActive = true;
 
 	// functions
-	const createDashboard = (title: string) => {
-		$layout = [
-			...$layout,
-			{
-				dashboard: {
-					title,
-					id: uuidv4(),
-					color: 'bg-purple-500',
-				},
-				widgets: [],
-			},
-		];
-	};
-
 	const toggleAddDashboard = () => {
 		addDashboardActive = !addDashboardActive;
 	};
@@ -119,12 +107,12 @@
 						</div>
 					{/if}
 					<button
-						on:click={() => (addDashboardActive = true)}
+						on:click={() => layout.createDashboard('')}
 						class="flex items-center w-full mb-1.5 py-3 px-5 hover:bg-gray-100 border-t border-300 text-purple-500"
 						data-testId="dashboard-select-button"
 					>
 						<Icon type="solid" title="plus" size="sm" />
-						<span class="ml-2">Add a dashboard</span>
+						<span class="ml-2">Create a dashboard</span>
 					</button>
 				</div>
 			{/if}
@@ -132,6 +120,12 @@
 
 		<!-- navigate dashboard right -->
 		<IconButton iconTitle="chevron-right" />
+
+		{#if modalActive}
+			<Modal isActive={modalActive} title="Hello">
+				<p>REE</p>
+			</Modal>
+		{/if}
 	</nav>
 {:else}
 	<div class="border-b border-300" data-testId="loading-skeleton">

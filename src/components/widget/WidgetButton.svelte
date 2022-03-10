@@ -2,6 +2,9 @@
 	// packages
 	import { Link } from 'svelte-navigator';
 
+	// store
+	import { alert } from '@stores/alert';
+
 	// components
 	import Badge from '@components/utils/Badge.svelte';
 	import Icon from '@components/utils/Icon.svelte';
@@ -20,6 +23,7 @@
 		to={`./${id}/`}
 		on:mouseenter={() => (hoverActive = true)}
 		on:mouseleave={() => (hoverActive = false)}
+		on:click={() => alert.delete()}
 		class={`relative flex items-center p-1 border rounded-md ring-gray transition-main group ${
 			hoverActive
 				? 'cs-purple border-purple-600'

@@ -4,7 +4,7 @@ import { writable } from 'svelte/store';
 import { v4 as uuidv4 } from 'uuid';
 
 // types
-import type { Alert } from '$types/Alert';
+import type { Alert, AlertTypes } from '$types/Alert';
 
 const createAlert = () => {
 	const { subscribe, set } = writable<Alert>({
@@ -14,17 +14,35 @@ const createAlert = () => {
 		description: '',
 	});
 
+	const create = async ({
+		type,
+		title,
+		description,
+	}: {
+		type: AlertTypes;
+		title: string;
+		description: string;
+	}) => {
+		alert.delete();
+		set({
+			id: uuidv4(),
+			type,
+			title,
+			description,
+		});
+		// setTimeout(() => {
+		// 	alert.delete();
+		// }, 3000);
+	};
+
+	const deleteAlert = () => {
+		set({ id: '', type: null, title: '', description: '' });
+	};
+
 	return {
 		subscribe,
-		create: ({ type, title, description }) => {
-			set({
-				id: uuidv4(),
-				type,
-				title,
-				description,
-			});
-		},
-		delete: () => set({ id: '', type: null, title: '', description: '' }),
+		create,
+		delete: deleteAlert,
 	};
 };
 

@@ -5,7 +5,7 @@
 	//   props
 	export let type: 'solid' | 'outline';
 	export let title: IconTitles;
-	export let size: 'sm' | 'md' = 'md';
+	export let size: 'sm' | 'md' | 'lg' = 'md';
 	export let ariaLabel: string | IconTitles = title;
 
 	//   SVG icon list w/ "solid" & "outline" versions
@@ -2302,9 +2302,9 @@
 		xmlns="http://www.w3.org/2000/svg"
 		role="img"
 		aria-label={ariaLabel}
-		class={`text-gray-400 ${size === 'sm' ? 'svg-sm' : 'svg-base'} ${
-			$$props.class
-		}`}
+		class={`flex-none text-gray-400 ${
+			size === 'sm' ? 'svg-sm' : size === 'lg' ? 'h-7 w-7' : 'svg-base'
+		} ${$$props.class}`}
 		{fill}
 		{stroke}
 		viewBox="0 0 {box} {box}"
