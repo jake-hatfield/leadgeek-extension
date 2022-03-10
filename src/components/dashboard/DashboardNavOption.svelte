@@ -8,6 +8,7 @@
 	// types
 	import type Dashboard from '$types/Dashboard';
 	import type Widget from '$types/Widget';
+	import { layout } from '@stores/layout';
 
 	// props
 	export let option: {
@@ -64,7 +65,8 @@
 					/>
 				</button>
 				<button
-					on:click|preventDefault|stopPropagation={() => alert('delete')}
+					on:click|preventDefault|stopPropagation={() =>
+						layout.deleteDashboard(option.dashboard.id)}
 					class="ml-3"
 				>
 					<Icon

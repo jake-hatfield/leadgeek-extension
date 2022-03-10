@@ -41,9 +41,10 @@
 			<button
 				on:click={() =>
 					alert.create({
-						type: 'danger',
-						title: 'hello',
-						description: 'RE',
+						type: 'success',
+						title: 'Validation error',
+						description:
+							'REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE',
 					})}
 				class="py-1.5 px-3 rounded-lg bg-red-300 hover:bg-red-400 border border-red-400 hover:border-red-500 text-sm text-red-900 font-semibold ring-red transition-main"
 			>

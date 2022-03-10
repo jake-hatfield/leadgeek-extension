@@ -21,6 +21,7 @@
 
 	//  stores
 	import { status, user } from '@stores/auth';
+	import { alert } from '@stores/alert';
 	import { layout } from '@stores/layout';
 
 	//  state
@@ -72,10 +73,10 @@
 		>
 			<button
 				on:click={toggleUserModal}
-				class="h-10 w-10 all-center p-1.5 cs-purple rounded-full shadow-sm transition-main ring-purple"
-				data-testId="main-nav-user-modal-button"
+				class="p-2 rounded-lg bg-gray-100 border border-300 ring-gray transition-main"
+				data-testId="main-nav-close-button"
 			>
-				<span class="text-lg font-bold">{getInitial($user.name)}</span>
+				<Icon type="solid" title="cog" />
 			</button>
 
 			<!-- user modal -->
@@ -88,6 +89,12 @@
 					<header
 						class="relative flex items-end justify-between py-3 px-3 border-b border-300"
 					>
+						<div
+							class="h-10 w-10 all-center p-1.5 cs-purple rounded-lg shadow-sm transition-main ring-purple"
+							data-testId="main-nav-user-modal-button"
+						>
+							<span class="text-lg font-bold">{getInitial($user.name)}</span>
+						</div>
 						<h4 class="text-lg font-bold text-200">
 							<span role="img" aria-label="Waving emoji">👋</span>{' '}Hi, {$user.name}
 						</h4>
@@ -142,7 +149,7 @@
 											toggleUserModal();
 											toggleUserModalSearch();
 										}}
-										class="hover:bg-gray-100"
+										class="hover:bg-gray-100 hover:text-200"
 									>
 										<a
 											href={`/${userModalLink.link}/`}
@@ -175,13 +182,13 @@
 
 		<!-- logo -->
 		<div>
-			<Link
-				to={`/${$layout[0].dashboard.id}`}
+			<!-- <Link
+				to={`/${$layout[0].dashboard.id ? $layout[0].dashboard.id : ''}`}
 				class="block py-2 rounded-lg ring-gray"
 				data-testId="main-nav-logo-link"
 			>
 				<Logo class="w-14" />
-			</Link>
+			</Link> -->
 		</div>
 
 		<!-- close button -->

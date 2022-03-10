@@ -5,7 +5,7 @@ import '@testing-library/jest-dom';
 // component
 import Input from '@components/utils/Input.svelte';
 
-describe('input (text)', () => {
+describe('input [text]', () => {
 	let input;
 	let label;
 	let eyeIcon;
@@ -31,7 +31,7 @@ describe('input (text)', () => {
 	});
 });
 
-describe('input (password)', () => {
+describe('input [password]', () => {
 	let container;
 	let input;
 	let label;
