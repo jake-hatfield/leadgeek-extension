@@ -9,19 +9,21 @@
 	export let title: string;
 </script>
 
-{#if isActive}
+{#if isActive && title}
 	<aside
-		transition:fly={{ duration: 150, y: 15 }}
-		class="absolute top-3 z-40 inset-x-1 flex items-start justify-between p-3 rounded-lg opacity-90 bg-gray-900 text-white shadow-lg"
+		transition:fly={{ duration: 150, y: -15 }}
+		class="absolute top-2 z-40 inset-x-1 rounded-lg opacity-95 bg-gray-900 text-white shadow-lg border border-gray-800"
 		data-testId="modal"
 	>
-		<div class="flex items-start">
-			<div class="mx-6">
-				<h5 class="text-lg">
+		<div class="flex items-start justify-between p-5">
+			<header class="w-5/6 whitespace-normal">
+				<h5 class="font-semibold text-lg">
 					{title}
 				</h5>
-				<div class="text-grey-400"><slot /></div>
-			</div>
+				<div class="mt-3 text-grey-400 break-words">
+					<slot name="description" />
+				</div>
+			</header>
 			<!-- close button -->
 			<button
 				on:click={() => (isActive = false)}
@@ -30,6 +32,9 @@
 			>
 				<Icon type="solid" title="x" />
 			</button>
+		</div>
+		<div class="p-5 rounded-b-lg bg-darkGray-100">
+			<slot name="action" />
 		</div>
 	</aside>
 {/if}

@@ -8,10 +8,11 @@
 	import Icon from '@components/utils/Icon.svelte';
 	import Logo from '@components/utils/Logo.svelte';
 	import Skeleton from '@components/utils/Skeleton.svelte';
+	import Toggle from '@components/utils/Toggle.svelte';
 
 	//  lib
 	import { handleClickOutside } from '@lib/clickHelpers';
-	import { getInitial } from '@lib/stringHelpers';
+	import { getFirstWord, getInitial } from '@lib/stringHelpers';
 
 	//  utils
 	import { removeUserData } from '@utils/authHelpers';
@@ -21,17 +22,24 @@
 
 	//  stores
 	import { status, user } from '@stores/auth';
-	import { alert } from '@stores/alert';
+	// import { alert } from '@stores/alert';
 	import { layout } from '@stores/layout';
 
 	//  state
 	let userModalActive = false;
-	let userModalSearchActive = false;
 	let userModalLinks: {
 		title: string;
 		link: string;
 		icon: IconTitles;
-	}[] = [{ title: 'Issue scanner', link: 'issue-scanner', icon: 'cog' }];
+		shortcut: string;
+	}[] = [
+		{
+			title: 'Issue scanner',
+			link: 'issue-scanner',
+			icon: 'cog',
+			shortcut: 'S',
+		},
+	];
 
 	//  functions
 	const closeExtension = () => {
@@ -42,12 +50,8 @@
 		userModalActive = !userModalActive;
 	};
 
-	const toggleUserModalSearch = () => {
-		userModalSearchActive = !userModalSearchActive;
-	};
-
 	//   TODO<Jake>: User nav menu
-	//   TODO<Jake>: User nav search
+	//   TODO<Jake>: Hotkeys
 </script>
 
 {#if $status === 'loading' || !$user}
@@ -86,95 +90,80 @@
 					class="absolute top-12 z-40 w-72 cs-light-100 card-300"
 					data-testId="main-nav-user-modal"
 				>
-					<header
-						class="relative flex items-end justify-between py-3 px-3 border-b border-300"
-					>
+					<div class="relative flex items-start py-3 mx-3 border-b border-300">
+						<!-- initial box -->
 						<div
 							class="h-10 w-10 all-center p-1.5 cs-purple rounded-lg shadow-sm transition-main ring-purple"
 							data-testId="main-nav-user-modal-button"
 						>
 							<span class="text-lg font-bold">{getInitial($user.name)}</span>
 						</div>
-						<h4 class="text-lg font-bold text-200">
-							<span role="img" aria-label="Waving emoji">👋</span>{' '}Hi, {$user.name}
-						</h4>
-
-						<!-- user modal search -->
-						<div
-							use:handleClickOutside={{
-								enabled: userModalSearchActive,
-								cb: () => userModalSearchActive && toggleUserModalSearch(),
-							}}
-							class="flex items-center"
-						>
-							<button
-								on:click={toggleUserModalSearch}
-								class="p-2 rounded-lg bg-gray-100 border border-300"
-								data-testId="main-nav-search-button"
-							>
-								<Icon type="solid" title="search" />
-							</button>
-							{#if userModalSearchActive}
-								<div
-									transition:fly={{ duration: 150, x: 15 }}
-									class="absolute top-0.5 right-0 w-full py-2 px-3"
-									data-testId="main-nav-search-input"
-								>
-									<div class="relative">
-										<input
-											class="w-full py-2 px-3 rounded-lg bg-gray-100 border border-300 ring-gray"
-											placeholder="Search for a setting..."
-										/>
-										<!-- close search button -->
-										<button
-											on:click={toggleUserModalSearch}
-											class="absolute top-1 right-1 p-2 rounded-lg bg-gray-100 hover:text-gray-500"
-											data-testId="main-nav-search-button-close"
-										>
-											<Icon type="solid" title="x" />
-										</button>
-									</div>
-								</div>
-							{/if}
-						</div>
-					</header>
+						<header class="ml-3">
+							<h4 class="font-bold text-sm text-200">
+								{getFirstWord($user.name)}
+								{' '}<span role="img" aria-label="Waving emoji">👋</span>
+							</h4>
+							<p class="text-sm text-100">{$user.email}</p>
+						</header>
+					</div>
 
 					<!-- user modal links -->
 					{#if userModalLinks}
-						<div class="pb-1.5">
-							<ul>
-								{#each userModalLinks as userModalLink}
-									<li
-										on:click={() => {
-											toggleUserModal();
-											toggleUserModalSearch();
-										}}
-										class="hover:bg-gray-100 hover:text-200"
+						<ul class="py-1.5">
+							{#each userModalLinks as userModalLink}
+								<li
+									on:click={() => {
+										toggleUserModal();
+									}}
+									class="hover:bg-gray-100 hover:text-200"
+								>
+									<a
+										href={`/${userModalLink.link}/`}
+										class="flex items-center justify-between p-3"
 									>
-										<a
-											href={`/${userModalLink.link}/`}
-											class="flex items-center p-3"
-										>
+										<span class="flex items-center">
 											<Icon type="solid" title={userModalLink.icon} />
 											<span class="ml-3">
 												{userModalLink.title}
 											</span>
-										</a>
-									</li>
-								{/each}
-							</ul>
-							<button
-								on:click={removeUserData}
-								class="flex items-center w-full p-3 hover:bg-gray-100 text-left"
+										</span>
+										<span
+											class="all-center h-6 w-6 p-0.5 rounded-lg cs-bg-light border border-300 shadow-sm font-semibold text-sm text-100"
+											>{userModalLink.shortcut}</span
+										>
+									</a>
+								</li>
+							{/each}
+
+							<!-- dark mode button -->
+							<li
+								class="flex items-center justify-between p-3 hover:bg-gray-100 hover:text-200"
 							>
-								<Icon
-									type="solid"
-									title="logout"
-									class="transform rotate-180"
+								<span class="flex items-center">
+									<Icon type="solid" title="moon" />
+									<span class="ml-3">Dark mode</span>
+								</span>
+								<Toggle
+									defaultChecked={false}
+									name="dark-mode"
+									onChange={() => window.document.body.classList.toggle('dark')}
 								/>
-								<span class="ml-3">Logout</span>
-							</button>
-						</div>
+							</li>
+
+							<!-- logout button -->
+							<li class="p-3 hover:bg-gray-100 hover:text-200">
+								<button on:click={removeUserData} class="block w-full">
+									<span class="flex items-center">
+										<Icon
+											type="solid"
+											title="logout"
+											class="transform rotate-180"
+										/>
+										<span class="ml-3">Logout</span>
+									</span>
+								</button>
+							</li>
+						</ul>
 					{/if}
 				</div>
 			{/if}
@@ -194,7 +183,7 @@
 		<!-- close button -->
 		<button
 			on:click={closeExtension}
-			class="p-2 rounded-lg bg-gray-100 border border-300 ring-gray transition-main"
+			class="p-2 rounded-lg cs-bg-light border border-300 ring-gray transition-main"
 			data-testId="main-nav-close-button"
 		>
 			<Icon type="solid" title="x" />

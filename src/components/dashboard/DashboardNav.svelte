@@ -1,14 +1,12 @@
 <script lang="ts">
 	// packages
 	import { fade } from 'svelte/transition';
-	import { v4 as uuidv4 } from 'uuid';
 
 	// components
 	import DashboardNavOption from '@components/dashboard/DashboardNavOption.svelte';
 	import Icon from '@components/utils/Icon.svelte';
 	import IconButton from '@components/utils/IconButton.svelte';
 	import Skeleton from '@components/utils/Skeleton.svelte';
-	import Modal from '@components/utils/Modal.svelte';
 
 	// utils
 	import { handleClickOutside } from '@lib/clickHelpers';
@@ -20,7 +18,6 @@
 	// state
 	let dashboardSelectActive = false;
 	let addDashboardActive = false;
-	let modalActive = true;
 
 	// functions
 	const toggleAddDashboard = () => {
@@ -120,12 +117,6 @@
 
 		<!-- navigate dashboard right -->
 		<IconButton iconTitle="chevron-right" />
-
-		{#if modalActive}
-			<Modal isActive={modalActive} title="Hello">
-				<p>REE</p>
-			</Modal>
-		{/if}
 	</nav>
 {:else}
 	<div class="border-b border-300" data-testId="loading-skeleton">

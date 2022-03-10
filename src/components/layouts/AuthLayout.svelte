@@ -21,9 +21,11 @@
 			if (!localStorage.token) removeUserData();
 		});
 	});
+
+	// TODO<Jake>: Transition all colors for dark mode switching
 </script>
 
-<main class="relative text-base">
+<main class="relative text-base cs-light-500 transition-colors">
 	<AuthNav />
 	<slot />
 	<Alert />

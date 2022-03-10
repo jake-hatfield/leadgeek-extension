@@ -30,9 +30,9 @@ const createAlert = () => {
 			title,
 			description,
 		});
-		// setTimeout(() => {
-		// 	alert.delete();
-		// }, 3000);
+		setTimeout(() => {
+			alert.delete();
+		}, 4000);
 	};
 
 	const deleteAlert = () => {

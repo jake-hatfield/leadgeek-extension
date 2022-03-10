@@ -104,10 +104,14 @@ html {
 }
 
 .cs-purple-light {
-	@apply bg-purple-500 hover:bg-purple-600 text-white border border-purple-600 hover:border-purple-700;
+	@apply bg-purple-500 hover:bg-purple-600 text-white border border-purple-600;
 }
 
 .cs-purple {
+	@apply cs-purple-light dark:bg-purple-200 dark:text-purple-900 dark:border-purple-300;
+}
+
+.cs-purple-hover {
 	@apply cs-purple-light dark:bg-purple-200 dark:hover:bg-purple-300 dark:text-purple-900 dark:border-purple-300 dark:hover:border-purple-400;
 }
 
