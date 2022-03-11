@@ -1,6 +1,7 @@
 <script lang="ts">
 	// packages
 	import { fade } from 'svelte/transition';
+	import { Link, useLocation } from 'svelte-navigator';
 
 	// components
 	import DashboardNavOption from '@components/dashboard/DashboardNavOption.svelte';
@@ -16,8 +17,10 @@
 	import { layout } from '@stores/layout';
 
 	// state
-	let dashboardSelectActive = false;
 	let addDashboardActive = false;
+	let dashboardSelectActive = false;
+	let hasNextDashboard = false;
+	const location = useLocation();
 
 	// functions
 	const toggleAddDashboard = () => {
@@ -27,6 +30,24 @@
 	const toggleDashboardSelect = () => {
 		dashboardSelectActive = !dashboardSelectActive;
 		addDashboardActive && toggleAddDashboard();
+	};
+
+	export const getNextDashboard = (val: number) => {
+		const currentIndex = $layout.findIndex(
+			(l) => l.dashboard.id === $location.pathname.split('/')[1]
+		);
+
+		if (currentIndex === 0 && val < 0) return (hasNextDashboard = false);
+
+		const nextIndex = currentIndex + val;
+
+		const nextId = $layout[nextIndex].dashboard.id;
+
+		if (nextId) {
+			return nextId;
+		} else {
+			return '';
+		}
 	};
 
 	//   TODO<Jake>: Create dashboard
@@ -42,7 +63,9 @@
 		data-testId="dashboard-nav"
 	>
 		<!-- navigate dashboard left -->
-		<IconButton iconTitle="chevron-left" />
+		<Link to={`/${getNextDashboard(-1)}`}>
+			<IconButton iconTitle="chevron-left" />
+		</Link>
 
 		<!-- dashboard select -->
 		<div
@@ -104,7 +127,7 @@
 						</div>
 					{/if}
 					<button
-						on:click={() => layout.createDashboard('')}
+						on:click={() => console.log('createDashboard')}
 						class="flex items-center w-full mb-1.5 py-3 px-5 hover:bg-gray-100 border-t border-300 text-purple-500"
 						data-testId="dashboard-select-button"
 					>
@@ -116,7 +139,9 @@
 		</div>
 
 		<!-- navigate dashboard right -->
-		<IconButton iconTitle="chevron-right" />
+		<Link to={`/${getNextDashboard(1)}`}>
+			<IconButton iconTitle="chevron-right" />
+		</Link>
 	</nav>
 {:else}
 	<div class="border-b border-300" data-testId="loading-skeleton">

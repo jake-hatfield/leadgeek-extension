@@ -4,10 +4,23 @@ import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 
 // component
-import DashboardNav from '@components/dashboard/DashboardNav.svelte';
+import DashboardNav, {
+	getNextDashboard,
+} from '@components/dashboard/DashboardNav.svelte';
 
 // store
 import { status } from '@stores/product';
+
+jest.mock('svelte-navigator', () => ({
+    ...jest.requireActual('svelte-navigator'),
+	useLocation: jest.fn().mockReturnValue({
+		pathname: '/another-route',
+		search: '',
+		hash: '',
+		state: null,
+		key: '1ab3c4d',
+	});
+}));
 
 describe('dashboard nav without props', () => {
 	describe('loading state', () => {
@@ -173,6 +186,14 @@ describe('dashboard nav with props', () => {
 				test('should create a new option on click', async () => {
 					await userEvent.click(button);
 				});
+			});
+		});
+	});
+
+	describe('fns', () => {
+		describe('getNextDashboard', () => {
+			test('should be defined', () => {
+				expect(getNextDashboard(1)).toBeDefined();
 			});
 		});
 	});
