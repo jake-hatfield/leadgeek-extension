@@ -223,4 +223,12 @@ describe('dashboard nav with props', () => {
 			});
 		});
 	});
+
+	describe('fns', () => {
+		describe('getNextDashboard', () => {
+			test('should be defined', () => {
+				expect(getNextDashboard(1)).toBeDefined();
+			});
+		});
+	});
 });
