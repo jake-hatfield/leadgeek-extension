@@ -14,7 +14,7 @@ const createLayout = () => {
 		{
 			dashboard: {
 				id: '1',
-				title: 'Dashboard 1',
+				title: 'Dashboard #1',
 				color: 'bg-teal-500',
 			},
 			widgets: [
@@ -82,6 +82,7 @@ const createLayout = () => {
 	const deleteWidget = () => {};
 
 	return {
+		set,
 		subscribe,
 		createDashboard,
 		deleteDashboard,

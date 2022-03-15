@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { fade, fly } from 'svelte/transition';
+	import { fade } from 'svelte/transition';
 
 	//  packages
 	import { Link } from 'svelte-navigator';
@@ -26,8 +26,8 @@
 	import { layout } from '@stores/layout';
 
 	//  state
-	let userModalActive = false;
-	let userModalLinks: {
+	let settingsModalActive = false;
+	let settingsModalLinks: {
 		title: string;
 		link: string;
 		icon: IconTitles;
@@ -46,8 +46,8 @@
 		return window.close();
 	};
 
-	const toggleUserModal = () => {
-		userModalActive = !userModalActive;
+	const settingsModal = () => {
+		settingsModalActive = !settingsModalActive;
 	};
 
 	//   TODO<Jake>: User nav menu
@@ -67,34 +67,33 @@
 	</div>
 {:else}
 	<nav class="center-between py-2 px-3 border-b border-gray-300">
-		<!-- user modal -->
+		<!-- settings modal -->
 		<div
 			use:handleClickOutside={{
-				enabled: userModalActive,
-				cb: () => userModalActive && toggleUserModal(),
+				enabled: settingsModalActive,
+				cb: () => settingsModalActive && settingsModal(),
 			}}
 			class="relative"
 		>
 			<button
-				on:click={toggleUserModal}
+				on:click={settingsModal}
 				class="p-2 rounded-lg bg-gray-100 border border-300 ring-gray transition-main"
-				data-testId="main-nav-close-button"
+				data-testId="main-nav-settings-button"
 			>
 				<Icon type="solid" title="cog" />
 			</button>
 
-			<!-- user modal -->
-			{#if userModalActive}
+			<!-- settings modal -->
+			{#if settingsModalActive}
 				<div
 					transition:fade={{ duration: 100 }}
 					class="absolute top-12 z-40 w-72 cs-light-100 card-300"
-					data-testId="main-nav-user-modal"
+					data-testId="main-nav-settings-modal"
 				>
 					<div class="relative flex items-start py-3 mx-3 border-b border-300">
 						<!-- initial box -->
 						<div
 							class="h-10 w-10 all-center p-1.5 cs-purple rounded-lg shadow-sm transition-main ring-purple"
-							data-testId="main-nav-user-modal-button"
 						>
 							<span class="text-lg font-bold">{getInitial($user.name)}</span>
 						</div>
@@ -107,29 +106,29 @@
 						</header>
 					</div>
 
-					<!-- user modal links -->
-					{#if userModalLinks}
+					<!-- settings modal links -->
+					{#if settingsModalLinks}
 						<ul class="py-1.5">
-							{#each userModalLinks as userModalLink}
+							{#each settingsModalLinks as settingsModalLink}
 								<li
 									on:click={() => {
-										toggleUserModal();
+										settingsModal();
 									}}
 									class="hover:bg-gray-100 hover:text-200"
 								>
 									<a
-										href={`/${userModalLink.link}/`}
+										href={`/${settingsModalLink.link}/`}
 										class="flex items-center justify-between p-3"
 									>
 										<span class="flex items-center">
-											<Icon type="solid" title={userModalLink.icon} />
+											<Icon type="solid" title={settingsModalLink.icon} />
 											<span class="ml-3">
-												{userModalLink.title}
+												{settingsModalLink.title}
 											</span>
 										</span>
 										<span
 											class="all-center h-6 w-6 p-0.5 rounded-lg cs-bg-light border border-300 shadow-sm font-semibold text-sm text-100"
-											>{userModalLink.shortcut}</span
+											>{settingsModalLink.shortcut}</span
 										>
 									</a>
 								</li>
@@ -171,13 +170,13 @@
 
 		<!-- logo -->
 		<div>
-			<!-- <Link
+			<Link
 				to={`/${$layout[0].dashboard.id ? $layout[0].dashboard.id : ''}`}
 				class="block py-2 rounded-lg ring-gray"
 				data-testId="main-nav-logo-link"
 			>
 				<Logo class="w-14" />
-			</Link> -->
+			</Link>
 		</div>
 
 		<!-- close button -->
