@@ -9,7 +9,9 @@ describe('toggle with props', () => {
 
 	beforeEach(() => {
 		const { getByTestId, container } = render(Toggle, {
+			name: 'test',
 			defaultChecked: false,
+			onChange: () => console.log('test'),
 		});
 		toggle = getByTestId('toggle');
 		containerEl = container;

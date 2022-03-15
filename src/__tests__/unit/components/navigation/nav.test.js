@@ -1,12 +1,14 @@
-import { render, cleanup } from '@testing-library/svelte';
+import { fireEvent } from '@testing-library/svelte';
 import {
-	findByRole,
-	findByTestId,
+	getByRole,
+	getByTestId,
 	queryByTestId,
 	within,
 } from '@testing-library/dom';
-import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
+
+// lib
+import renderWithRouter from '@lib/routerHelpers/renderWithRouter';
 
 // stores
 import { status, user } from '@stores/auth';
@@ -17,7 +19,7 @@ import Nav from '@components/navigation/AuthNav.svelte';
 describe('main nav without props', () => {
 	let nav;
 
-	beforeEach(async () => {
+	beforeEach(() => {
 		status.set('idle');
 		user.set({
 			archivedLeads: [],
@@ -61,27 +63,21 @@ describe('main nav without props', () => {
 			},
 		});
 
-		const { findByRole } = render(Nav);
+		const { getByRole } = renderWithRouter(Nav);
 
-		nav = await findByRole('navigation');
+		nav = getByRole('navigation');
 	});
-
-	afterEach(cleanup);
 
 	test('should render', () => {
 		expect(nav).toBeInTheDocument();
 	});
 
-	describe('main nav user modal', () => {
+	describe('settings modal button', () => {
 		let modalButton;
 
 		beforeEach(async () => {
-			modalButton = await within(nav).findByTestId(
-				'main-nav-user-modal-button'
-			);
+			modalButton = await within(nav).queryByTestId('main-nav-settings-button');
 		});
-
-		afterEach(cleanup);
 
 		test('should render', () => {
 			expect(modalButton).toBeInTheDocument();
@@ -89,122 +85,39 @@ describe('main nav without props', () => {
 
 		test.todo('Make sure the button renders the first initial of the user');
 
-		describe('main nav user modal', () => {
-			let userModal;
+		describe('settings modal', () => {
+			let settingsModal;
 
-			beforeEach(async () => {
-				userModal = await queryByTestId(nav, 'main-nav-user-modal');
+			beforeEach(() => {
+				settingsModal = queryByTestId(nav, 'main-nav-settings-modal');
 			});
 
-			afterEach(cleanup);
-
 			test('should not render by default', () => {
-				expect(userModal).not.toBeInTheDocument();
+				expect(settingsModal).not.toBeInTheDocument();
 			});
 
 			test('should render on click', async () => {
-				await userEvent.click(modalButton);
+				await fireEvent.click(modalButton);
 
-				userModal = await queryByTestId(nav, 'main-nav-user-modal');
+				settingsModal = queryByTestId(nav, 'main-nav-settings-modal');
 
-				expect(userModal).toBeInTheDocument();
+				expect(settingsModal).toBeInTheDocument();
 			});
 
 			test('should close on click outside', async () => {
-				await userEvent.click(modalButton);
+				await fireEvent.click(modalButton);
 
-				await userEvent.click(document.body);
+				await fireEvent.click(document.body);
 
-				expect(userModal).not.toBeInTheDocument();
+				expect(settingsModal).not.toBeInTheDocument();
 			});
 
 			test('should close on double click', async () => {
-				await userEvent.dblClick(modalButton);
+				await fireEvent.doubleClick(modalButton);
 
-				userModal = await queryByTestId(nav, 'main-nav-user-modal');
+				settingsModal = queryByTestId(nav, 'main-nav-settings-modal');
 
-				expect(userModal).not.toBeInTheDocument();
-			});
-
-			describe('main nav user modal search', () => {
-				let searchButton;
-
-				beforeEach(async () => {
-					await userEvent.click(modalButton);
-
-					userModal = await queryByTestId(nav, 'main-nav-user-modal');
-
-					searchButton = await queryByTestId(
-						userModal,
-						'main-nav-search-button'
-					);
-				});
-
-				afterEach(cleanup);
-
-				test('should render', () => {
-					expect(searchButton).toBeInTheDocument();
-				});
-
-				describe('main nav user modal search input', () => {
-					let searchInput;
-
-					beforeEach(async () => {
-						searchInput = await queryByTestId(nav, 'main-nav-search-input');
-					});
-
-					afterEach(cleanup);
-
-					test('should not render by default', () => {
-						expect(searchInput).not.toBeInTheDocument();
-					});
-
-					test('should render on click', async () => {
-						await userEvent.click(searchButton);
-
-						searchInput = await queryByTestId(nav, 'main-nav-search-input');
-
-						expect(searchInput).toBeInTheDocument();
-					});
-
-					test('should close on double click', async () => {
-						await userEvent.dblClick(searchButton);
-
-						searchInput = await queryByTestId(nav, 'main-nav-search-input');
-
-						expect(searchInput).not.toBeInTheDocument();
-					});
-
-					describe('main nav search button close', () => {
-						let searchCloseButton;
-
-						beforeEach(async () => {
-							searchCloseButton = await queryByTestId(
-								nav,
-								'main-nav-search-button-close'
-							);
-						});
-
-						afterEach(cleanup);
-
-						test('should not render', () => {
-							expect(searchCloseButton).not.toBeInTheDocument();
-						});
-
-						test('should render on click', async () => {
-							await userEvent.click(searchButton);
-
-							searchCloseButton = await queryByTestId(
-								nav,
-								'main-nav-search-button-close'
-							);
-
-							expect(searchCloseButton).toBeInTheDocument();
-						});
-
-						test.todo('should close on click');
-					});
-				});
+				expect(settingsModal).not.toBeInTheDocument();
 			});
 		});
 	});
@@ -212,14 +125,12 @@ describe('main nav without props', () => {
 	describe('main nav logo', () => {
 		let logo;
 
-		beforeEach(async () => {
-			logo = await findByRole(nav, 'link');
+		beforeEach(() => {
+			logo = getByRole(nav, 'link');
 		});
 
-		afterEach(cleanup);
-
-		test('should render', async () => {
-			let logoImg = await findByTestId(logo, 'logo');
+		test('should render', () => {
+			let logoImg = getByTestId(logo, 'logo');
 
 			expect(logoImg).toBeInTheDocument();
 		});
@@ -228,11 +139,9 @@ describe('main nav without props', () => {
 	describe('main nav close button', () => {
 		let closeButton;
 
-		beforeEach(async () => {
-			closeButton = await findByTestId(nav, 'main-nav-close-button');
+		beforeEach(() => {
+			closeButton = getByTestId(nav, 'main-nav-close-button');
 		});
-
-		afterEach(cleanup);
 
 		test('should render', () => {
 			expect(closeButton).toBeInTheDocument();

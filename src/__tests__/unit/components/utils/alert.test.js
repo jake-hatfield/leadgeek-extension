@@ -1,5 +1,5 @@
-import { fireEvent, render } from '@testing-library/svelte';
-import { queryByTestId } from '@testing-library/dom';
+import { fireEvent, render, screen } from '@testing-library/svelte';
+import { findByTestId } from '@testing-library/dom';
 import '@testing-library/jest-dom';
 
 // components
@@ -20,7 +20,6 @@ describe('alert without props', () => {
 
 describe('alert with props', () => {
 	let alertModal;
-	let containerEl;
 
 	beforeEach(async () => {
 		alert.create({
@@ -29,10 +28,9 @@ describe('alert with props', () => {
 			description: 'This is a test',
 		});
 
-		const { getByTestId, container } = render(Alert);
+		const { findByTestId } = render(Alert);
 
-		alertModal = await getByTestId('alert');
-		containerEl = container;
+		alertModal = await findByTestId('alert');
 	});
 
 	test('should render on alert.create()', () => {
@@ -40,11 +38,8 @@ describe('alert with props', () => {
 	});
 
 	describe('closing functionality', () => {
-		test('should close automatically after 3 seconds', async () => {
-			// wait 3 seconds and 200 ms for animation
-			await new Promise((r) => setTimeout(r, 4200));
-
-			alertModal = queryByTestId(containerEl, 'alert');
+		test('should close automatically after 4 seconds', async () => {
+			alertModal = screen.findByTestId('alert');
 
 			expect(alertModal).not.toBeInTheDocument();
 		});
@@ -52,21 +47,17 @@ describe('alert with props', () => {
 		test('should close on alert.delete()', async () => {
 			alert.delete();
 
-			await new Promise((r) => setTimeout(r, 200));
-
-			alertModal = queryByTestId(containerEl, 'alert');
+			alertModal = screen.findByTestId('alert');
 
 			expect(alertModal).not.toBeInTheDocument();
 		});
 
 		test('should close on button click', async () => {
-			const closeButton = queryByTestId(alertModal, 'alert-close');
+			const closeButton = await findByTestId(alertModal, 'alert-close');
 
 			await fireEvent.click(closeButton);
 
-			await new Promise((r) => setTimeout(r, 200));
-
-			alertModal = queryByTestId(containerEl, 'alert');
+			alertModal = screen.findByTestId('alert');
 
 			expect(alertModal).not.toBeInTheDocument();
 		});

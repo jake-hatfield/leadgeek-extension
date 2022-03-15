@@ -6,17 +6,20 @@ import '@testing-library/jest-dom';
 // component
 import DashboardNav from '@components/dashboard/DashboardNav.svelte';
 
+// stores
+import { layout } from '@stores/layout';
+
 // store
 import { status } from '@stores/product';
 
-describe('dashboard nav without props', () => {
+describe('dashboard nav without layout state', () => {
 	describe('loading state', () => {
 		let skeleton;
 
 		beforeEach(async () => {
-			const component = render(DashboardNav, {
-				dashboardOptions: [],
-			});
+			layout.set([]);
+
+			const component = render(DashboardNav);
 
 			skeleton = await component.queryByTestId('loading-skeleton');
 		});
@@ -32,9 +35,7 @@ describe('dashboard nav without props', () => {
 		let nav;
 
 		beforeEach(async () => {
-			const { findByRole } = render(DashboardNav, {
-				dashboardOptions: [],
-			});
+			const { findByRole } = render(DashboardNav);
 
 			status.set('idle');
 
@@ -81,12 +82,58 @@ describe('dashboard nav without props', () => {
 
 describe('dashboard nav with props', () => {
 	let nav;
-	let dashboardOptions = [{ title: 'Dashboard #1' }, { title: 'Dashboard #2' }];
 
 	beforeEach(async () => {
-		const { queryByRole } = render(DashboardNav, {
-			dashboardOptions,
-		});
+		layout.set([
+			{
+				dashboard: {
+					id: '1',
+					title: 'Dashboard #1',
+					color: 'bg-teal-500',
+				},
+				widgets: [
+					{
+						id: '123',
+						title: 'Profit analysis',
+						data: [
+							{ title: 'Est.sales/mo', value: 1500000 },
+							{ title: 'Est.sales/mo', value: 79 },
+							{ title: 'Est.sales/mo', value: 79 },
+							{ title: 'Est.sales/mo', value: 1500000 },
+						],
+					},
+					{
+						id: '1234',
+						title: 'Sales/mo',
+						data: [
+							{ title: 'Est.sales/mo', value: 79 },
+							{ title: 'Est.sales/mo', value: 79 },
+							{ title: 'Est.sales/mo', value: 79 },
+						],
+					},
+					{
+						id: '1263',
+						title: 'Competition',
+						data: [
+							{ title: 'Est.sales/mo', value: 79 },
+							{ title: 'Est.sales/mo', value: 79 },
+							{ title: 'Est.sales/mo', value: 79 },
+						],
+					},
+					{
+						id: '12333',
+						title: 'Variations',
+						data: [
+							{ title: 'Est.sales/mo', value: 80 },
+							{ title: 'Est.sales/mo', value: 79 },
+							{ title: 'Est.sales/mo', value: 79 },
+						],
+					},
+				],
+			},
+		]);
+
+		const { queryByRole } = render(DashboardNav);
 
 		nav = await queryByRole('navigation');
 	});
