@@ -136,6 +136,7 @@ const createLayout = () => {
 	return {
 		get,
 		getDashboardIndex,
+		set,
 		subscribe,
 		createDashboard,
 		deleteDashboard,

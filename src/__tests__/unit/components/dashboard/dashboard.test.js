@@ -1,5 +1,5 @@
-import { render, cleanup } from '@testing-library/svelte';
 import '@testing-library/jest-dom';
+import renderWithRouter from '@lib/routerHelpers/renderWithRouter';
 
 // components
 import Dashboard from '@components/dashboard/Dashboard.svelte';
@@ -14,14 +14,12 @@ describe('dashboard without props', () => {
 		let dashboard;
 
 		beforeEach(async () => {
-			const { findByTestId } = render(Dashboard);
+			const { findByTestId } = renderWithRouter(Dashboard);
 
 			status.set('idle');
 
 			dashboard = await findByTestId('dashboard');
 		});
-
-		afterEach(cleanup);
 
 		test('should render', () => {
 			expect(dashboard).toBeInTheDocument();

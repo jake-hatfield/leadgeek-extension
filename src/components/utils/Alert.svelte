@@ -7,7 +7,7 @@
 	// stores
 	import { alert } from '@stores/alert';
 
-	$: isActive = Object.values($alert).every((val) => {
+	$: isActive = Object.values($alert).some((val) => {
 		if (val === null || val === '') {
 			return false;
 		}

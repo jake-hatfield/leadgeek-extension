@@ -13,7 +13,7 @@ describe('toggle with props', () => {
 			defaultChecked: false,
 			onChange: () => console.log('test'),
 		});
-		toggle = getByTestId('toggle');
+		toggle = getByTestId('toggle-test');
 		containerEl = container;
 	});
 

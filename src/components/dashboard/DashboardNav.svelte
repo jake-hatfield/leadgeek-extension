@@ -41,6 +41,8 @@
 
 		const nextIndex = currentIndex + val;
 
+		if (typeof $layout[nextIndex] === 'undefined') return '';
+
 		const nextId = $layout[nextIndex].dashboard.id;
 
 		if (nextId) {
