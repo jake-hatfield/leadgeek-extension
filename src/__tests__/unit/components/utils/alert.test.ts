@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/svelte';
-import { findByTestId } from '@testing-library/dom';
+import { findByTestId, getByText, getByRole } from '@testing-library/dom';
 import '@testing-library/jest-dom';
 
 // components
@@ -35,6 +35,18 @@ describe('alert with props', () => {
 
 	test('should render on alert.create()', async () => {
 		expect(alertModal).toBeInTheDocument();
+	});
+
+	test('should render correct title', () => {
+		const title = getByRole(alertModal, 'heading', { level: 5 });
+
+		expect(title).toHaveTextContent('Test alert');
+	});
+
+	test('should render the correct description', () => {
+		const description = getByText(alertModal, 'This is a test');
+
+		expect(description).toBeInTheDocument();
 	});
 
 	describe('closing functionality', () => {

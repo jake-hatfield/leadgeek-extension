@@ -1,6 +1,6 @@
 import { render, cleanup } from '@testing-library/svelte';
 import { findByTestId, queryByTestId, within } from '@testing-library/dom';
-import userEvent from '@testing-library/user-event';
+
 import '@testing-library/jest-dom';
 
 // component

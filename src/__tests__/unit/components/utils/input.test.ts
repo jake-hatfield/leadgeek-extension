@@ -1,5 +1,5 @@
-import { queryByTestId, render } from '@testing-library/svelte';
-import userEvent from '@testing-library/user-event';
+import { fireEvent, render } from '@testing-library/svelte';
+import { queryByTestId } from '@testing-library/dom';
 import '@testing-library/jest-dom';
 
 // component
@@ -59,7 +59,7 @@ describe('input [password]', () => {
 	test('should change show password button on click', async () => {
 		let hidePasswordButton;
 
-		await userEvent.click(showPasswordButton);
+		await fireEvent.click(showPasswordButton);
 
 		hidePasswordButton = await queryByTestId(container, 'hide-password-text');
 

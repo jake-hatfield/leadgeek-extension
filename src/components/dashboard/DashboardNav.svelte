@@ -129,7 +129,6 @@
 						</div>
 					{/if}
 					<button
-						on:click={() => console.log('createDashboard')}
 						class="flex items-center w-full mb-1.5 py-3 px-5 hover:bg-gray-100 border-t border-300 text-purple-500"
 						data-testId="dashboard-select-button"
 					>

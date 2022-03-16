@@ -1,8 +1,10 @@
 import '@testing-library/jest-dom';
-import renderWithRouter from '@lib/routerHelpers/renderWithRouter';
 
 // components
 import Dashboard from '@components/dashboard/Dashboard.svelte';
+
+// lib
+import renderWithRouter from '@lib/routerHelpers/renderWithRouter';
 
 // store
 import { status } from '@stores/product';
