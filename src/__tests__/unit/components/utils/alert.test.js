@@ -22,24 +22,26 @@ describe('alert with props', () => {
 	let alertModal;
 
 	beforeEach(async () => {
+		const { findByTestId } = render(Alert);
+
 		alert.create({
 			type: 'success',
 			title: 'Test alert',
 			description: 'This is a test',
 		});
 
-		const { findByTestId } = render(Alert);
-
 		alertModal = await findByTestId('alert');
 	});
 
-	test('should render on alert.create()', () => {
+	test('should render on alert.create()', async () => {
 		expect(alertModal).toBeInTheDocument();
 	});
 
 	describe('closing functionality', () => {
 		test('should close automatically after 4 seconds', async () => {
-			alertModal = screen.findByTestId('alert');
+			await new Promise((r) => setTimeout(r, 4200));
+
+			alertModal = screen.queryByTestId('alert');
 
 			expect(alertModal).not.toBeInTheDocument();
 		});
@@ -47,7 +49,9 @@ describe('alert with props', () => {
 		test('should close on alert.delete()', async () => {
 			alert.delete();
 
-			alertModal = screen.findByTestId('alert');
+			await new Promise((r) => setTimeout(r, 4200));
+
+			alertModal = screen.queryByTestId('alert');
 
 			expect(alertModal).not.toBeInTheDocument();
 		});
@@ -57,7 +61,9 @@ describe('alert with props', () => {
 
 			await fireEvent.click(closeButton);
 
-			alertModal = screen.findByTestId('alert');
+			await new Promise((r) => setTimeout(r, 4200));
+
+			alertModal = screen.queryByTestId('alert');
 
 			expect(alertModal).not.toBeInTheDocument();
 		});

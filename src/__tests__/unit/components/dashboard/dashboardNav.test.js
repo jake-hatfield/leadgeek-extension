@@ -1,7 +1,7 @@
-import { render, cleanup } from '@testing-library/svelte';
+import { fireEvent } from '@testing-library/svelte';
 import { queryByTestId, within } from '@testing-library/dom';
-import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
+import renderWithRouter from '@lib/routerHelpers/renderWithRouter';
 
 // component
 import DashboardNav from '@components/dashboard/DashboardNav.svelte';
@@ -19,12 +19,10 @@ describe('dashboard nav without layout state', () => {
 		beforeEach(async () => {
 			layout.set([]);
 
-			const component = render(DashboardNav);
+			const component = renderWithRouter(DashboardNav);
 
 			skeleton = await component.queryByTestId('loading-skeleton');
 		});
-
-		afterEach(cleanup);
 
 		test('should render skeleton', () => {
 			expect(skeleton).toBeInTheDocument();
@@ -35,14 +33,12 @@ describe('dashboard nav without layout state', () => {
 		let nav;
 
 		beforeEach(async () => {
-			const { findByRole } = render(DashboardNav);
+			const { findByRole } = renderWithRouter(DashboardNav);
 
 			status.set('idle');
 
 			nav = await findByRole('navigation');
 		});
-
-		afterEach(cleanup);
 
 		describe('dashboard nav select', () => {
 			let select;
@@ -50,8 +46,6 @@ describe('dashboard nav without layout state', () => {
 			beforeEach(async () => {
 				select = await within(nav).findByTestId('dashboard-select');
 			});
-
-			afterEach(cleanup);
 
 			test('should contain null text', () => {
 				expect(select).toHaveTextContent('Create a dashboard...');
@@ -64,10 +58,8 @@ describe('dashboard nav without layout state', () => {
 					options = await queryByTestId(nav, 'dashboard-select-options');
 				});
 
-				afterEach(cleanup);
-
 				test('should contain null text', async () => {
-					await userEvent.click(select);
+					await fireEvent.click(select);
 
 					options = await queryByTestId(nav, 'dashboard-select-options');
 
@@ -133,12 +125,10 @@ describe('dashboard nav with props', () => {
 			},
 		]);
 
-		const { queryByRole } = render(DashboardNav);
+		const { queryByRole } = renderWithRouter(DashboardNav);
 
 		nav = await queryByRole('navigation');
 	});
-
-	afterEach(cleanup);
 
 	test('should render', async () => {
 		expect(nav).toBeInTheDocument();
@@ -150,8 +140,6 @@ describe('dashboard nav with props', () => {
 		beforeEach(async () => {
 			select = await within(nav).findByTestId('dashboard-select');
 		});
-
-		afterEach(cleanup);
 
 		test('should render', () => {
 			expect(select).toBeInTheDocument();
@@ -168,14 +156,12 @@ describe('dashboard nav with props', () => {
 				options = await queryByTestId(nav, 'dashboard-select-options');
 			});
 
-			afterEach(cleanup);
-
 			test('should not render by default', () => {
 				expect(options).not.toBeInTheDocument();
 			});
 
 			test('should render on click', async () => {
-				await userEvent.click(select);
+				await fireEvent.click(select);
 
 				options = await queryByTestId(nav, 'dashboard-select-options');
 
@@ -183,15 +169,15 @@ describe('dashboard nav with props', () => {
 			});
 
 			test('should close on click outside', async () => {
-				await userEvent.click(select);
+				await fireEvent.click(select);
 
-				await userEvent.click(document.body);
+				await fireEvent.click(document.body);
 
 				expect(options).not.toBeInTheDocument();
 			});
 
 			test('should close on double click', async () => {
-				await userEvent.dblClick(select);
+				await fireEvent.doubleClick(select);
 
 				options = await queryByTestId(nav, 'dashboard-select-options');
 
@@ -202,7 +188,7 @@ describe('dashboard nav with props', () => {
 				let button;
 
 				beforeEach(async () => {
-					await userEvent.click(select);
+					await fireEvent.click(select);
 
 					options = await queryByTestId(nav, 'dashboard-select-options');
 
@@ -218,17 +204,18 @@ describe('dashboard nav with props', () => {
 				});
 
 				test('should create a new option on click', async () => {
-					await userEvent.click(button);
+					await fireEvent.click(button);
 				});
 			});
 		});
 	});
 
-	describe('fns', () => {
-		describe('getNextDashboard', () => {
-			test('should be defined', () => {
-				expect(getNextDashboard(1)).toBeDefined();
-			});
-		});
-	});
+	// TODO<Jake>: Test getNextDashboard
+	// describe('fns', () => {
+	// 	describe('getNextDashboard', () => {
+	// 		test('should be defined', () => {
+	// 			expect(getNextDashboard(1)).toBeDefined();
+	// 		});
+	// 	});
+	// });
 });
