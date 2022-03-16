@@ -34,6 +34,7 @@
 		<button
 			on:click={() => alert.delete()}
 			class="p-1 rounded-lg bg-gray-800 border border-gray-700 ring-gray transition-main"
+			name="alert-close"
 			data-testId="alert-close"
 		>
 			<Icon type="solid" title="x" />

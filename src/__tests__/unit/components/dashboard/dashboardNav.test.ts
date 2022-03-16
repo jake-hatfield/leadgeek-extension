@@ -1,15 +1,15 @@
 import { fireEvent } from '@testing-library/svelte';
 import { queryByTestId, within } from '@testing-library/dom';
 import '@testing-library/jest-dom';
-import renderWithRouter from '@lib/routerHelpers/renderWithRouter';
 
 // component
 import DashboardNav from '@components/dashboard/DashboardNav.svelte';
 
+// lib
+import renderWithRouter from '@lib/routerHelpers/renderWithRouter';
+
 // stores
 import { layout } from '@stores/layout';
-
-// store
 import { status } from '@stores/product';
 
 describe('dashboard nav without layout state', () => {
@@ -21,7 +21,7 @@ describe('dashboard nav without layout state', () => {
 
 			const component = renderWithRouter(DashboardNav);
 
-			skeleton = await component.queryByTestId('loading-skeleton');
+			skeleton = await component.findByTestId('loading-skeleton');
 		});
 
 		test('should render skeleton', () => {
