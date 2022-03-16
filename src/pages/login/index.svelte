@@ -21,6 +21,7 @@
 	let emailValue = '';
 	let passwordValue = '';
 	let welcomeText = 'Hello there!';
+	let dashboardId = '1';
 	const currentTime = getCurrentTime();
 
 	//   functions
@@ -41,7 +42,7 @@
 	setWelcomeMessage(currentTime.hour);
 
 	$: if ($status === 'idle' && $isAuthenticated && $user) {
-		navigate(`/${$layout[0].dashboard.id}`, {
+		navigate(`/${dashboardId}`, {
 			state: { from: $location.pathname },
 			replace: true,
 		});

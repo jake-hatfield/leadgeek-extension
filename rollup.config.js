@@ -5,6 +5,7 @@ import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
 import alias from '@rollup/plugin-alias';
 import css from 'rollup-plugin-css-only';
+import json from 'rollup-plugin-json';
 import livereload from 'rollup-plugin-livereload';
 import path from 'path';
 import { terser } from 'rollup-plugin-terser';
@@ -75,6 +76,7 @@ export default [
 				dedupe: ['svelte'],
 			}),
 			commonjs(),
+			json(),
 			// env variables
 			injectProcessEnv({
 				isProd: production,

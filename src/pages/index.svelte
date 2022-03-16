@@ -2,7 +2,6 @@
 	import { onMount } from 'svelte';
 
 	// components
-	import AuthLayout from '@components/layouts/AuthLayout.svelte';
 	import Dashboard from '@components/dashboard/Dashboard.svelte';
 	import DashboardNav from '@components/dashboard/DashboardNav.svelte';
 	import InfoPanel from '@components/dashboard/InfoPanel.svelte';

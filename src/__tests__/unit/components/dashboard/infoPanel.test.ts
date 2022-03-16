@@ -1,6 +1,3 @@
-import { render, cleanup } from '@testing-library/svelte';
-import { findByTestId, queryByTestId, within } from '@testing-library/dom';
-
 import '@testing-library/jest-dom';
 
 // component
