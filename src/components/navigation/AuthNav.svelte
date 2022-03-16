@@ -22,7 +22,6 @@
 
 	//  stores
 	import { status, user } from '@stores/auth';
-	// import { alert } from '@stores/alert';
 	import { layout } from '@stores/layout';
 
 	//  state

@@ -6,7 +6,7 @@
 	// types
 	import type Widget from '$types/Widget';
 
-	//   global state
+	// stores
 	import { status } from '@stores/product';
 
 	//   props

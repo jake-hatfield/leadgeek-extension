@@ -1,5 +1,6 @@
 <script lang="ts">
 	// packages
+	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 	import { Link, useLocation } from 'svelte-navigator';
 
@@ -9,6 +10,9 @@
 	import IconButton from '@components/utils/IconButton.svelte';
 	import Skeleton from '@components/utils/Skeleton.svelte';
 
+	// types
+	import type LayoutItem from '$types/LayoutItem';
+
 	// utils
 	import { handleClickOutside } from '@lib/clickHelpers';
 
@@ -16,11 +20,23 @@
 	import { status } from '@stores/product';
 	import { layout } from '@stores/layout';
 
+	const location = useLocation();
+
+	let pathId = $location.pathname.split('/')[1];
+
+	let currentDashboardId = layout.getLayoutItemById(pathId);
+
+	$: layout.updateCurrentDashboard(pathId);
+
+	$: console.log(currentDashboardId);
+
 	// state
 	let addDashboardActive = false;
 	let dashboardSelectActive = false;
-	let hasNextDashboard = false;
-	const location = useLocation();
+	$: hasNextDashboard = layout.hasNextLayoutItem('1');
+	$: hasPrevDashboard = layout.hasPreviousLayoutItem('1');
+
+	console.log(hasNextDashboard, hasPrevDashboard);
 
 	// functions
 	const toggleAddDashboard = () => {
@@ -30,26 +46,6 @@
 	const toggleDashboardSelect = () => {
 		dashboardSelectActive = !dashboardSelectActive;
 		addDashboardActive && toggleAddDashboard();
-	};
-
-	export const getNextDashboard = (val: number) => {
-		const currentIndex = $layout.findIndex(
-			(l) => l.dashboard.id === $location.pathname.split('/')[1]
-		);
-
-		if (currentIndex === 0 && val < 0) return (hasNextDashboard = false);
-
-		const nextIndex = currentIndex + val;
-
-		if (typeof $layout[nextIndex] === 'undefined') return '';
-
-		const nextId = $layout[nextIndex].dashboard.id;
-
-		if (nextId) {
-			return nextId;
-		} else {
-			return '';
-		}
 	};
 
 	//   TODO<Jake>: Create dashboard
@@ -65,9 +61,17 @@
 		data-testId="dashboard-nav"
 	>
 		<!-- navigate dashboard left -->
-		<Link to={`/${getNextDashboard(-1)}`}>
-			<IconButton iconTitle="chevron-left" />
-		</Link>
+		{#if hasPrevDashboard}
+			<Link to={`/${layout.getNextLayoutItem('1', -1)}`}>
+				<IconButton iconTitle="chevron-left" class="text-purple-500" />
+			</Link>
+		{:else}
+			<IconButton
+				disabled={!hasPrevDashboard}
+				iconTitle="chevron-left"
+				class="cursor-default"
+			/>
+		{/if}
 
 		<!-- dashboard select -->
 		<div
@@ -94,7 +98,7 @@
 				{:else}
 					<span class="text-gray-300">Create a dashboard...</span>
 				{/if}
-				<Icon type="solid" title="chevron-down" />
+				<Icon type="solid" title="selector" />
 			</button>
 
 			<!-- dashboard select options -->
@@ -139,10 +143,18 @@
 			{/if}
 		</div>
 
-		<!-- navigate dashboard right -->
-		<Link to={`/${getNextDashboard(1)}`}>
-			<IconButton iconTitle="chevron-right" />
-		</Link>
+		<!-- navigate dashboard right
+		{#if hasNextDashboard}
+			<Link to={`/${layout.getNextLayoutItem(currentDashboardId, 1)}`}>
+				<IconButton iconTitle="chevron-right" />
+			</Link>
+		{:else}
+			<IconButton
+				disabled={!hasNextDashboard}
+				iconTitle="chevron-right"
+				class="cursor-default"
+			/>
+		{/if} -->
 	</nav>
 {:else}
 	<div class="border-b border-300" data-testId="loading-skeleton">
