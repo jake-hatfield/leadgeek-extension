@@ -1,20 +1,17 @@
-import { get, writable, Writable } from 'svelte/store';
+import { derived, get, writable } from 'svelte/store';
 
 // packages
 import { v4 as uuidv4 } from 'uuid';
 
 // types
-import type LayoutItem from '$types/LayoutItem';
+import type Dashboard from '$types/Dashboard';
 
 const createLayout = () => {
-	const { subscribe, set, update } = writable<LayoutItem[]>([
+	const { subscribe, set, update } = writable<Dashboard[]>([
 		{
 			id: '1',
-			dashboard: {
-				id: '1',
-				title: 'Dashboard #1',
-				color: 'bg-teal-500',
-			},
+			title: 'Some long title',
+			color: 'bg-teal-500',
 			widgets: [
 				{
 					id: '123',
@@ -56,12 +53,9 @@ const createLayout = () => {
 			],
 		},
 		{
-			id: '1',
-			dashboard: {
-				id: '2',
-				title: 'Dashboard #2',
-				color: 'bg-teal-500',
-			},
+			id: '2',
+			title: 'Another long title',
+			color: 'bg-teal-500',
 			widgets: [
 				{
 					id: '123',
@@ -104,100 +98,101 @@ const createLayout = () => {
 		},
 	]);
 
-	const status: Writable<'idle' | 'loading' | 'error'> = writable('idle');
-
-	const currentDashboard = writable(
-		typeof layout[0] !== 'undefined' ? layout[0].dashboard : null
-	);
-
 	const createDashboard = (title: string) => {
-		update((layout: LayoutItem[]) => [
+		update((layout: Dashboard[]) => [
 			...layout,
 			{
 				id: uuidv4(),
-				dashboard: {
-					title,
-					id: uuidv4(),
-					color: 'bg-purple-500',
-				},
+				title,
+				color: 'bg-purple-500',
 				widgets: [],
 			},
 		]);
 	};
 
 	const deleteDashboard = (id: string) => {
-		update((layout: LayoutItem[]) =>
-			layout.filter((l) => l.dashboard.id !== id)
-		);
+		update((layout: Dashboard[]) => layout.filter((l) => l.id !== id));
 	};
 
-	const getLayoutItemById = (id?: string): LayoutItem => {
-		const currentLayouts: LayoutItem[] = get(layout);
-
-		const currentLayout = currentLayouts.find((l) => l.dashboard.id === id);
-
-		if (currentLayout) return currentLayout;
-
-		return currentLayout[0];
-	};
-
-	const getLayoutItemIndexById = (id: string) => {
+	const defaultDashboard = () => {
 		// get the current store layout
-		const currentLayout: LayoutItem[] = get(layout);
+		const dashboards: Dashboard[] = get(layout);
+
+		// if there are layout items in the array, return the first one, otherwise return null
+		return dashboards.length > 0 ? dashboards[0] : null;
+	};
+
+	const defaultDashboardId = () => {
+		// get the default dashboard
+		const dashboard = defaultDashboard();
+
+		// if null, return an empty string so as to not throw an error
+		if (dashboard === null) return '';
+
+		// else return the default dashboard id
+		return dashboard.id;
+	};
+
+	const getDashboardById = (id: string): Dashboard => {
+		// get the current store layout
+		const dashboards: Dashboard[] = get(layout);
+
+		// if there are no layout items in the array, return null
+		if (dashboards.length === 0) return null;
+
+		// lookup the current dashboard
+		const dashboard = dashboards.find((d) => d.id === id);
+
+		// if it exists, return it
+		if (dashboard) return dashboard;
+
+		// dashboard not found, return null
+		return null;
+	};
+
+	const getDashboardIndexById = (id: string) => {
+		// get the current store layout
+		const dashboards: Dashboard[] = get(layout);
 
 		// if there are no layout items in the array, return
-		if (currentLayout.length === 0) return -1;
+		if (dashboards.length === 0) return -1;
 
 		// return the index of the current id
-		return currentLayout.findIndex((l) => l.dashboard.id === id);
+		return dashboards.findIndex((d) => d.id === id);
 	};
 
-	const checkNextLayoutItem = (index: number, val: -1 | 1) => {
+	const checkNextDashboard = (index: number, val: -1 | 1) => {
 		// if the index is negative or if the item is the first index in the array and we're trying to decrement, there's no dashboard next to it
 		if (index === -1 || (index === 0 && val === -1)) return false;
 
 		// get the current store layout
-		const currentLayout: LayoutItem[] = get(layout);
+		const dashboards: Dashboard[] = get(layout);
 
 		// if there's no index that exists in the array, return that there is not a next item in the array
-		if (typeof currentLayout[index + val] === 'undefined') return false;
+		if (typeof dashboards[index + val] === 'undefined') return false;
 
 		// return that there is a next item in the array
 		return true;
 	};
 
-	const hasNextLayoutItem = (id: string) => {
-		return checkNextLayoutItem(getLayoutItemIndexById(id), 1);
-	};
-
-	const hasPreviousLayoutItem = (id: string) => {
-		return checkNextLayoutItem(getLayoutItemIndexById(id), -1);
-	};
-
-	const getNextLayoutItem = (id: string, val: -1 | 1) => {
+	const getNextDashboard = (id: string, val: -1 | 1) => {
 		// get the current store layout
-		const currentLayout: LayoutItem[] = get(layout);
+		const dashboards: Dashboard[] = get(layout);
 
 		// if there are no layout items in the array, return
-		if (currentLayout.length === 0) return '';
+		if (dashboards.length === 0) return '';
 
 		// get the index of the current layout item in the store
-		const currentIndex = getLayoutItemIndexById(id);
+		const currentIndex = getDashboardIndexById(id);
 
 		// if the index isn't found, return
 		if (currentIndex < 0) return '';
 
 		// validate that there's a next dashboard at all
-		if (!checkNextLayoutItem(currentIndex, val)) return '';
+		if (!checkNextDashboard(currentIndex, val)) return '';
 
 		// return the id of the next dashboard
-		return currentLayout[currentIndex + val].dashboard.id;
-	};
-
-	const updateCurrentDashboard = (id: string) => {
-		update((currentDashboard, layout) => {
-			currentDashboard = layout.filter((l) => l.dashboard.id === id)[0];
-		});
+		return dashboards[currentIndex + val].id;
 	};
 
 	const createWidget = () => {};
@@ -207,17 +202,14 @@ const createLayout = () => {
 	return {
 		createDashboard,
 		createWidget,
-		deleteWidget,
+		defaultDashboardId,
 		deleteDashboard,
+		deleteWidget,
 		get,
-		getLayoutItemById,
-		getNextLayoutItem,
-		hasNextLayoutItem,
-		hasPreviousLayoutItem,
+		getDashboardById,
+		getNextDashboard,
 		set,
-		status,
 		subscribe,
-		updateCurrentDashboard,
 	};
 };
 

@@ -10,8 +10,12 @@
 
 <section class="p-3" data-testId="dashboard">
 	<!-- null state for widgets -->
-	{#if $layout[0].widgets.length === 0}
-		<div class="p-3 bg-white card-200"><p>Add a widget to get started</p></div>
+	{#if $layout.length === 0}
+		<div class="p-3 bg-white card-100">
+			<p>Create a dashboard to get started</p>
+		</div>
+	{:else if $layout[0].widgets.length === 0}
+		<div class="p-3 bg-white card-100"><p>Add a widget to get started</p></div>
 	{:else}
 		<!-- show active widgets -->
 		<ul

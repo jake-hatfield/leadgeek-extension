@@ -7,20 +7,16 @@
 
 	// types
 	import type Dashboard from '$types/Dashboard';
-	import type Widget from '$types/Widget';
 	import { layout } from '@stores/layout';
 
 	// props
-	export let option: {
-		dashboard: Dashboard;
-		widgets: Widget[];
-	};
+	export let option: Dashboard;
 	// export let toggleDashboardSelect: () => void;
 
 	// state
 	let editTitle = false;
 	let hoverActive = false;
-	let titleValue = option.dashboard.title;
+	let titleValue = option.title;
 
 	//   TODO<Jake>: Write tests to make sure that the edit/delete buttons are visible on hover
 </script>
@@ -36,14 +32,12 @@
 	>
 		<!-- icon and title -->
 		<div class="flex items-center">
-			<span
-				class={`inline-block h-2 w-2 rounded-full ${option.dashboard.color}`}
-			/>
+			<span class={`inline-block h-2 w-2 rounded-full ${option.color}`} />
 			{#if !editTitle}
 				<span
 					on:dblclick={() => (editTitle = true)}
 					class={`ml-3 text-base ${hoverActive ? 'bg-white' : ''}`}
-					>{option.dashboard.title}</span
+					>{option.title}</span
 				>
 			{:else}
 				<input
@@ -66,7 +60,7 @@
 				</button>
 				<button
 					on:click|preventDefault|stopPropagation={() =>
-						layout.deleteDashboard(option.dashboard.id)}
+						layout.deleteDashboard(option.id)}
 					class="ml-3"
 				>
 					<Icon
