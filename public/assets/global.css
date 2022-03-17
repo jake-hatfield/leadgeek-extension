@@ -136,19 +136,19 @@ html {
 }
 
 .card-100 {
-	@apply rounded-main border border-300 shadow-sm;
+	@apply rounded-main border border-200 shadow-sm;
 }
 
 .card-200 {
-	@apply rounded-main border border-300 shadow-md;
+	@apply rounded-main border border-200 shadow-md;
 }
 
 .card-300 {
-	@apply rounded-main border border-300 shadow-lg;
+	@apply rounded-main border border-200 shadow-lg;
 }
 
 .card-400 {
-	@apply rounded-main border border-300 shadow-xl;
+	@apply rounded-main border border-200 shadow-xl;
 }
 
 .input-light {
