@@ -78,6 +78,7 @@ describe('dashboard nav with props', () => {
 	beforeEach(async () => {
 		layout.set([
 			{
+				id: '1',
 				dashboard: {
 					id: '1',
 					title: 'Dashboard #1',

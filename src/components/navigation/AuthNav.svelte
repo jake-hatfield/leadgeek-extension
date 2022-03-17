@@ -76,7 +76,7 @@
 		>
 			<button
 				on:click={settingsModal}
-				class="p-2 rounded-lg bg-gray-100 border border-300 ring-gray transition-main"
+				class="p-2 rounded-lg cs-darkGray border border-300 ring-gray transition-main"
 				data-testId="main-nav-settings-button"
 			>
 				<Icon type="solid" title="cog" />
@@ -170,7 +170,7 @@
 		<!-- logo -->
 		<div>
 			<Link
-				to={`/${$layout[0].dashboard.id ? $layout[0].dashboard.id : ''}`}
+				to={`/${$layout.length > 0 ? $layout[0].id : ''}`}
 				class="block py-2 rounded-lg ring-gray"
 				data-testId="main-nav-logo-link"
 			>
@@ -181,7 +181,7 @@
 		<!-- close button -->
 		<button
 			on:click={closeExtension}
-			class="p-2 rounded-lg cs-bg-light border border-300 ring-gray transition-main"
+			class="p-2 rounded-lg cs-darkGray border border-300 ring-gray transition-main"
 			data-testId="main-nav-close-button"
 		>
 			<Icon type="solid" title="x" />

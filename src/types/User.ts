@@ -1,3 +1,5 @@
+import type Dashboard from '$types/Dashboard';
+
 export type Role =
 	| 'user'
 	| 'grow'
@@ -77,6 +79,6 @@ export default interface User {
 		}[];
 	};
 	extension: {
-		dashboards: [{ id: 123 }];
+		layout: Dashboard[];
 	};
 }

@@ -1,17 +1,14 @@
 <script lang="ts">
 	// packages
-	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
-	import { Link, useLocation } from 'svelte-navigator';
+	import { Link, NavigatorLocation, useLocation } from 'svelte-navigator';
+	import type AnyObject from 'svelte-navigator/types/AnyObject';
 
 	// components
 	import DashboardNavOption from '@components/dashboard/DashboardNavOption.svelte';
 	import Icon from '@components/utils/Icon.svelte';
 	import IconButton from '@components/utils/IconButton.svelte';
 	import Skeleton from '@components/utils/Skeleton.svelte';
-
-	// types
-	import type LayoutItem from '$types/LayoutItem';
 
 	// utils
 	import { handleClickOutside } from '@lib/clickHelpers';
@@ -22,21 +19,25 @@
 
 	const location = useLocation();
 
-	let pathId = $location.pathname.split('/')[1];
+	const getCurrentDashboardId = (location: NavigatorLocation<AnyObject>) => {
+		return location.pathname.split('/')[1];
+	};
 
-	let currentDashboardId = layout.getLayoutItemById(pathId);
+	let currentDashboardId =
+		getCurrentDashboardId($location) || layout.defaultDashboardId();
 
-	$: layout.updateCurrentDashboard(pathId);
+	let currentDashboard = layout.getDashboardById(currentDashboardId);
 
-	$: console.log(currentDashboardId);
+	$: currentDashboardId = getCurrentDashboardId($location);
+	$: currentDashboard = layout.getDashboardById(currentDashboardId);
 
 	// state
 	let addDashboardActive = false;
 	let dashboardSelectActive = false;
-	$: hasNextDashboard = layout.hasNextLayoutItem('1');
-	$: hasPrevDashboard = layout.hasPreviousLayoutItem('1');
-
-	console.log(hasNextDashboard, hasPrevDashboard);
+	let nextDashboard = layout.getNextDashboard(currentDashboardId, 1);
+	$: nextDashboard = layout.getNextDashboard(currentDashboardId, 1);
+	let prevDashboard = layout.getNextDashboard(currentDashboardId, -1);
+	$: prevDashboard = layout.getNextDashboard(currentDashboardId, -1);
 
 	// functions
 	const toggleAddDashboard = () => {
@@ -51,7 +52,6 @@
 	//   TODO<Jake>: Create dashboard
 	//   TODO<Jake>: Edit dashboard
 	//   TODO<Jake>: Delete dashboard
-	//   TODO<Jake>: Navigate between dashboards with buttons
 	//   TODO<Jake>: Select new dashboard with drop down
 </script>
 
@@ -61,13 +61,13 @@
 		data-testId="dashboard-nav"
 	>
 		<!-- navigate dashboard left -->
-		{#if hasPrevDashboard}
-			<Link to={`/${layout.getNextLayoutItem('1', -1)}`}>
+		{#if prevDashboard}
+			<Link to={`/${prevDashboard}`}>
 				<IconButton iconTitle="chevron-left" class="text-purple-500" />
 			</Link>
 		{:else}
 			<IconButton
-				disabled={!hasPrevDashboard}
+				disabled={!prevDashboard}
 				iconTitle="chevron-left"
 				class="cursor-default"
 			/>
@@ -91,9 +91,9 @@
 				{#if $layout.length > 0}
 					<span class="flex items-center" data-testId="dashboard-select-title">
 						<span
-							class={`inline-block h-2 w-2 rounded-full ${$layout[0].dashboard.color}`}
+							class={`inline-block h-2 w-2 rounded-full ${currentDashboard.color}`}
 						/>
-						<span class="ml-3">{$layout[0].dashboard.title}</span>
+						<span class="ml-3">{currentDashboard.title}</span>
 					</span>
 				{:else}
 					<span class="text-gray-300">Create a dashboard...</span>
@@ -116,7 +116,7 @@
 						</ul>
 					{:else}
 						<p class="mt-1.5 py-3 px-5 text-100">
-							Create a dashboard to start adding widgets{' '}<span
+							Create a dashboard below{' '}<span
 								role="img"
 								aria-label="Point down emoji">👇</span
 							>
@@ -143,18 +143,18 @@
 			{/if}
 		</div>
 
-		<!-- navigate dashboard right
-		{#if hasNextDashboard}
-			<Link to={`/${layout.getNextLayoutItem(currentDashboardId, 1)}`}>
+		<!-- navigate dashboard right -->
+		{#if nextDashboard}
+			<Link to={`/${nextDashboard}`}>
 				<IconButton iconTitle="chevron-right" />
 			</Link>
 		{:else}
 			<IconButton
-				disabled={!hasNextDashboard}
+				disabled={!nextDashboard}
 				iconTitle="chevron-right"
 				class="cursor-default"
 			/>
-		{/if} -->
+		{/if}
 	</nav>
 {:else}
 	<div class="border-b border-300" data-testId="loading-skeleton">
