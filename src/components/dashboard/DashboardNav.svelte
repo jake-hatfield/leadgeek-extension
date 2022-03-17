@@ -34,10 +34,10 @@
 	// state
 	let addDashboardActive = false;
 	let dashboardSelectActive = false;
-	let nextDashboard = layout.getNextDashboard(currentDashboardId, 1);
-	$: nextDashboard = layout.getNextDashboard(currentDashboardId, 1);
-	let prevDashboard = layout.getNextDashboard(currentDashboardId, -1);
-	$: prevDashboard = layout.getNextDashboard(currentDashboardId, -1);
+	let nextDashboard = layout.getNextDashboardId(currentDashboardId, 1);
+	$: nextDashboard = layout.getNextDashboardId(currentDashboardId, 1);
+	let prevDashboard = layout.getNextDashboardId(currentDashboardId, -1);
+	$: prevDashboard = layout.getNextDashboardId(currentDashboardId, -1);
 
 	// functions
 	const toggleAddDashboard = () => {

@@ -79,11 +79,8 @@ describe('dashboard nav with props', () => {
 		layout.set([
 			{
 				id: '1',
-				dashboard: {
-					id: '1',
-					title: 'Dashboard #1',
-					color: 'bg-teal-500',
-				},
+				title: 'Dashboard #1',
+				color: 'bg-teal-500',
 				widgets: [
 					{
 						id: '123',
