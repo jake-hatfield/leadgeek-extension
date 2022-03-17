@@ -175,7 +175,7 @@ const createLayout = () => {
 		return true;
 	};
 
-	const getNextDashboard = (id: string, val: -1 | 1) => {
+	const getNextDashboardId = (id: string, val: -1 | 1) => {
 		// get the current store layout
 		const dashboards: Dashboard[] = get(layout);
 
@@ -207,7 +207,7 @@ const createLayout = () => {
 		deleteWidget,
 		get,
 		getDashboardById,
-		getNextDashboard,
+		getNextDashboardId,
 		set,
 		subscribe,
 	};
