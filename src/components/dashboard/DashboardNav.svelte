@@ -1,8 +1,7 @@
 <script lang="ts">
 	// packages
 	import { fade } from 'svelte/transition';
-	import { Link, NavigatorLocation, useLocation } from 'svelte-navigator';
-	import type AnyObject from 'svelte-navigator/types/AnyObject';
+	import { Link } from 'svelte-navigator';
 
 	// components
 	import DashboardNavOption from '@components/dashboard/DashboardNavOption.svelte';
@@ -17,27 +16,14 @@
 	import { status } from '@stores/product';
 	import { layout } from '@stores/layout';
 
-	const location = useLocation();
-
-	const getCurrentDashboardId = (location: NavigatorLocation<AnyObject>) => {
-		return location.pathname.split('/')[1];
-	};
-
-	let currentDashboardId =
-		getCurrentDashboardId($location) || layout.defaultDashboardId();
-
-	let currentDashboard = layout.getDashboardById(currentDashboardId);
-
-	$: currentDashboardId = getCurrentDashboardId($location);
-	$: currentDashboard = layout.getDashboardById(currentDashboardId);
+	// props
+	export let currentDashboard;
+	export let nextDashboard;
+	export let prevDashboard;
 
 	// state
 	let addDashboardActive = false;
 	let dashboardSelectActive = false;
-	let nextDashboard = layout.getNextDashboardId(currentDashboardId, 1);
-	$: nextDashboard = layout.getNextDashboardId(currentDashboardId, 1);
-	let prevDashboard = layout.getNextDashboardId(currentDashboardId, -1);
-	$: prevDashboard = layout.getNextDashboardId(currentDashboardId, -1);
 
 	// functions
 	const toggleAddDashboard = () => {
@@ -57,7 +43,7 @@
 
 {#if $status === 'idle'}
 	<nav
-		class="center-between py-2 px-3 border-b border-300"
+		class="center-between py-2 px-3 border-b border-200"
 		data-testId="dashboard-nav"
 	>
 		<!-- navigate dashboard left -->
@@ -85,14 +71,12 @@
 				name="dashboards"
 				id="dashboards"
 				on:click={toggleDashboardSelect}
-				class="center-between w-full py-1.5 pl-5 pr-4 rounded-lg border border-300 text-left ring-gray"
+				class="center-between w-full py-1.5 pl-5 pr-4 rounded-lg border border-200 text-left ring-gray"
 				data-testId="dashboard-select"
 			>
 				{#if $layout.length > 0}
 					<span class="flex items-center" data-testId="dashboard-select-title">
-						<span
-							class={`inline-block h-2 w-2 rounded-full ${currentDashboard.color}`}
-						/>
+						<span class={`inline-block h-2 w-2 rounded-full bg-teal-500`} />
 						<span class="ml-3">{currentDashboard.title}</span>
 					</span>
 				{:else}
@@ -128,12 +112,12 @@
 						<div class="py-1.5 pl-5 pr-4 bg-purple-200">
 							<input
 								placeholder="Name this dashboard..."
-								class="pt-1.5 pb-1 px-3 bg-gray-100 rounded-lg border border-300 text-base focus:border-purple-500 dark:focus:border-purple-300 outline-none"
+								class="pt-1.5 pb-1 px-3 bg-gray-100 rounded-lg border border-200 text-base focus:border-purple-500 dark:focus:border-purple-300 outline-none"
 							/>
 						</div>
 					{/if}
 					<button
-						class="flex items-center w-full mb-1.5 py-3 px-5 hover:bg-gray-100 border-t border-300 text-purple-500"
+						class="flex items-center w-full mb-1.5 py-3 px-5 hover:bg-gray-100 border-t border-200 text-purple-500"
 						data-testId="dashboard-select-button"
 					>
 						<Icon type="solid" title="plus" size="sm" />
@@ -157,7 +141,7 @@
 		{/if}
 	</nav>
 {:else}
-	<div class="border-b border-300" data-testId="loading-skeleton">
+	<div class="border-b border-200" data-testId="loading-skeleton">
 		<Skeleton width={400} height={47.5}>
 			<!-- arrow left icon -->
 			<rect width={33.5} height={33.5} x={10.5} y={7.5} rx={7} ry={7} />

@@ -18,7 +18,7 @@
 {#if $status === 'idle'}
 	<li class="cs-light-400 card-100">
 		<header
-			class="relative flex items-end justify-between p-3 pb-1.5 border-b border-300"
+			class="relative flex items-end justify-between p-3 pb-1.5 border-b border-200"
 		>
 			<h3 class="uppercase tracking-wider font-semibold text-sm text-100">
 				{widget.title}

@@ -55,7 +55,7 @@
 		{required}
 		name={id}
 		autocomplete="off"
-		class={`w-full pt-5 pb-1 px-5 rounded-lg border border-300 focus:border-purple-500 dark:focus:border-purple-300 invalid:border-red-500 shadow-sm outline-none ring-0 transition-main peer ${
+		class={`w-full pt-5 pb-1 px-5 rounded-lg border border-200 focus:border-purple-500 dark:focus:border-purple-300 invalid:border-red-500 shadow-sm outline-none ring-0 transition-main peer ${
 			$$props.class
 		} ${
 			value

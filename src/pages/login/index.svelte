@@ -53,7 +53,7 @@
 <UnauthLayout>
 	<section class="all-center p-3 bg-splatter" data-testId="login-page">
 		<article class="w-full card-padding-y cs-light-100 card-200">
-			<header class="card-padding-x pb-3 border-b border-300">
+			<header class="card-padding-x pb-3 border-b border-200">
 				<h1 class="text-2xl font-bold text-300 outline-none">
 					Log in to Leadgeek
 				</h1>

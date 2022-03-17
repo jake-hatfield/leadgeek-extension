@@ -54,7 +54,7 @@
 </script>
 
 {#if $status === 'loading' || !$user}
-	<div class="border-b border-300">
+	<div class="border-b border-200">
 		<Skeleton width={400} height={49}>
 			<!-- user icon -->
 			<circle cx={27.5} cy={24.5} r={17.5} />
@@ -65,7 +65,7 @@
 		</Skeleton>
 	</div>
 {:else}
-	<nav class="center-between py-2 px-3 border-b border-gray-300">
+	<nav class="center-between py-2 px-3 border-b border-200">
 		<!-- settings modal -->
 		<div
 			use:handleClickOutside={{
@@ -76,7 +76,7 @@
 		>
 			<button
 				on:click={settingsModal}
-				class="p-2 rounded-lg cs-darkGray border border-300 ring-gray transition-main"
+				class="p-2 rounded-lg cs-darkGray border border-200 ring-gray transition-main"
 				data-testId="main-nav-settings-button"
 			>
 				<Icon type="solid" title="cog" />
@@ -89,7 +89,7 @@
 					class="absolute top-12 z-40 w-72 cs-light-100 card-300"
 					data-testId="main-nav-settings-modal"
 				>
-					<div class="relative flex items-start py-3 mx-3 border-b border-300">
+					<div class="relative flex items-start py-3 mx-3 border-b border-200">
 						<!-- initial box -->
 						<div
 							class="h-10 w-10 all-center p-1.5 cs-purple rounded-lg shadow-sm transition-main ring-purple"
@@ -126,7 +126,7 @@
 											</span>
 										</span>
 										<span
-											class="all-center h-6 w-6 p-0.5 rounded-lg cs-bg-light border border-300 shadow-sm font-semibold text-sm text-100"
+											class="all-center h-6 w-6 p-0.5 rounded-lg cs-bg-light border border-200 shadow-sm font-semibold text-sm text-100"
 											>{settingsModalLink.shortcut}</span
 										>
 									</a>
@@ -181,7 +181,7 @@
 		<!-- close button -->
 		<button
 			on:click={closeExtension}
-			class="p-2 rounded-lg cs-darkGray border border-300 ring-gray transition-main"
+			class="p-2 rounded-lg cs-darkGray border border-200 ring-gray transition-main"
 			data-testId="main-nav-close-button"
 		>
 			<Icon type="solid" title="x" />

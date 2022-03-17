@@ -20,7 +20,7 @@
 </script>
 
 {#if $status === 'loading'}
-	<div class="border-b border-300">
+	<div class="border-b border-200">
 		<Skeleton width={400} height={49}>
 			<!-- logo -->
 			<rect width={49} height={33.5} x={175.5} y={7.5} rx={7} ry={7} />
@@ -29,7 +29,7 @@
 		</Skeleton>
 	</div>
 {:else}
-	<nav class="center-between py-2 px-3 border-b border-gray-300">
+	<nav class="center-between py-2 px-3 border-b border-200">
 		<div />
 		<!-- logo -->
 		<div>
@@ -44,7 +44,7 @@
 		<!-- close button -->
 		<button
 			on:click={closeExtension}
-			class="p-2 rounded-lg bg-gray-100 border border-300 ring-gray transition-main"
+			class="p-2 rounded-lg bg-gray-100 border border-200 ring-gray transition-main"
 			data-testId="main-nav-close-button"
 		>
 			<Icon type="solid" title="x" />

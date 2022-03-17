@@ -1,17 +1,44 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
+	// packages
+	import { NavigatorLocation, useLocation } from 'svelte-navigator';
+	import type AnyObject from 'svelte-navigator/types/AnyObject';
+
 	// components
 	import Dashboard from '@components/dashboard/Dashboard.svelte';
 	import DashboardNav from '@components/dashboard/DashboardNav.svelte';
 	import InfoPanel from '@components/dashboard/InfoPanel.svelte';
 
-	//   utils
+	// utils
 	import { keepaApi, getDomainId } from '@utils/keepaHelpers';
 	import { getActiveUrl, getAsin } from '@utils/urlHelpers';
 
-	//   global state
+	// stores
+	import { layout } from '@stores/layout';
 	import { data, status } from '@stores/product';
+
+	// global const
+	const location = useLocation();
+
+	// functions
+	const getCurrentDashboardId = (location: NavigatorLocation<AnyObject>) => {
+		return location.pathname.split('/')[1];
+	};
+
+	// state/reactive state
+	let currentDashboardId =
+		getCurrentDashboardId($location) || layout.defaultDashboardId();
+	$: currentDashboardId = getCurrentDashboardId($location);
+
+	let currentDashboard = layout.getDashboardById(currentDashboardId);
+	$: currentDashboard = layout.getDashboardById(currentDashboardId);
+
+	let nextDashboard = layout.getNextDashboardId(currentDashboardId, 1);
+	$: nextDashboard = layout.getNextDashboardId(currentDashboardId, 1);
+
+	let prevDashboard = layout.getNextDashboardId(currentDashboardId, -1);
+	$: prevDashboard = layout.getNextDashboardId(currentDashboardId, -1);
 
 	//   on mount
 	onMount(async () => {
@@ -43,6 +70,6 @@
 	});
 </script>
 
-<DashboardNav />
-<Dashboard />
+<DashboardNav {currentDashboard} {nextDashboard} {prevDashboard} />
+<Dashboard {currentDashboard} />
 <InfoPanel />
