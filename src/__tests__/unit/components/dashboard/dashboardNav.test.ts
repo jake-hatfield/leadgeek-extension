@@ -147,7 +147,7 @@ describe('dashboard nav with props', () => {
 			expect(select).toHaveTextContent('Dashboard #1');
 		});
 
-		describe('dashboard nav select options', () => {
+		describe('options list', () => {
 			let options;
 
 			beforeEach(async () => {
@@ -182,7 +182,7 @@ describe('dashboard nav with props', () => {
 				expect(options).not.toBeInTheDocument();
 			});
 
-			describe('dashboard nav select options button', () => {
+			describe('create dashboard button', () => {
 				let button;
 
 				beforeEach(async () => {
@@ -208,12 +208,5 @@ describe('dashboard nav with props', () => {
 		});
 	});
 
-	// TODO<Jake>: Test getNextDashboard
-	// describe('fns', () => {
-	// 	describe('getNextDashboard', () => {
-	// 		test('should be defined', () => {
-	// 			expect(getNextDashboard(1)).toBeDefined();
-	// 		});
-	// 	});
-	// });
+	// TODO<Jake>: Test dashboardNavOptions in this suite
 });
