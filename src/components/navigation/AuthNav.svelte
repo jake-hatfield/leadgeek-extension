@@ -92,14 +92,18 @@
 					<div class="relative flex items-start py-3 mx-3 border-b border-200">
 						<!-- initial box -->
 						<div
-							class="h-10 w-10 all-center p-1.5 cs-purple rounded-lg shadow-sm transition-main ring-purple"
+							class="h-11 w-11 all-center p-1.5 cs-purple rounded-lg shadow-sm transition-main ring-purple"
 						>
 							<span class="text-lg font-bold">{getInitial($user.name)}</span>
 						</div>
 						<header class="ml-3">
 							<h4 class="font-bold text-sm text-200">
 								{getFirstWord($user.name)}
-								{' '}<span role="img" aria-label="Waving emoji">👋</span>
+								{' '}<span
+									role="img"
+									aria-label="Waving emoji"
+									class="text-base">👋</span
+								>
 							</h4>
 							<p class="text-sm text-100">{$user.email}</p>
 						</header>
@@ -113,7 +117,7 @@
 									on:click={() => {
 										settingsModal();
 									}}
-									class="hover:bg-gray-100 hover:text-200"
+									class="mx-3 rounded-lg hover:bg-gray-100 hover:text-200 transition-main group"
 								>
 									<a
 										href={`/${settingsModalLink.link}/`}
@@ -126,7 +130,7 @@
 											</span>
 										</span>
 										<span
-											class="all-center h-6 w-6 p-0.5 rounded-lg cs-bg-light border border-200 shadow-sm font-semibold text-sm text-100"
+											class="all-center h-6 w-6 p-0.5 rounded-lg bg-gray-200 dark:bg-darkGray-200 shadow-sm group-hover:shadow font-semibold text-sm text-100"
 											>{settingsModalLink.shortcut}</span
 										>
 									</a>
@@ -135,7 +139,7 @@
 
 							<!-- dark mode button -->
 							<li
-								class="flex items-center justify-between p-3 hover:bg-gray-100 hover:text-200"
+								class="flex items-center justify-between mx-3 p-3 rounded-lg hover:bg-gray-100 hover:text-200 transition-main group"
 							>
 								<span class="flex items-center">
 									<Icon type="solid" title="moon" />
@@ -149,8 +153,10 @@
 							</li>
 
 							<!-- logout button -->
-							<li class="p-3 hover:bg-gray-100 hover:text-200">
-								<button on:click={removeUserData} class="block w-full">
+							<li
+								class="mx-3 rounded-lg hover:bg-gray-100 hover:text-200 transition-main"
+							>
+								<button on:click={removeUserData} class="block w-full p-3">
 									<span class="flex items-center">
 										<Icon
 											type="solid"

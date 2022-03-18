@@ -1,6 +1,8 @@
 <script lang="ts">
 	export let title: string;
 	export let action: () => any;
+
+	// TODO<Jake>: Standardize different types of buttons
 </script>
 
 <button
