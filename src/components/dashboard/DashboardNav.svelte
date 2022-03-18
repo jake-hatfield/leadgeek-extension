@@ -95,7 +95,7 @@
 					{#if $layout.length > 0}
 						<ul class="mt-1.5">
 							{#each $layout as option}
-								<DashboardNavOption {option} />
+								<DashboardNavOption {option} {toggleDashboardSelect} />
 							{/each}
 						</ul>
 					{:else}

@@ -12,6 +12,7 @@
 	const isProd = process.env.isProd;
 </script>
 
-<Router basepath={isProd ? '/index.html' : '/'}>
+<!-- router without auto-focus on heading element -->
+<Router basepath={isProd ? '/index.html' : '/'} primary={false}>
 	<Routes />
 </Router>

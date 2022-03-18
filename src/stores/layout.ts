@@ -14,7 +14,7 @@ const createLayout = () => {
 			color: 'bg-teal-500',
 			widgets: [
 				{
-					id: '123',
+					id: '1',
 					title: 'Profit analysis',
 					data: [
 						{ title: 'Est.sales/mo', value: 1500000 },
@@ -24,7 +24,7 @@ const createLayout = () => {
 					],
 				},
 				{
-					id: '1234',
+					id: '12',
 					title: 'Sales/mo',
 					data: [
 						{ title: 'Est.sales/mo', value: 1 },
@@ -33,7 +33,7 @@ const createLayout = () => {
 					],
 				},
 				{
-					id: '1263',
+					id: '123',
 					title: 'Competition',
 					data: [
 						{ title: 'Est.sales/mo', value: 1 },
@@ -42,7 +42,7 @@ const createLayout = () => {
 					],
 				},
 				{
-					id: '12333',
+					id: '1234',
 					title: 'Variations',
 					data: [
 						{ title: 'Est.sales/mo', value: 1 },
@@ -58,7 +58,7 @@ const createLayout = () => {
 			color: 'bg-teal-500',
 			widgets: [
 				{
-					id: '123',
+					id: '1',
 					title: 'Profit analysis',
 					data: [
 						{ title: 'Est.sales/mo', value: 1500000 },
@@ -68,7 +68,7 @@ const createLayout = () => {
 					],
 				},
 				{
-					id: '1234',
+					id: '21',
 					title: 'Sales/mo',
 					data: [
 						{ title: 'Est.sales/mo', value: 2 },
@@ -77,7 +77,7 @@ const createLayout = () => {
 					],
 				},
 				{
-					id: '1263',
+					id: '321',
 					title: 'Competition',
 					data: [
 						{ title: 'Est.sales/mo', value: 2 },
@@ -86,7 +86,7 @@ const createLayout = () => {
 					],
 				},
 				{
-					id: '12333',
+					id: '4321',
 					title: 'Variations',
 					data: [
 						{ title: 'Est.sales/mo', value: 2 },
