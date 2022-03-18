@@ -16,7 +16,7 @@
 </script>
 
 {#if $status === 'idle'}
-	<li class="cs-light-400 card-100">
+	<li class="min-h-full cs-light-400 card-100">
 		<header
 			class="relative flex items-end justify-between p-3 pb-1.5 border-b border-200"
 		>

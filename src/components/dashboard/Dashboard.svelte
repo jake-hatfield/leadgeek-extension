@@ -34,4 +34,8 @@
 	section {
 		min-height: 435.5px;
 	}
+
+	ul {
+		min-height: 414.5px;
+	}
 </style>

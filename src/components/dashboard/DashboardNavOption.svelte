@@ -7,11 +7,15 @@
 
 	// types
 	import type Dashboard from '$types/Dashboard';
-	import { layout } from '@stores/layout';
 
 	// props
 	export let option: Dashboard;
+	export let setTargetDashboard: (dashboard: Dashboard) => {
+		id: string;
+		title: string;
+	};
 	export let toggleDashboardSelect: () => void;
+	export let toggleModal: () => void;
 
 	// state
 	let editTitle = false;
@@ -26,19 +30,20 @@
 		on:mouseenter={() => (hoverActive = true)}
 		on:mouseleave={() => (hoverActive = false)}
 		on:click={toggleDashboardSelect}
+		class="group"
 	>
 		<div
-			class={`pl-5 pr-4 hover:bg-gray-100 center-between ${
-				editTitle ? 'py-2' : 'py-3'
+			class={`center-between pl-5 pr-4 rounded-lg hover:bg-gray-100 transition-main ${
+				editTitle ? 'py-1.5' : 'py-2'
 			}`}
 		>
 			<!-- icon and title -->
-			<div class="flex items-center">
+			<div class="py-px flex items-center">
 				<span class={`inline-block h-2 w-2 rounded-full ${option.color}`} />
 				{#if !editTitle}
 					<span
 						on:dblclick={() => (editTitle = true)}
-						class={`ml-3 text-base ${hoverActive ? 'bg-white' : ''}`}
+						class="ml-3 py-0.5 px-1.5 rounded-lg border border-white group-hover:border-gray-300 hover:border-purple-500 text-base cursor-text transition-main group-hover:bg-gray-200"
 						>{option.title}</span
 					>
 				{:else}
@@ -64,8 +69,10 @@
 						/>
 					</button>
 					<button
-						on:click|preventDefault|stopPropagation={() =>
-							layout.deleteDashboard(option.id)}
+						on:click|preventDefault|stopPropagation={() => {
+							setTargetDashboard(option);
+							toggleModal();
+						}}
 						class="ml-3"
 					>
 						<Icon

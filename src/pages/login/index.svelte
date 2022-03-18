@@ -43,6 +43,7 @@
 	setWelcomeMessage(currentTime.hour);
 
 	$: if ($status === 'idle' && $isAuthenticated && $user) {
+		layout.set($user.extension.layout ? $user.extension.layout : []);
 		navigate(`/${defaultDashboardId}`, {
 			state: { from: $location.pathname },
 			replace: true,

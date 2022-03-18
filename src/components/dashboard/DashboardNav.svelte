@@ -1,16 +1,21 @@
 <script lang="ts">
 	// packages
-	import { fade } from 'svelte/transition';
+	import { fade, fly } from 'svelte/transition';
 	import { Link } from 'svelte-navigator';
 
 	// components
+	import Button from '@components/utils/Button.svelte';
 	import DashboardNavOption from '@components/dashboard/DashboardNavOption.svelte';
 	import Icon from '@components/utils/Icon.svelte';
 	import IconButton from '@components/utils/IconButton.svelte';
+	import Modal from '@components/utils/Modal.svelte';
 	import Skeleton from '@components/utils/Skeleton.svelte';
 
 	// utils
 	import { handleClickOutside } from '@lib/clickHelpers';
+
+	// types
+	import type Dashboard from '$types/Dashboard';
 
 	// store
 	import { status } from '@stores/product';
@@ -24,16 +29,46 @@
 	// state
 	let addDashboardActive = false;
 	let dashboardSelectActive = false;
+	let modalActive = false;
+	let targetDashboard = {
+		id: '',
+		title: '',
+	};
 
 	// functions
-	const toggleAddDashboard = () => {
-		addDashboardActive = !addDashboardActive;
-	};
+	const toggleAddDashboard = () => (addDashboardActive = !addDashboardActive);
 
 	const toggleDashboardSelect = () => {
 		dashboardSelectActive = !dashboardSelectActive;
 		addDashboardActive && toggleAddDashboard();
 	};
+
+	const toggleModal = () => (modalActive = !modalActive);
+
+	const getRandomColor = () => {
+		let colors = [
+			'bg-blue-500',
+			'bg-gray-700',
+			'bg-lime-400',
+			'bg-pink-500',
+			'bg-purple-500',
+			'bg-red-300',
+			'bg-teal-500',
+			'bg-yellow-500',
+		];
+		return colors[Math.floor(Math.random() * colors.length)];
+	};
+
+	const initInput = (el) => {
+		el.focus();
+	};
+
+	const setTargetDashboard = (dashboard: Dashboard) =>
+		(targetDashboard = {
+			...targetDashboard,
+			id: dashboard.id,
+			title: dashboard.title,
+		});
 
 	//   TODO<Jake>: Create dashboard
 	//   TODO<Jake>: Edit dashboard
@@ -76,7 +111,9 @@
 			>
 				{#if $layout.length > 0}
 					<span class="flex items-center" data-testId="dashboard-select-title">
-						<span class={`inline-block h-2 w-2 rounded-full bg-teal-500`} />
+						<span
+							class={`inline-block h-2 w-2 rounded-full ${currentDashboard.color}`}
+						/>
 						<span class="ml-3">{currentDashboard.title}</span>
 					</span>
 				{:else}
@@ -93,13 +130,18 @@
 					data-testId="dashboard-select-options"
 				>
 					{#if $layout.length > 0}
-						<ul class="mt-1.5">
+						<ul class="mx-3 py-1.5">
 							{#each $layout as option}
-								<DashboardNavOption {option} {toggleDashboardSelect} />
+								<DashboardNavOption
+									{option}
+									{setTargetDashboard}
+									{toggleDashboardSelect}
+									{toggleModal}
+								/>
 							{/each}
 						</ul>
 					{:else}
-						<p class="mt-1.5 py-3 px-5 text-100">
+						<p class="p-5 text-100">
 							Create a dashboard below{' '}<span
 								role="img"
 								aria-label="Point down emoji">👇</span
@@ -107,22 +149,51 @@
 						</p>
 					{/if}
 
-					<!-- add a dashboard -->
-					{#if addDashboardActive}
-						<div class="py-1.5 pl-5 pr-4 bg-purple-200">
-							<input
-								placeholder="Name this dashboard..."
-								class="pt-1.5 pb-1 px-3 bg-gray-100 rounded-lg border border-200 text-base focus:border-purple-500 dark:focus:border-purple-300 outline-none"
-							/>
-						</div>
-					{/if}
-					<button
-						class="flex items-center w-full mb-1.5 py-3 px-5 hover:bg-gray-100 border-t border-200 text-purple-500"
-						data-testId="dashboard-select-button"
+					<div
+						use:handleClickOutside={{
+							enabled: addDashboardActive,
+							cb: () => addDashboardActive && toggleAddDashboard(),
+						}}
 					>
-						<Icon type="solid" title="plus" size="sm" />
-						<span class="ml-2">Create a dashboard</span>
-					</button>
+						<!-- add a dashboard -->
+						{#if addDashboardActive}
+							<div
+								on:click={() => (addDashboardActive = false)}
+								transition:fly={{ y: -15 }}
+								class="flex items-center mx-3 py-3 pl-5 pr-4"
+							>
+								<span
+									class={`inline-block h-2 w-2 rounded-full ${getRandomColor()}`}
+								/>
+
+								<input
+									use:initInput
+									on:click|stopPropagation
+									placeholder="Name this dashboard"
+									id="add-dashboard"
+									class="w-40 ml-3 px-1 text-base outline-none"
+								/>
+							</div>
+						{/if}
+						<div class="mx-3 py-1.5 border-t border-200">
+							<button
+								on:click={() => {
+									addDashboardActive = true;
+									document.getElementById('add-dashboard').focus();
+								}}
+								class="flex items-center w-full py-3 px-4 rounded-lg hover:bg-purple-500 text-purple-500 hover:text-white transition-main group"
+								data-testId="dashboard-select-button"
+							>
+								<Icon
+									type="solid"
+									title="plus"
+									size="sm"
+									class="group-hover:text-purple-100"
+								/>
+								<span class="ml-2">Add dashboard</span>
+							</button>
+						</div>
+					</div>
 				</div>
 			{/if}
 		</div>
@@ -138,6 +209,35 @@
 				iconTitle="chevron-right"
 				class="cursor-default"
 			/>
+		{/if}
+
+		{#if modalActive}
+			<Modal
+				isActive={modalActive}
+				title={`Confirm deletion ${
+					targetDashboard.title ? `of ${targetDashboard.title}` : ''
+				}`}
+			>
+				<div slot="description">
+					<p>
+						Deleting a dashboard will delete all widgets within it. <span
+							class="text-red-300">This action cannot be undone.</span
+						>
+						<span role="img" aria-label="Face screaming in fear emoji">😱</span>
+					</p>
+				</div>
+				<div slot="action" class="center-between">
+					<div />
+					<Button
+						title="Confirm"
+						action={() => {
+							layout.deleteDashboard(targetDashboard.id);
+							toggleModal();
+						}}
+						class="w-1/2"
+					/>
+				</div>
+			</Modal>
 		{/if}
 	</nav>
 {:else}
