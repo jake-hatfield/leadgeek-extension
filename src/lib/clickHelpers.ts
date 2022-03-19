@@ -1,11 +1,20 @@
-export const handleClickOutside = (node: HTMLElement, { enabled, cb }) => {
+export const handleClickOutside = (
+	node: HTMLElement,
+	{
+		enabled: initialEnabled,
+		cb,
+	}: {
+		enabled: boolean;
+		cb: any;
+	}
+) => {
 	const handleClick = ({ target }) => {
 		if (!node.contains(target)) {
 			cb();
 		}
 	};
 
-	const update = (enabled) => {
+	const update = ({ enabled }) => {
 		if (enabled) {
 			window.addEventListener('click', handleClick);
 		} else {
@@ -13,7 +22,7 @@ export const handleClickOutside = (node: HTMLElement, { enabled, cb }) => {
 		}
 	};
 
-	update(enabled);
+	update({ enabled: initialEnabled });
 
 	return {
 		update,

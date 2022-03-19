@@ -1,12 +1,16 @@
 <script lang="ts">
 	// packages
 	import { Link } from 'svelte-navigator';
+	import { fade } from 'svelte/transition';
 
 	// components
 	import Icon from '@components/utils/Icon.svelte';
 
 	// types
 	import type Dashboard from '$types/Dashboard';
+
+	// utils
+	import { handleClickOutside } from '@lib/clickHelpers';
 
 	// props
 	export let option: Dashboard;
@@ -29,7 +33,6 @@
 	<li
 		on:mouseenter={() => (hoverActive = true)}
 		on:mouseleave={() => (hoverActive = false)}
-		on:click={toggleDashboardSelect}
 		class="group"
 	>
 		<div
@@ -41,15 +44,19 @@
 			<div class="py-px flex items-center">
 				<span class={`inline-block h-2 w-2 rounded-full ${option.color}`} />
 				{#if !editTitle}
-					<span
+					<button
 						on:dblclick={() => (editTitle = true)}
 						class="ml-3 py-0.5 px-1.5 rounded-lg border border-white group-hover:border-gray-300 hover:border-purple-500 text-base cursor-text transition-main group-hover:bg-gray-200"
-						>{option.title}</span
+						>{option.title}</button
 					>
 				{:else}
 					<input
-						class="min-w-max ml-2 py-1 px-2 rounded-md bg-white outline-none"
+						use:handleClickOutside={{
+							enabled: editTitle,
+							cb: () => (editTitle = false),
+						}}
 						bind:value={titleValue}
+						class="w-40 ml-2 py-1 px-2 rounded-md bg-white outline-none"
 					/>
 				{/if}
 			</div>
@@ -57,6 +64,7 @@
 			<!-- buttons -->
 			{#if hoverActive}
 				<div
+					transition:fade={{ duration: 100 }}
 					class="flex items-center"
 					data-testId="dashboard-nav-option-actions"
 				>
