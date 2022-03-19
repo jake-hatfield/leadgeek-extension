@@ -19,7 +19,11 @@ describe('dashboard nav without layout state', () => {
 		beforeEach(async () => {
 			layout.set([]);
 
-			const component = renderWithRouter(DashboardNav);
+			const component = renderWithRouter(DashboardNav, {
+				currentDashboard: null,
+				prevDashboard: '',
+				nextDashboard: '',
+			});
 
 			skeleton = await component.findByTestId('loading-skeleton');
 		});
@@ -33,7 +37,11 @@ describe('dashboard nav without layout state', () => {
 		let nav;
 
 		beforeEach(async () => {
-			const { findByRole } = renderWithRouter(DashboardNav);
+			const { findByRole } = renderWithRouter(DashboardNav, {
+				currentDashboard: null,
+				prevDashboard: '',
+				nextDashboard: '',
+			});
 
 			status.set('idle');
 
@@ -63,67 +71,70 @@ describe('dashboard nav without layout state', () => {
 
 					options = await queryByTestId(nav, 'dashboard-select-options');
 
-					expect(options).toHaveTextContent(
-						'Create a dashboard to start adding widgets 👇'
-					);
+					expect(options).toHaveTextContent('Create a dashboard below 👇');
 				});
 			});
 		});
 	});
 });
 
-describe('dashboard nav with props', () => {
+describe('dashboard nav with layout state', () => {
 	let nav;
+	const dashboards = [
+		{
+			id: '1',
+			title: 'Dashboard #1',
+			color: 'bg-teal-500',
+			widgets: [
+				{
+					id: '1',
+					title: 'Profit analysis',
+					data: [
+						{ title: 'Est.sales/mo', value: 1500000 },
+						{ title: 'Est.sales/mo', value: 79 },
+						{ title: 'Est.sales/mo', value: 79 },
+						{ title: 'Est.sales/mo', value: 1500000 },
+					],
+				},
+				{
+					id: '1234',
+					title: 'Sales/mo',
+					data: [
+						{ title: 'Est.sales/mo', value: 79 },
+						{ title: 'Est.sales/mo', value: 79 },
+						{ title: 'Est.sales/mo', value: 79 },
+					],
+				},
+				{
+					id: '1263',
+					title: 'Competition',
+					data: [
+						{ title: 'Est.sales/mo', value: 79 },
+						{ title: 'Est.sales/mo', value: 79 },
+						{ title: 'Est.sales/mo', value: 79 },
+					],
+				},
+				{
+					id: '12333',
+					title: 'Variations',
+					data: [
+						{ title: 'Est.sales/mo', value: 80 },
+						{ title: 'Est.sales/mo', value: 79 },
+						{ title: 'Est.sales/mo', value: 79 },
+					],
+				},
+			],
+		},
+	];
 
 	beforeEach(async () => {
-		layout.set([
-			{
-				id: '1',
-				title: 'Dashboard #1',
-				color: 'bg-teal-500',
-				widgets: [
-					{
-						id: '123',
-						title: 'Profit analysis',
-						data: [
-							{ title: 'Est.sales/mo', value: 1500000 },
-							{ title: 'Est.sales/mo', value: 79 },
-							{ title: 'Est.sales/mo', value: 79 },
-							{ title: 'Est.sales/mo', value: 1500000 },
-						],
-					},
-					{
-						id: '1234',
-						title: 'Sales/mo',
-						data: [
-							{ title: 'Est.sales/mo', value: 79 },
-							{ title: 'Est.sales/mo', value: 79 },
-							{ title: 'Est.sales/mo', value: 79 },
-						],
-					},
-					{
-						id: '1263',
-						title: 'Competition',
-						data: [
-							{ title: 'Est.sales/mo', value: 79 },
-							{ title: 'Est.sales/mo', value: 79 },
-							{ title: 'Est.sales/mo', value: 79 },
-						],
-					},
-					{
-						id: '12333',
-						title: 'Variations',
-						data: [
-							{ title: 'Est.sales/mo', value: 80 },
-							{ title: 'Est.sales/mo', value: 79 },
-							{ title: 'Est.sales/mo', value: 79 },
-						],
-					},
-				],
-			},
-		]);
+		layout.set(dashboards);
 
-		const { queryByRole } = renderWithRouter(DashboardNav);
+		const { queryByRole } = renderWithRouter(DashboardNav, {
+			currentDashboard: dashboards[0].title,
+			prevDashboard: '',
+			nextDashboard: '',
+		});
 
 		nav = await queryByRole('navigation');
 	});

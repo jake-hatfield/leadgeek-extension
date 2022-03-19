@@ -27,7 +27,11 @@
 	export let prevDashboard;
 
 	// state
-	let addDashboardActive = false;
+	let newDashboard = {
+		active: false,
+		title: '',
+		color: '',
+	};
 	let dashboardSelectActive = false;
 	let modalActive = false;
 	let targetDashboard = {
@@ -36,12 +40,13 @@
 	};
 
 	// functions
-	const toggleAddDashboard = () => (addDashboardActive = !addDashboardActive);
-
-	const toggleDashboardSelect = () => {
-		dashboardSelectActive = !dashboardSelectActive;
-		addDashboardActive && toggleAddDashboard();
+	const toggleAddDashboard = () => {
+		if (newDashboard.active && !newDashboard.title)
+			return (newDashboard.active = !newDashboard.active);
 	};
+
+	const toggleDashboardSelect = () =>
+		(dashboardSelectActive = !dashboardSelectActive);
 
 	const toggleModal = () => (modalActive = !modalActive);
 
@@ -56,7 +61,12 @@
 			'bg-teal-500',
 			'bg-yellow-500',
 		];
-		return colors[Math.floor(Math.random() * colors.length)];
+
+		const randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+		newDashboard.color = randomColor;
+
+		return randomColor;
 	};
 
 	const initInput = (el) => {
@@ -70,10 +80,19 @@
 			title: dashboard.title,
 		});
 
+	const handleNewDashboard = () => {
+		if (newDashboard.active && !newDashboard.title)
+			return (newDashboard.active = !newDashboard.active);
+
+		return layout.createDashboard(newDashboard.title);
+	};
+
 	//   TODO<Jake>: Create dashboard
 	//   TODO<Jake>: Edit dashboard
 	//   TODO<Jake>: Delete dashboard
-	//   TODO<Jake>: Select new dashboard with drop down
+	//   TODO<Jake>: Change the color of the dashboard once it's been created
+	//   TODO<Jake>: Max character length validator for new dashboard name
+	//   TODO<Jake>: Edit dashboard validation cannot completely remove title
 </script>
 
 {#if $status === 'idle'}
@@ -125,41 +144,41 @@
 			<!-- dashboard select options -->
 			{#if dashboardSelectActive}
 				<div
-					class="absolute top-12 w-full cs-light-100 card-300"
 					transition:fade={{ duration: 100 }}
-					data-testId="dashboard-select-options"
+					class="absolute top-12 w-full cs-light-100 card-300"
 				>
-					{#if $layout.length > 0}
-						<ul class="mx-3 py-1.5">
-							{#each $layout as option}
-								<DashboardNavOption
-									{option}
-									{setTargetDashboard}
-									{toggleDashboardSelect}
-									{toggleModal}
-								/>
-							{/each}
-						</ul>
-					{:else}
-						<p class="p-5 text-100">
-							Create a dashboard below{' '}<span
-								role="img"
-								aria-label="Point down emoji">👇</span
-							>
-						</p>
-					{/if}
-
+					<div data-testId="dashboard-select-options">
+						{#if $layout.length > 0}
+							<ul class="mx-3 py-1.5">
+								{#each $layout as option}
+									<DashboardNavOption
+										{option}
+										{setTargetDashboard}
+										{toggleDashboardSelect}
+										{toggleModal}
+									/>
+								{/each}
+							</ul>
+						{:else}
+							<p class="p-5 text-100">
+								Create a dashboard below{' '}<span
+									role="img"
+									aria-label="Point down emoji">👇</span
+								>
+							</p>
+						{/if}
+					</div>
 					<div
 						use:handleClickOutside={{
-							enabled: addDashboardActive,
-							cb: () => addDashboardActive && toggleAddDashboard(),
+							enabled: newDashboard.active,
+							cb: () => newDashboard.active && toggleAddDashboard(),
 						}}
 					>
 						<!-- add a dashboard -->
-						{#if addDashboardActive}
+						{#if newDashboard.active}
 							<div
-								on:click={() => (addDashboardActive = false)}
-								transition:fly={{ y: -15 }}
+								on:click={handleNewDashboard}
+								transition:fly={{ y: -15, duration: 50 }}
 								class="flex items-center mx-3 py-3 pl-5 pr-4"
 							>
 								<span
@@ -169,6 +188,7 @@
 								<input
 									use:initInput
 									on:click|stopPropagation
+									bind:value={newDashboard.title}
 									placeholder="Name this dashboard"
 									id="add-dashboard"
 									class="w-40 ml-3 px-1 text-base outline-none"
@@ -178,7 +198,7 @@
 						<div class="mx-3 py-1.5 border-t border-200">
 							<button
 								on:click={() => {
-									addDashboardActive = true;
+									newDashboard.active = true;
 									document.getElementById('add-dashboard').focus();
 								}}
 								class="flex items-center w-full py-3 px-4 rounded-lg hover:bg-purple-500 text-purple-500 hover:text-white transition-main group"
