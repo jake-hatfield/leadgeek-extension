@@ -27,6 +27,20 @@
 	export let prevDashboard;
 
 	// state
+	let colors = [
+		'bg-gray-900',
+		'bg-red-600',
+		'bg-red-300',
+		'bg-yellow-400',
+		'bg-teal-500',
+		'bg-blue-400',
+		'bg-blue-200',
+		'bg-purple-500',
+		'bg-purple-300',
+		'bg-pink-600',
+		'bg-pink-200',
+		'bg-gray-400',
+	];
 	let newDashboard = {
 		active: false,
 		title: '',
@@ -51,17 +65,6 @@
 	const toggleModal = () => (modalActive = !modalActive);
 
 	const getRandomColor = () => {
-		let colors = [
-			'bg-blue-500',
-			'bg-gray-700',
-			'bg-lime-400',
-			'bg-pink-500',
-			'bg-purple-500',
-			'bg-red-300',
-			'bg-teal-500',
-			'bg-yellow-500',
-		];
-
 		const randomColor = colors[Math.floor(Math.random() * colors.length)];
 
 		newDashboard.color = randomColor;
@@ -125,13 +128,13 @@
 				name="dashboards"
 				id="dashboards"
 				on:click={toggleDashboardSelect}
-				class="center-between w-full py-1.5 pl-5 pr-4 rounded-lg border border-200 text-left ring-gray"
+				class="center-between w-full py-1.5 px-4 rounded-lg border border-200 text-left ring-gray"
 				data-testId="dashboard-select"
 			>
 				{#if $layout.length > 0}
 					<span class="flex items-center" data-testId="dashboard-select-title">
 						<span
-							class={`inline-block h-2 w-2 rounded-full ${currentDashboard.color}`}
+							class={`inline-block h-2.5 w-2.5 rounded-sm ${currentDashboard.color}`}
 						/>
 						<span class="ml-3">{currentDashboard.title}</span>
 					</span>
@@ -152,6 +155,7 @@
 							<ul class="mx-3 py-1.5">
 								{#each $layout as option}
 									<DashboardNavOption
+										{colors}
 										{option}
 										{setTargetDashboard}
 										{toggleDashboardSelect}
@@ -179,17 +183,17 @@
 							<div
 								on:click={handleNewDashboard}
 								transition:fly={{ y: -15, duration: 50 }}
-								class="flex items-center mx-3 py-3 pl-5 pr-4"
+								class="flex items-center mx-3 py-3 px-4"
 							>
 								<span
-									class={`inline-block h-2 w-2 rounded-full ${getRandomColor()}`}
+									class={`inline-block h-2.5 w-2.5 rounded-sm ${getRandomColor()}`}
 								/>
 
 								<input
 									use:initInput
 									on:click|stopPropagation
 									bind:value={newDashboard.title}
-									placeholder="Name this dashboard"
+									placeholder="Dashboard name"
 									id="add-dashboard"
 									class="w-40 ml-3 px-1 text-base outline-none"
 								/>
