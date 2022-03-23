@@ -2,8 +2,7 @@
 	import { onMount } from 'svelte';
 
 	// packages
-	import { NavigatorLocation, useLocation } from 'svelte-navigator';
-	import type AnyObject from 'svelte-navigator/types/AnyObject';
+	import { useLocation } from 'svelte-navigator';
 
 	// components
 	import Dashboard from '@components/dashboard/Dashboard.svelte';
@@ -22,7 +21,7 @@
 	const location = useLocation();
 
 	// functions
-	const getCurrentDashboardId = (location: NavigatorLocation<AnyObject>) => {
+	const getCurrentDashboardId = (location) => {
 		return location.pathname.split('/')[1];
 	};
 

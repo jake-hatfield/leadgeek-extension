@@ -1,6 +1,6 @@
 <script lang="ts">
 	// packages
-	import { Link } from 'svelte-navigator';
+	import { link } from 'svelte-navigator';
 	import { fade } from 'svelte/transition';
 
 	// components
@@ -12,7 +12,11 @@
 	// utils
 	import { handleClickOutside } from '@lib/clickHelpers';
 
+	// stores
+	import { layout } from '@stores/layout';
+
 	// props
+	export let colors: string[];
 	export let option: Dashboard;
 	export let setTargetDashboard: (dashboard: Dashboard) => {
 		id: string;
@@ -22,50 +26,127 @@
 	export let toggleModal: () => void;
 
 	// state
+	let editColor = false;
 	let editTitle = false;
 	let hoverActive = false;
 	let titleValue = option.title;
 
+	// functions
+	const deactivateEditState = () => {
+		editColor = false;
+		editTitle = false;
+	};
+
+	const onInput = (node) => {
+		node.focus();
+		handleClickOutside(node, {
+			enabled: editTitle,
+			cb: () => {
+				if (titleValue.length === 0) {
+					// TODO<Jake>: Set alert that dashboard name cannot be empty
+					return (titleValue = option.title);
+				}
+				layout.editDashboardTitle(option.id, titleValue);
+				deactivateEditState();
+			},
+		});
+	};
+
 	//   TODO<Jake>: Write tests to make sure that the edit/delete buttons are visible on hover
 </script>
 
-<Link to={`/${option.id}`}>
-	<li
+<li
+	class={`center-between rounded-lg hover:bg-gray-100 ring-1 group ${
+		editTitle ? 'ring-purple-500' : 'ring-transparent'
+	}`}
+>
+	<!-- icon and title -->
+	<div
+		class={`relative flex items-center min-w-fit pl-4 ${
+			editTitle ? 'py-1.5 border-purple-500' : 'py-2'
+		}`}
+	>
+		<button
+			on:dblclick={() => {
+				editColor = true;
+			}}
+			class="flex items-center outline-none"
+		>
+			<span
+				class={`inline-block flex-none h-2.5 w-2.5 rounded-sm ${option.color}`}
+			/>
+		</button>
+		{#if editColor}
+			<aside
+				use:handleClickOutside={{
+					enabled: editColor,
+					cb: () => (editColor = false),
+				}}
+				transition:fade={{ duration: 100 }}
+				class="absolute top-0.5 left-9 z-40 w-64 p-3 rounded-lg bg-white shadow-sm border border-200"
+			>
+				<!-- <header class="flex items-end pb-1.5 border-b border-200">
+					<Icon type="solid" title="tag" />
+					<h5 class="ml-2 text-sm">Tag colors</h5>
+				</header> -->
+				<ul class="grid grid-cols-12 gap-0.5">
+					{#each colors as color}
+						<li class="all-center">
+							<button
+								on:click={() => (editColor = false)}
+								class={`inline-block flex-none h-3.5 w-3.5 rounded-sm ring-1 ring-offset-1 ${
+									option.color === color ? 'ring-gray-300' : 'ring-transparent'
+								} hover:ring-gray-300 transition-main ${color}`}
+							/>
+						</li>
+					{/each}
+				</ul>
+			</aside>
+		{/if}
+		{#if !editTitle}
+			<button
+				on:dblclick={() => {
+					editTitle = true;
+				}}
+				class="flex-none ml-3 py-0.5 px-1.5 rounded-lg border border-white group-hover:border-gray-300 text-base cursor-text transition-main group-hover:bg-gray-200 outline-none"
+			>
+				{option.title}
+			</button>
+		{:else}
+			<div class="py-px">
+				<input
+					use:onInput
+					bind:value={titleValue}
+					on:input={(e) => {
+						console.log(e.currentTarget.value);
+						e.currentTarget.style.width = `${
+							e.currentTarget.value.length * 10
+						}px`;
+					}}
+					id="edit-dashboard"
+					placeholder="Name this dashboard"
+					class={`ml-2 py-1 px-2.5 rounded-md group-hover:bg-gray-100 outline-none ${
+						titleValue.length === 0 ? 'w-40' : ''
+					}`}
+				/>
+			</div>
+		{/if}
+	</div>
+	<div
 		on:mouseenter={() => (hoverActive = true)}
 		on:mouseleave={() => (hoverActive = false)}
-		class="group"
+		class="relative w-full"
 	>
-		<div
-			class={`center-between pl-5 pr-4 rounded-lg hover:bg-gray-100 transition-main ${
-				editTitle ? 'py-1.5' : 'py-2'
-			}`}
-		>
-			<!-- icon and title -->
-			<div class="py-px flex items-center">
-				<span class={`inline-block h-2 w-2 rounded-full ${option.color}`} />
-				{#if !editTitle}
-					<button
-						on:dblclick={() => (editTitle = true)}
-						class="ml-3 py-0.5 px-1.5 rounded-lg border border-white group-hover:border-gray-300 hover:border-purple-500 text-base cursor-text transition-main group-hover:bg-gray-200"
-						>{option.title}</button
-					>
-				{:else}
-					<input
-						use:handleClickOutside={{
-							enabled: editTitle,
-							cb: () => (editTitle = false),
-						}}
-						bind:value={titleValue}
-						class="w-40 ml-2 py-1 px-2 rounded-md bg-white outline-none"
-					/>
-				{/if}
-			</div>
-
-			<!-- buttons -->
+		<a
+			href={`/${option.id}`}
+			use:link
+			on:click={toggleDashboardSelect}
+			class="py-6 block w-full"
+			><!-- buttons -->
 			{#if hoverActive}
 				<div
 					transition:fade={{ duration: 100 }}
-					class="flex items-center"
+					class="absolute top-4 right-4 flex items-center"
 					data-testId="dashboard-nav-option-actions"
 				>
 					<button on:click|preventDefault|stopPropagation={() => alert('star')}>
@@ -91,7 +172,13 @@
 						/>
 					</button>
 				</div>
-			{/if}
-		</div>
-	</li>
-</Link>
+			{/if}</a
+		>
+	</div>
+</li>
+
+<style>
+	input {
+		max-width: 10rem;
+	}
+</style>

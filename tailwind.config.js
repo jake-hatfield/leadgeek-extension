@@ -2,6 +2,9 @@ module.exports = {
 	content: ['./public/index.html', './src/**/*.svelte', './src/**/**/*.svelte'],
 	theme: {
 		extend: {
+			backdropBlur: {
+				xs: '2px',
+			},
 			colors: {
 				purple: {
 					100: '#E6E6FF',

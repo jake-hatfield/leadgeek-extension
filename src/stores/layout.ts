@@ -133,6 +133,14 @@ const createLayout = () => {
 		return dashboard.id;
 	};
 
+	const editDashboardTitle = (id: string, title: string) => {
+		const dashboard = getDashboardById(id);
+
+		if (dashboard) {
+			dashboard.title = title;
+		}
+	};
+
 	const getDashboardById = (id: string): Dashboard => {
 		// get the current store layout
 		const dashboards: Dashboard[] = get(layout);
@@ -205,6 +213,7 @@ const createLayout = () => {
 		defaultDashboardId,
 		deleteDashboard,
 		deleteWidget,
+		editDashboardTitle,
 		get,
 		getDashboardById,
 		getNextDashboardId,
