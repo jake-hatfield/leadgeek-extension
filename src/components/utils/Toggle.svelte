@@ -30,10 +30,12 @@
 		/>
 		<div
 			class={`block h-6 w-11 rounded-full shadow-sm group-hover:shadow transition-colors ${
-				checked ? 'bg-purple-500' : 'bg-gray-200 dark:bg-darkGray-200'
+				checked
+					? 'bg-purple-500 dark:bg-purple-300'
+					: 'bg-gray-200 dark:bg-darkGray-200'
 			}`}
 		/>
-		<div
+		<span
 			class={`absolute left-0.5 top-0.5 w-5 h-5 rounded-full bg-white shadow transition transform ${
 				checked ? 'translate-x-5' : ''
 			}`}

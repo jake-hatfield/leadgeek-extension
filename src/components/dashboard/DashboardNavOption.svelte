@@ -23,7 +23,7 @@
 		title: string;
 	};
 	export let toggleDashboardSelect: () => void;
-	export let toggleModal: () => void;
+	export let toggleConfirmDashboardDeleteModal: () => void;
 
 	// state
 	let editColor = false;
@@ -52,7 +52,8 @@
 		});
 	};
 
-	//   TODO<Jake>: Write tests to make sure that the edit/delete buttons are visible on hover
+	// TODO<Jake>: Write tests to make sure that the edit/delete buttons are visible on hover
+	// TODO<Jake>: Set new color on click
 </script>
 
 <li
@@ -85,10 +86,6 @@
 				transition:fade={{ duration: 100 }}
 				class="absolute top-0.5 left-9 z-40 w-64 p-3 rounded-lg bg-white shadow-sm border border-200"
 			>
-				<!-- <header class="flex items-end pb-1.5 border-b border-200">
-					<Icon type="solid" title="tag" />
-					<h5 class="ml-2 text-sm">Tag colors</h5>
-				</header> -->
 				<ul class="grid grid-cols-12 gap-0.5">
 					{#each colors as color}
 						<li class="all-center">
@@ -118,9 +115,8 @@
 					use:onInput
 					bind:value={titleValue}
 					on:input={(e) => {
-						console.log(e.currentTarget.value);
 						e.currentTarget.style.width = `${
-							e.currentTarget.value.length * 10
+							e.currentTarget.value.length * 10 + 15
 						}px`;
 					}}
 					id="edit-dashboard"
@@ -132,49 +128,53 @@
 			</div>
 		{/if}
 	</div>
-	<div
-		on:mouseenter={() => (hoverActive = true)}
-		on:mouseleave={() => (hoverActive = false)}
-		class="relative w-full"
-	>
-		<a
-			href={`/${option.id}`}
-			use:link
-			on:click={toggleDashboardSelect}
-			class="py-6 block w-full"
-			><!-- buttons -->
-			{#if hoverActive}
-				<div
-					transition:fade={{ duration: 100 }}
-					class="absolute top-4 right-4 flex items-center"
-					data-testId="dashboard-nav-option-actions"
-				>
-					<button on:click|preventDefault|stopPropagation={() => alert('star')}>
-						<Icon
-							type="outline"
-							title="star"
-							size="sm"
-							class="hover:text-purple-500"
-						/>
-					</button>
-					<button
-						on:click|preventDefault|stopPropagation={() => {
-							setTargetDashboard(option);
-							toggleModal();
-						}}
-						class="ml-3"
-					>
-						<Icon
-							type="solid"
-							title="trash"
-							size="sm"
-							class="hover:text-red-300"
-						/>
-					</button>
-				</div>
-			{/if}</a
+	{#if !editTitle && !editColor}
+		<div
+			on:mouseenter={() => (hoverActive = true)}
+			on:mouseleave={() => (hoverActive = false)}
+			class="relative w-full"
 		>
-	</div>
+			<a
+				href={`/${option.id}`}
+				use:link
+				on:click={toggleDashboardSelect}
+				class="py-6 block w-full outline-none"
+				><!-- buttons -->
+				{#if hoverActive}
+					<div
+						transition:fade={{ duration: 100 }}
+						class="absolute top-4 right-4 flex items-center"
+						data-testId="dashboard-nav-option-actions"
+					>
+						<button
+							on:click|preventDefault|stopPropagation={() => alert('star')}
+						>
+							<Icon
+								type="outline"
+								title="star"
+								size="sm"
+								class="hover:text-purple-500"
+							/>
+						</button>
+						<button
+							on:click|preventDefault|stopPropagation={() => {
+								setTargetDashboard(option);
+								toggleConfirmDashboardDeleteModal();
+							}}
+							class="ml-3"
+						>
+							<Icon
+								type="solid"
+								title="trash"
+								size="sm"
+								class="hover:text-red-300"
+							/>
+						</button>
+					</div>
+				{/if}
+			</a>
+		</div>
+	{/if}
 </li>
 
 <style>
