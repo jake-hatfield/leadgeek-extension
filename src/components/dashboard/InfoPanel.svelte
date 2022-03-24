@@ -1,13 +1,12 @@
 <script lang="ts">
-	//  stores
-	import { alert } from '@stores/alert';
-	import { data } from '@stores/product';
+	//  lib
+	import { pluralize } from '@lib/stringHelpers';
 
-	//  utils
-	import { handleClickOutside } from '@lib/clickHelpers';
+	//  stores
+	import { status } from '@stores/product';
 
 	//  props
-	export let issues = ['ree'];
+	export let issues = [];
 
 	//  state
 	let issuesPanelActive = false;
@@ -16,46 +15,45 @@
 	const toggleIssues = () => {
 		issuesPanelActive = !issuesPanelActive;
 	};
+
+	// TODO<Jake>: Loading icon while issue scanner is processing - don't block rendering while analysing a product
 </script>
 
 <section
-	use:handleClickOutside={{
-		enabled: issuesPanelActive,
-		cb: () => issuesPanelActive && toggleIssues(),
-	}}
-	class={issuesPanelActive
-		? 'absolute bottom-0 z-20 w-full h-full bg-white'
-		: ''}
+	class={`absolute z-20 left-1/2 transform -translate-x-1/2 transition duration-500 ease-in-out ${
+		issuesPanelActive ? 'top-0 h-full' : 'bottom-2'
+	}`}
 >
-	<header
-		class={`flex items-end justify-between w-full py-5 px-3 border-t font-semibold ${
-			issues.length === 0
+	<!-- inital  -->
+	<div
+		class={`relative w-full p-3 rounded-lg whitespace-nowrap shadow ${
+			$status !== 'loading' && issues.length === 0
 				? 'bg-teal-200 border-teal-500 text-teal-900'
-				: 'bg-red-100 border-red-300 text-red-800'
+				: 'bg-gray-900 text-white'
 		}`}
 	>
-		<h3>
-			{issues.length} potential {issues.length === 1 ? 'issue' : 'issues'}
-		</h3>
-		{#if issues.length !== 0}
-			<button
-				on:click={() =>
-					alert.create({
-						type: 'success',
-						title: 'Validation error',
-						description:
-							'REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE',
-					})}
-				class="py-1.5 px-3 rounded-lg bg-red-300 hover:bg-red-400 border border-red-400 hover:border-red-500 text-sm text-red-900 font-semibold ring-red transition-main"
-			>
-				{#if issuesPanelActive}
-					Hide details
-				{:else}
-					View details
-				{/if}
-			</button>
+		{#if $status === 'loading'}
+			<div>Loading</div>
+		{:else if issues.length > 0}
+			<div>
+				<button>
+					{pluralize(issues.length, 'issue')} requires your attention 🔎
+				</button>
+				<span class="absolute -top-1 -right-1 flex h-3 w-3">
+					<span
+						class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"
+					/>
+					<span
+						class="relative inline-flex rounded-full h-3 w-3 bg-red-300 border border-red-400"
+					/>
+				</span>
+			</div>
+		{:else}
+			<p>
+				No issues found <span role="img" aria-label="Party emoji">🎉</span>
+			</p>
 		{/if}
-	</header>
+	</div>
 
 	<!-- issues panel -->
 	{#if issuesPanelActive}
@@ -64,7 +62,6 @@
 				<li class="px-3">{issue}</li>
 			{/each}
 		</ul>
-		<div>{$data}</div>
 	{/if}
 </section>
 

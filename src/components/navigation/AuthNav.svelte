@@ -76,7 +76,7 @@
 		>
 			<button
 				on:click={settingsModal}
-				class="p-2 rounded-lg cs-darkGray border border-200 ring-gray transition-main"
+				class="p-2 rounded-lg bg-gray-100 border border-200 ring-gray transition-main"
 				data-testId="main-nav-settings-button"
 			>
 				<Icon type="solid" title="cog" />
@@ -187,7 +187,7 @@
 		<!-- close button -->
 		<button
 			on:click={closeExtension}
-			class="p-2 rounded-lg cs-darkGray border border-200 ring-gray transition-main"
+			class="p-2 rounded-lg bg-gray-100 border border-200 ring-gray transition-main"
 			data-testId="main-nav-close-button"
 		>
 			<Icon type="solid" title="x" />

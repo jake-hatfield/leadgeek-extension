@@ -1,7 +1,7 @@
 <script lang="ts">
 	// packages
 	import { fade, fly } from 'svelte/transition';
-	import { Link } from 'svelte-navigator';
+	import { Link, navigate } from 'svelte-navigator';
 
 	// components
 	import Button from '@components/utils/Button.svelte';
@@ -47,7 +47,7 @@
 		color: '',
 	};
 	let dashboardSelectActive = false;
-	let modalActive = false;
+	let confirmDashboardDeleteModalActive = false;
 	let targetDashboard = {
 		id: '',
 		title: '',
@@ -62,7 +62,8 @@
 	const toggleDashboardSelect = () =>
 		(dashboardSelectActive = !dashboardSelectActive);
 
-	const toggleModal = () => (modalActive = !modalActive);
+	const toggleConfirmDashboardDeleteModal = () =>
+		(confirmDashboardDeleteModalActive = !confirmDashboardDeleteModalActive);
 
 	const getRandomColor = () => {
 		const randomColor = colors[Math.floor(Math.random() * colors.length)];
@@ -87,7 +88,18 @@
 		if (newDashboard.active && !newDashboard.title)
 			return (newDashboard.active = !newDashboard.active);
 
-		return layout.createDashboard(newDashboard.title);
+		if (newDashboard.title.length > 2) {
+		}
+
+		layout.createDashboard(newDashboard.title);
+		newDashboard = {
+			...newDashboard,
+			active: false,
+			title: '',
+			color: '',
+		};
+		// TODO<Jake>: Navigate to new dashboard by id
+		return toggleAddDashboard();
 	};
 
 	//   TODO<Jake>: Create dashboard
@@ -159,7 +171,7 @@
 										{option}
 										{setTargetDashboard}
 										{toggleDashboardSelect}
-										{toggleModal}
+										{toggleConfirmDashboardDeleteModal}
 									/>
 								{/each}
 							</ul>
@@ -205,7 +217,7 @@
 									newDashboard.active = true;
 									document.getElementById('add-dashboard').focus();
 								}}
-								class="flex items-center w-full py-3 px-4 rounded-lg hover:bg-purple-500 text-purple-500 hover:text-white transition-main group"
+								class="flex items-center w-full py-3 px-4 rounded-lg hover:bg-purple-500 text-purple-500 hover:text-white transition-main group outline-none"
 								data-testId="dashboard-select-button"
 							>
 								<Icon
@@ -235,11 +247,12 @@
 			/>
 		{/if}
 
-		{#if modalActive}
+		<!-- confirm dashboard deletion modal -->
+		{#if confirmDashboardDeleteModalActive}
 			<Modal
-				isActive={modalActive}
+				isActive={confirmDashboardDeleteModalActive}
 				title={`Confirm deletion ${
-					targetDashboard.title ? `of ${targetDashboard.title}` : ''
+					targetDashboard.title ? `of "${targetDashboard.title}"` : ''
 				}`}
 			>
 				<div slot="description">
@@ -256,7 +269,7 @@
 						title="Confirm"
 						action={() => {
 							layout.deleteDashboard(targetDashboard.id);
-							toggleModal();
+							toggleConfirmDashboardDeleteModal();
 						}}
 						class="w-1/2"
 					/>

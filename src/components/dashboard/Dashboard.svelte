@@ -32,10 +32,10 @@
 
 <style>
 	section {
-		min-height: 435.5px;
+		min-height: 501.5px;
 	}
 
 	ul {
-		min-height: 414.5px;
+		min-height: 480.5px;
 	}
 </style>
