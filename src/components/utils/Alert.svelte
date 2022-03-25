@@ -19,7 +19,7 @@
 {#if isActive}
 	<aside
 		transition:fly={{ duration: 150, y: 15 }}
-		class="absolute bottom-2 inset-x-1 flex items-start justify-between p-5 rounded-lg shadow-lg bg-gray-900 text-white"
+		class="absolute bottom-2 inset-x-1 z-40 flex items-start justify-between p-5 rounded-lg shadow-lg bg-gray-900 text-white"
 		data-testId="alert"
 	>
 		<div class="w-5/6 whitespace-normal">

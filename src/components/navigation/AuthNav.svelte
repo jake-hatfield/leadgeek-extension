@@ -76,7 +76,7 @@
 		>
 			<button
 				on:click={settingsModal}
-				class="p-2 rounded-lg bg-gray-100 border border-200 ring-gray transition-main"
+				class="p-1.5 rounded-lg bg-gray-100 border border-200 ring-gray transition-main"
 				data-testId="main-nav-settings-button"
 			>
 				<Icon type="solid" title="cog" />
@@ -130,9 +130,9 @@
 											</span>
 										</span>
 										<span
-											class="all-center h-6 w-6 p-0.5 rounded-lg bg-gray-200 dark:bg-darkGray-200 shadow-sm group-hover:shadow font-semibold text-sm text-100"
-											>{settingsModalLink.shortcut}</span
-										>
+											class="all-center h-5 w-5 p-0.5 rounded-md bg-gray-200 dark:bg-darkGray-200 shadow-sm group-hover:shadow font-semibold text-sm text-100"
+											>{settingsModalLink.shortcut}
+										</span>
 									</a>
 								</li>
 							{/each}
@@ -187,7 +187,7 @@
 		<!-- close button -->
 		<button
 			on:click={closeExtension}
-			class="p-2 rounded-lg bg-gray-100 border border-200 ring-gray transition-main"
+			class="p-1.5 rounded-lg bg-gray-100 border border-200 ring-gray transition-main"
 			data-testId="main-nav-close-button"
 		>
 			<Icon type="solid" title="x" />
