@@ -12,7 +12,7 @@
 
 <button
 	{disabled}
-	class={`p-2 bg-gray-100 rounded-lg border border-200 ring-gray `}
+	class={`p-1.5 bg-gray-100 rounded-lg border border-200 ring-gray `}
 >
 	<Icon type="solid" title={iconTitle} class={$$props.class} />
 </button>
