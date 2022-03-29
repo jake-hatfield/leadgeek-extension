@@ -215,7 +215,6 @@
 							<button
 								on:click={() => {
 									newDashboard.active = true;
-									document.getElementById('add-dashboard').focus();
 								}}
 								class="flex items-center w-full py-3 px-4 rounded-lg hover:bg-purple-500 text-purple-500 hover:text-white transition-main group outline-none"
 								data-testId="dashboard-select-button"
