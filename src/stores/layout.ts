@@ -1,4 +1,4 @@
-import { derived, get, writable } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 
 // packages
 import { v4 as uuidv4 } from 'uuid';

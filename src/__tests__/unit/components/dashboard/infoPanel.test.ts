@@ -14,10 +14,7 @@ import InfoPanel from '@components/dashboard/InfoPanel.svelte';
 import { scannerStatus, scannerIssues } from '@stores/product';
 
 // TODO<Jake>: Loading state should be present initially
-// TODO<Jake>: Active state should contain number of errors found
-// TODO<Jake>: Active state should show on detailed list close
 // TODO<Jake>: Detailed list should show array of issues
-// TODO<Jake>: Clearing issues closes panel and button activation
 // TODO<Jake>: Clearing an issue changes the count
 // TODO<Jake>: Issues have a categorization header: https://dribbble.com/shots/17502424-Notifications-Recommendations/attachments/12640754?mode=media
 // TODO<Jake>: Switching tabs changes view
@@ -129,7 +126,7 @@ describe('active state', () => {
 			});
 		});
 
-		test('should close on click & re-active button', async () => {
+		test('should close on click & re-activate button', async () => {
 			let closeButton = screen.getByTestId('info-panel-close-button');
 
 			await fireEvent.click(closeButton);
@@ -137,7 +134,6 @@ describe('active state', () => {
 			await waitFor(() => {
 				infoPanelDetails = screen.queryByTestId('info-panel-details');
 				infoPanelButton = screen.queryByTestId('info-panel-button-active');
-
 				expect(infoPanelButton).toBeInTheDocument();
 				expect(infoPanelDetails).not.toBeInTheDocument();
 			});
@@ -156,6 +152,33 @@ describe('active state', () => {
 			expect(sortingHeadersListItemNames).toEqual(['All 2', 'Urgent 1']);
 		});
 
-		test.todo('switching sorting headers changes the issue items');
+		test('switching sorting headers changes the issue items', async () => {
+			// click on the next tab
+			// expect the # and titles of items to change
+		});
+
+		test('should close & keep button de-activated on "clear all"', async () => {
+			const clearAllButton = screen.getByTestId('info-panel-button-clear-all');
+
+			expect(clearAllButton).toBeInTheDocument();
+
+			await fireEvent.click(clearAllButton);
+
+			let issues;
+
+			const getIssues = scannerIssues.subscribe((i) => {
+				issues = i;
+			});
+
+			getIssues();
+
+			await waitFor(() => {
+				infoPanelDetails = screen.queryByTestId('info-panel-details');
+				infoPanelButton = screen.queryByTestId('info-panel-button-active');
+				expect(infoPanelDetails).not.toBeInTheDocument();
+				expect(infoPanelButton).not.toBeInTheDocument();
+				expect(issues).toStrictEqual([]);
+			});
+		});
 	});
 });
