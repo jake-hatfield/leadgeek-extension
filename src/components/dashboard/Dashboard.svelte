@@ -2,16 +2,19 @@
 	// components
 	import Widget from '@components/widget/Widget.svelte';
 
-	// global state
+	// stores
 	import { layout } from '@stores/layout';
 
+	// types
+	import type Dashboard from '$types/Dashboard';
+
 	// props
-	export let currentDashboard;
+	export let currentDashboard: Dashboard | null;
 </script>
 
 <section class="p-3" data-testId="dashboard">
 	<!-- null state for widgets -->
-	{#if $layout.length === 0}
+	{#if $layout.length === 0 || !currentDashboard}
 		<div class="p-3 bg-white card-100">
 			<p>Create a dashboard to get started</p>
 		</div>

@@ -7,8 +7,13 @@ import { config } from '@lib/apiHelpers';
 // types
 import type User from '$types/User';
 
-// store
+// stores
 import { isAuthenticated, status, token, user } from '@stores/auth';
+import { layout } from '@stores/layout';
+
+const setUserLayout = (userLayout) => {
+	return layout.set(userLayout);
+};
 
 // get a user's data
 export const getUserData = async () => {
@@ -27,6 +32,7 @@ export const getUserData = async () => {
 		// return user data to store
 		if (res.data.user) {
 			user.set(res.data.user);
+			setUserLayout(res.data.user.extension.layout);
 			isAuthenticated.set(true);
 		}
 
