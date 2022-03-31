@@ -69,6 +69,6 @@
 	});
 </script>
 
-<DashboardNav {currentDashboard} {nextDashboard} {prevDashboard} />
+<DashboardNav {nextDashboard} {prevDashboard} />
 <Dashboard {currentDashboard} />
 <InfoPanel />

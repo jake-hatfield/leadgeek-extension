@@ -17,8 +17,8 @@ import { scannerStatus, scannerIssues } from '@stores/product';
 // TODO<Jake>: Detailed list should show array of issues
 // TODO<Jake>: Clearing an issue changes the count
 // TODO<Jake>: Issues have a categorization header: https://dribbble.com/shots/17502424-Notifications-Recommendations/attachments/12640754?mode=media
+// TODO<Jake>: Clear button for issue groups
 // TODO<Jake>: Switching tabs changes view
-// TODO<Jake>:
 
 describe('loading state', () => {
 	test.todo('loading state');
@@ -57,12 +57,20 @@ describe('active state', () => {
 
 		scannerIssues.set([
 			{
-				title: 'Some issue',
+				id: 'test-issue-id-1',
+				category: '',
+				description: 'Test issue description 1',
+				priority: 1,
 				sortKey: 'urgent',
+				title: 'Test issue title 1',
 			},
 			{
-				title: 'Another issue',
+				id: 'test-issue-id-2',
+				category: '',
+				description: 'Test issue description 2',
+				priority: 2,
 				sortKey: 'none',
+				title: 'Test issue title 2',
 			},
 		]);
 		scannerStatus.set('idle');
@@ -86,8 +94,12 @@ describe('active state', () => {
 
 		scannerIssues.set([
 			{
-				title: 'Only one issue',
+				id: 'test-issue-id-1',
+				category: '',
+				description: 'Test issue description 1',
+				priority: 1,
 				sortKey: 'urgent',
+				title: 'Test issue title 1',
 			},
 		]);
 
@@ -181,4 +193,6 @@ describe('active state', () => {
 			});
 		});
 	});
+
+	test.todo('should stack the cards by group & priority');
 });

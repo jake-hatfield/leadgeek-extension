@@ -4,7 +4,8 @@
 
 	// components
 	import Icon from '@components/utils/Icon.svelte';
-    import Loader from "@components/utils/Loader.svelte"
+	import InfoPanelIssue from '@components/dashboard/InfoPanelIssue.svelte';
+	import Loader from '@components/utils/Loader.svelte';
 
 	//  lib
 	import { pluralize } from '@lib/stringHelpers';
@@ -52,18 +53,8 @@
 			: $scannerIssues;
 
 	// TODO<Jake>: Loading icon while issue scanner is processing - don't block rendering while analysing a product
-
 	// TODO<Jake>: Style issue items like: https://dribbble.com/shots/15784542-Notification-list-in-side-sheet
-    // Group the cards by category
-    // stack the cards by group
-    // stack the group by priority
-    // clear the cards on "x" click (no swiping) - decrement in store
-
-    // TODO<Jake>: Write tests for what the issue items should contain
-        // - close button
-        // - title
-        // - description
-    // TODO<Jake>: Create a test list of 5, with grouping and stacking
+	// TODO<Jake>: Create a test list of 5, with grouping and stacking
 </script>
 
 <section class="">
@@ -81,9 +72,9 @@
 			>
 				{#if $scannerStatus === 'loading'}
 					<div class="flex items-center p-3">
-                        <Loader/>
-                        <p class='ml-3'>Scanning for potential issues</p>
-                    </div>
+						<Loader />
+						<p class="ml-3">Scanning for potential issues</p>
+					</div>
 				{:else if $scannerStatus === 'idle'}
 					{#if $scannerIssues.length !== 0}
 						<div>
@@ -185,19 +176,20 @@
 					{/each}
 				</ul>
 				<button
-                on:click={() =>{scannerIssues.set([]); toggleIssues();}}
-					class="mb-2 font-semibold text-gray-600 hover:text-purple-500 outline-none transition-main" data-testId="info-panel-button-clear-all">
-                    Clear all
-                </button>
+					on:click={() => {
+						scannerIssues.set([]);
+						toggleIssues();
+					}}
+					class="mb-2 font-semibold text-gray-600 hover:text-purple-500 outline-none transition-main"
+					data-testId="info-panel-button-clear-all"
+				>
+					Clear all
+				</button>
 			</div>
 			<div class="h-full p-3">
 				<ul>
 					{#each issues as issue, i (i)}
-						<li animate:flip transition:fly class="flex items-center">
-							<h4>
-								{issue.title}
-							</h4>
-						</li>
+						<InfoPanelIssue {issue} />
 					{:else}
 						<div>No data to display</div>
 					{/each}

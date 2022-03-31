@@ -1,7 +1,7 @@
 <script lang="ts">
 	// packages
 	import { fade, fly } from 'svelte/transition';
-	import { Link, navigate } from 'svelte-navigator';
+	import { Link } from 'svelte-navigator';
 
 	// components
 	import Button from '@components/utils/Button.svelte';
@@ -17,14 +17,13 @@
 	// types
 	import type Dashboard from '$types/Dashboard';
 
-	// store
+	// stores
 	import { status } from '@stores/product';
 	import { layout } from '@stores/layout';
 
 	// props
-	export let currentDashboard;
-	export let nextDashboard;
-	export let prevDashboard;
+	export let nextDashboard: string;
+	export let prevDashboard: string;
 
 	// state
 	let colors = [
@@ -143,15 +142,15 @@
 				class="center-between w-full py-1.5 px-4 rounded-lg border border-200 text-left ring-gray"
 				data-testId="dashboard-select"
 			>
-				{#if $layout.length > 0}
+				{#if $layout.length === 0}
+					<span class="text-gray-300">Create a dashboard...</span>
+				{:else}
 					<span class="flex items-center" data-testId="dashboard-select-title">
 						<span
-							class={`inline-block h-2.5 w-2.5 rounded-sm ${currentDashboard.color}`}
+							class={`inline-block h-2.5 w-2.5 rounded-sm ${$layout[0].color}`}
 						/>
-						<span class="ml-3">{currentDashboard.title}</span>
+						<span class="ml-3">{$layout[0].title}</span>
 					</span>
-				{:else}
-					<span class="text-gray-300">Create a dashboard...</span>
 				{/if}
 				<Icon type="solid" title="selector" />
 			</button>
