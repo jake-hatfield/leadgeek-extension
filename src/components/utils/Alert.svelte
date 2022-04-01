@@ -22,14 +22,14 @@
 		class="absolute bottom-2 inset-x-1 z-40 flex items-start justify-between p-5 rounded-lg shadow-lg bg-gray-900 text-white"
 		data-testId="alert"
 	>
-		<div class="w-5/6 whitespace-normal">
+		<header class="w-5/6 whitespace-normal">
 			<h5 class="font-semibold text-lg">
 				{$alert.title}
 			</h5>
 			<p class="mt-3 text-grey-400 break-words">
 				{$alert.description}
 			</p>
-		</div>
+		</header>
 		<!-- close button -->
 		<button
 			on:click={() => alert.delete()}

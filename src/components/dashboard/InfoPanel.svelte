@@ -1,10 +1,9 @@
 <script lang="ts">
-	import { flip } from 'svelte/animate';
 	import { fade, fly } from 'svelte/transition';
 
 	// components
 	import Icon from '@components/utils/Icon.svelte';
-	import InfoPanelIssue from '@components/dashboard/InfoPanelIssue.svelte';
+	import InfoPanelItem from '@components/dashboard/InfoPanelItem.svelte';
 	import Loader from '@components/utils/Loader.svelte';
 
 	//  lib
@@ -30,7 +29,7 @@
 	let buttonActive = true;
 	let currentSortingHeader = 0;
 	let currentSortKey = '';
-	let issuesPanelActive = false;
+	let issuesPanelActive = true;
 
 	//  functions
 	const toggleIssues = () => {
@@ -180,16 +179,16 @@
 						scannerIssues.set([]);
 						toggleIssues();
 					}}
-					class="mb-2 font-semibold text-gray-600 hover:text-purple-500 outline-none transition-main"
+					class="mb-2 text-purple-500 hover:text-purple-600 outline-none transition-main"
 					data-testId="info-panel-button-clear-all"
 				>
 					Clear all
 				</button>
 			</div>
-			<div class="h-full p-3">
-				<ul>
+			<div class="h-full">
+				<ul class="p-3">
 					{#each issues as issue, i (i)}
-						<InfoPanelIssue {issue} />
+						<InfoPanelItem {issue} />
 					{:else}
 						<div>No data to display</div>
 					{/each}

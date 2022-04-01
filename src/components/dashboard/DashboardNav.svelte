@@ -5,7 +5,7 @@
 
 	// components
 	import Button from '@components/utils/Button.svelte';
-	import DashboardNavOption from '@components/dashboard/DashboardNavOption.svelte';
+	import DashboardNavOption from '@components/dashboard/DashboardNavItem.svelte';
 	import Icon from '@components/utils/Icon.svelte';
 	import IconButton from '@components/utils/IconButton.svelte';
 	import Modal from '@components/utils/Modal.svelte';
@@ -117,12 +117,12 @@
 		<!-- navigate dashboard left -->
 		{#if prevDashboard}
 			<Link to={`/${prevDashboard}`} replace={true}>
-				<IconButton iconTitle="chevron-left" class="text-purple-500" />
+				<IconButton title="chevron-left" class="text-purple-500" />
 			</Link>
 		{:else}
 			<IconButton
 				disabled={!prevDashboard}
-				iconTitle="chevron-left"
+				title="chevron-left"
 				class="cursor-default"
 			/>
 		{/if}
@@ -235,12 +235,12 @@
 		<!-- navigate dashboard right -->
 		{#if nextDashboard}
 			<Link to={`/${nextDashboard}`}>
-				<IconButton iconTitle="chevron-right" />
+				<IconButton title="chevron-right" />
 			</Link>
 		{:else}
 			<IconButton
 				disabled={!nextDashboard}
-				iconTitle="chevron-right"
+				title="chevron-right"
 				class="cursor-default"
 			/>
 		{/if}
