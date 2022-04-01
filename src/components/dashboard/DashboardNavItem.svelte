@@ -123,6 +123,7 @@
 								: e.currentTarget.value.length * 10 + 15
 						}px`;
 					}}
+					autocomplete="off"
 					id="edit-dashboard"
 					placeholder="Name this dashboard"
 					class="max-w-[150px] ml-2 py-1 px-2.5 rounded-md group-hover:bg-gray-100 outline-none"
@@ -152,7 +153,7 @@
 						<button
 							on:click|preventDefault|stopPropagation={() => alert('star')}
 						>
-							{#if option.id === $currentDashboard.id}
+							{#if option.id === layout.defaultDashboard().id}
 								<Icon
 									type="solid"
 									title="star"

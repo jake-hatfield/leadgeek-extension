@@ -5,8 +5,6 @@
 
 	// stores
 	import { currentDashboard } from '@stores/layout';
-
-	$: console.log($currentDashboard);
 </script>
 
 <section class="h-[435.5px] p-3" data-testId="dashboard">
