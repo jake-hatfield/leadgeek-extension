@@ -83,6 +83,7 @@ describe('dashboard nav with layout state', () => {
 	const dashboards = [
 		{
 			id: '1',
+			default: true,
 			title: 'Dashboard #1',
 			color: 'bg-teal-500',
 			widgets: [

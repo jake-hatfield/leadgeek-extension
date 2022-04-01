@@ -13,7 +13,7 @@
 	import { handleClickOutside } from '@lib/clickHelpers';
 
 	// stores
-	import { layout } from '@stores/layout';
+	import { currentDashboard, layout } from '@stores/layout';
 
 	// props
 	export let colors: string[];
@@ -57,14 +57,14 @@
 </script>
 
 <li
-	class={`center-between rounded-lg hover:bg-gray-100 ring-1 group ${
+	class={`center-between rounded-lg hover:bg-gray-100 ring-1 ring-inset group ${
 		editTitle ? 'ring-purple-500' : 'ring-transparent'
 	}`}
 >
 	<!-- icon and title -->
 	<div
 		class={`relative flex items-center min-w-fit pl-4 ${
-			editTitle ? 'py-1.5 border-purple-500' : 'py-2'
+			editTitle ? 'py-[6px]' : 'py-[7px]'
 		}`}
 	>
 		<button
@@ -134,10 +134,11 @@
 			on:mouseleave={() => (hoverActive = false)}
 			class="relative w-full"
 		>
-			<a
-				href={`/${option.id}`}
-				use:link
-				on:click={toggleDashboardSelect}
+			<button
+				on:click={() => {
+					currentDashboard.set(option);
+					toggleDashboardSelect();
+				}}
 				class="py-6 block w-full outline-none"
 				><!-- buttons -->
 				{#if hoverActive}
@@ -149,12 +150,21 @@
 						<button
 							on:click|preventDefault|stopPropagation={() => alert('star')}
 						>
-							<Icon
-								type="outline"
-								title="star"
-								size="sm"
-								class="hover:text-purple-500"
-							/>
+							{#if option.id === $currentDashboard.id}
+								<Icon
+									type="solid"
+									title="star"
+									size="sm"
+									class="hover:text-purple-500"
+								/>
+							{:else}
+								<Icon
+									type="outline"
+									title="star"
+									size="sm"
+									class="hover:text-purple-500"
+								/>
+							{/if}
 						</button>
 						<button
 							on:click|preventDefault|stopPropagation={() => {
@@ -172,7 +182,7 @@
 						</button>
 					</div>
 				{/if}
-			</a>
+			</button>
 		</div>
 	{/if}
 </li>

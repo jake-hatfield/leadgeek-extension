@@ -58,7 +58,7 @@
 </script>
 
 <section class="">
-	<div class="absolute z-20 bottom-2 left-1/2 transform -translate-x-1/2">
+	<div class="absolute z-20 bottom-3 left-1/2 transform -translate-x-1/2">
 		<!-- button  -->
 		{#if buttonActive}
 			<div

@@ -19,7 +19,7 @@
 
 	// stores
 	import { status } from '@stores/product';
-	import { layout } from '@stores/layout';
+	import { currentDashboard, layout } from '@stores/layout';
 
 	// props
 	export let nextDashboard: string;
@@ -116,7 +116,7 @@
 	>
 		<!-- navigate dashboard left -->
 		{#if prevDashboard}
-			<Link to={`/${prevDashboard}`}>
+			<Link to={`/${prevDashboard}`} replace={true}>
 				<IconButton iconTitle="chevron-left" class="text-purple-500" />
 			</Link>
 		{:else}
@@ -142,14 +142,14 @@
 				class="center-between w-full py-1.5 px-4 rounded-lg border border-200 text-left ring-gray"
 				data-testId="dashboard-select"
 			>
-				{#if $layout.length === 0}
+				{#if !$currentDashboard}
 					<span class="text-gray-300">Create a dashboard...</span>
 				{:else}
 					<span class="flex items-center" data-testId="dashboard-select-title">
 						<span
-							class={`inline-block h-2.5 w-2.5 rounded-sm ${$layout[0].color}`}
+							class={`inline-block h-2.5 w-2.5 rounded-sm ${$currentDashboard.color}`}
 						/>
-						<span class="ml-3">{$layout[0].title}</span>
+						<span class="ml-3">{$currentDashboard.title}</span>
 					</span>
 				{/if}
 				<Icon type="solid" title="selector" />

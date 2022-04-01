@@ -1,10 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	// packages
-	import { useLocation } from 'svelte-navigator';
-
 	// components
+	import AuthLayout from '@components/layout/AuthLayout.svelte';
 	import Dashboard from '@components/dashboard/Dashboard.svelte';
 	import DashboardNav from '@components/dashboard/DashboardNav.svelte';
 	import InfoPanel from '@components/dashboard/InfoPanel.svelte';
@@ -14,30 +12,18 @@
 	import { getActiveUrl, getAsin } from '@utils/urlHelpers';
 
 	// stores
-	import { layout } from '@stores/layout';
+	import { currentDashboard, layout } from '@stores/layout';
 	import { data, status } from '@stores/product';
 
-	// global const
-	const location = useLocation();
+	let nextDashboard =
+		$currentDashboard && layout.getNextDashboardId($currentDashboard.id, 1);
+	$: nextDashboard =
+		$currentDashboard && layout.getNextDashboardId($currentDashboard.id, 1);
 
-	// functions
-	const getCurrentDashboardId = (location) => {
-		return location.pathname.split('/')[1];
-	};
-
-	// state/reactive state
-	let currentDashboardId =
-		getCurrentDashboardId($location) || layout.defaultDashboardId();
-	$: currentDashboardId = getCurrentDashboardId($location);
-
-	let currentDashboard = layout.getDashboardById(currentDashboardId);
-	$: currentDashboard = layout.getDashboardById(currentDashboardId);
-
-	let nextDashboard = layout.getNextDashboardId(currentDashboardId, 1);
-	$: nextDashboard = layout.getNextDashboardId(currentDashboardId, 1);
-
-	let prevDashboard = layout.getNextDashboardId(currentDashboardId, -1);
-	$: prevDashboard = layout.getNextDashboardId(currentDashboardId, -1);
+	let prevDashboard =
+		$currentDashboard && layout.getNextDashboardId($currentDashboard.id, -1);
+	$: prevDashboard =
+		$currentDashboard && layout.getNextDashboardId($currentDashboard.id, -1);
 
 	//   on mount
 	onMount(async () => {
@@ -69,6 +55,8 @@
 	});
 </script>
 
-<DashboardNav {nextDashboard} {prevDashboard} />
-<Dashboard {currentDashboard} />
-<InfoPanel />
+<AuthLayout>
+	<DashboardNav {nextDashboard} {prevDashboard} />
+	<Dashboard />
+	<InfoPanel />
+</AuthLayout>

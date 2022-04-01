@@ -10,15 +10,15 @@ const createLayout = () => {
 	const { subscribe, set, update } = writable<Dashboard[]>([]);
 
 	const createDashboard = (title: string) => {
-		update((layout: Dashboard[]) => [
-			...layout,
-			{
-				id: uuidv4(),
-				title,
-				color: 'bg-purple-500',
-				widgets: [],
-			},
-		]);
+		const newDashboard = {
+			id: uuidv4(),
+			default: false,
+			title,
+			color: 'bg-purple-500',
+			widgets: [],
+		};
+		currentDashboard.set(newDashboard);
+		update((layout: Dashboard[]) => [...layout, newDashboard]);
 	};
 
 	const deleteDashboard = (id: string) => {
@@ -29,19 +29,12 @@ const createLayout = () => {
 		// get the current store layout
 		const dashboards: Dashboard[] = get(layout);
 
-		// if there are layout items in the array, return the first one, otherwise return null
-		return dashboards.length > 0 ? dashboards[0] : null;
-	};
-
-	const defaultDashboardId = () => {
-		// get the default dashboard
-		const dashboard = defaultDashboard();
-
-		// if null, return an empty string so as to not throw an error
-		if (dashboard === null) return '';
-
-		// else return the default dashboard id
-		return dashboard.id;
+		// if there are layout items in the array, return the default one, otherwise return null
+		return dashboards.length > 0
+			? dashboards.find((d) => d.default === true)
+				? dashboards.find((d) => d.default === true)
+				: dashboards[0]
+			: null;
 	};
 
 	const editDashboardTitle = (id: string, title: string) => {
@@ -121,7 +114,7 @@ const createLayout = () => {
 	return {
 		createDashboard,
 		createWidget,
-		defaultDashboardId,
+		defaultDashboard,
 		deleteDashboard,
 		deleteWidget,
 		editDashboardTitle,
@@ -134,3 +127,7 @@ const createLayout = () => {
 };
 
 export const layout = createLayout();
+
+export const currentDashboard = writable<Dashboard | null>(
+	layout.defaultDashboard()
+);

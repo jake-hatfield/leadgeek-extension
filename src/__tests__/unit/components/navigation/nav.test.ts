@@ -62,6 +62,7 @@ describe('main nav without props', () => {
 				layout: [
 					{
 						id: '1',
+						default: true,
 						title: 'Dashboard #1',
 						color: 'bg-teal-500',
 						widgets: [

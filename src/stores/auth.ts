@@ -4,7 +4,8 @@ import { Writable, writable } from 'svelte/store';
 import type User from '$types/User';
 
 // auth loading status
-export const status: Writable<'idle' | 'loading' | 'error'> = writable('idle');
+export const status: Writable<'idle' | 'loading' | 'error'> =
+	writable('loading');
 
 // auth details
 export const token: Writable<string | null> = writable(null);

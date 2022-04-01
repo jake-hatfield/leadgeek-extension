@@ -1,44 +1,33 @@
 <script lang="ts">
 	// components
+	import Transition from '@components/utils/Transition.svelte';
 	import Widget from '@components/widget/Widget.svelte';
 
 	// stores
-	import { layout } from '@stores/layout';
+	import { currentDashboard } from '@stores/layout';
 
-	// types
-	import type Dashboard from '$types/Dashboard';
-
-	// props
-	export let currentDashboard: Dashboard | null;
+	$: console.log($currentDashboard);
 </script>
 
-<section class="p-3" data-testId="dashboard">
+<section class="h-[435.5px] p-3" data-testId="dashboard">
 	<!-- null state for widgets -->
-	{#if $layout.length === 0 || !currentDashboard}
+	{#if !$currentDashboard}
 		<div class="p-3 bg-white card-100">
 			<p>Create a dashboard to get started</p>
 		</div>
-	{:else if currentDashboard.widgets.length === 0}
+	{:else if $currentDashboard.widgets.length === 0}
 		<div class="p-3 bg-white card-100"><p>Add a widget to get started</p></div>
 	{:else}
-		<!-- show active widgets -->
-		<ul
-			class="grid grid-cols-2 grid-rows-2 gap-3"
-			data-testId="dashboard-widget-list"
-		>
-			{#each currentDashboard.widgets as widget}
-				<Widget {widget} />
-			{/each}
-		</ul>
+		<Transition key={$currentDashboard.id}>
+			<!-- show active widgets -->
+			<ul
+				class="grid grid-cols-2 grid-rows-2 gap-3 h-[414.5px]"
+				data-testId="dashboard-widget-list"
+			>
+				{#each $currentDashboard.widgets as widget}
+					<Widget {widget} />
+				{/each}
+			</ul>
+		</Transition>
 	{/if}
 </section>
-
-<style>
-	section {
-		min-height: 501.5px;
-	}
-
-	ul {
-		min-height: 480.5px;
-	}
-</style>
