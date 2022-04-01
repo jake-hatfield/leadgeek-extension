@@ -38,6 +38,8 @@
 	};
 
 	const onInput = (node) => {
+		console.log(node.style);
+		node.style.width = `${titleValue.length * 10 + 15}px`;
 		node.focus();
 		handleClickOutside(node, {
 			enabled: editTitle,
@@ -116,14 +118,14 @@
 					bind:value={titleValue}
 					on:input={(e) => {
 						e.currentTarget.style.width = `${
-							e.currentTarget.value.length * 10 + 15
+							e.currentTarget.value.length === 0
+								? '150'
+								: e.currentTarget.value.length * 10 + 15
 						}px`;
 					}}
 					id="edit-dashboard"
 					placeholder="Name this dashboard"
-					class={`ml-2 py-1 px-2.5 rounded-md group-hover:bg-gray-100 outline-none ${
-						titleValue.length === 0 ? 'w-40' : ''
-					}`}
+					class="max-w-[150px] ml-2 py-1 px-2.5 rounded-md group-hover:bg-gray-100 outline-none"
 				/>
 			</div>
 		{/if}
@@ -186,9 +188,3 @@
 		</div>
 	{/if}
 </li>
-
-<style>
-	input {
-		max-width: 10rem;
-	}
-</style>

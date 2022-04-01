@@ -55,13 +55,13 @@
 
 {#if $status === 'loading' || !$user}
 	<div class="border-b border-200">
-		<Skeleton width={400} height={49}>
+		<Skeleton width={378} height={47}>
 			<!-- user icon -->
-			<circle cx={27.5} cy={24.5} r={17.5} />
+			<rect width={30} height={30} x={10.5} y={9} rx={7} ry={7} />
 			<!-- logo -->
-			<rect width={49} height={33.5} x={175.5} y={7.5} rx={7} ry={7} />
+			<rect width={49} height={33.5} x={165} y={7.5} rx={7} ry={7} />
 			<!-- close icon -->
-			<rect width={33.5} height={33.5} x={356.5} y={7.5} rx={7} ry={7} />
+			<rect width={30} height={30} x={337.5} y={9.5} rx={7} ry={7} />
 		</Skeleton>
 	</div>
 {:else}
@@ -119,8 +119,8 @@
 									}}
 									class="mx-3 rounded-lg hover:bg-gray-100 hover:text-200 transition-main group"
 								>
-									<a
-										href={`/${settingsModalLink.link}/`}
+									<Link
+										to={`/${settingsModalLink.link}/`}
 										class="flex items-center justify-between p-3"
 									>
 										<span class="flex items-center">
@@ -133,7 +133,7 @@
 											class="all-center h-5 w-5 p-0.5 rounded-md bg-gray-200 dark:bg-darkGray-200 shadow-sm group-hover:shadow font-semibold text-sm text-100"
 											>{settingsModalLink.shortcut}
 										</span>
-									</a>
+									</Link>
 								</li>
 							{/each}
 

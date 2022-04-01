@@ -21,6 +21,12 @@
 	};
 
 	onMount(() => {
+		if ($isAuthenticated) {
+			console.log('authenticated');
+		}
+
+		console.log($isAuthenticated);
+
 		try {
 			authenticateUser();
 		} catch (error) {
@@ -33,10 +39,4 @@
 	}
 </script>
 
-{#if $isAuthenticated && $status === 'idle'}
-	<slot />
-{:else if $status === 'loading'}
-	<p>Put a loading spinner here...</p>
-{:else}
-	<p>There was a server error</p>
-{/if}
+<slot />

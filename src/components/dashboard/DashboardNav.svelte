@@ -163,7 +163,7 @@
 				>
 					<div data-testId="dashboard-select-options">
 						{#if $layout.length > 0}
-							<ul class="mx-3 py-1.5">
+							<ul class="mx-3 pt-1.5">
 								{#each $layout as option}
 									<DashboardNavOption
 										{colors}
@@ -210,7 +210,7 @@
 								/>
 							</div>
 						{/if}
-						<div class="mx-3 py-1.5 border-t border-200">
+						<div class="mt-1.5 mx-3 py-1.5 border-t border-200">
 							<button
 								on:click={() => {
 									newDashboard.active = true;

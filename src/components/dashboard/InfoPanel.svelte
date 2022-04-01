@@ -64,10 +64,10 @@
 			<div
 				in:fade={{ delay: 400 }}
 				out:fly={{ y: 15, duration: 200 }}
-				class={`w-full rounded-lg whitespace-nowrap shadow hover:shadow-lg transition-main ${
+				class={`w-full rounded-lg whitespace-nowrap shadow transition-main ${
 					buttonActive && $scannerIssues.length === 0
 						? 'bg-teal-200 border-teal-500 text-teal-900'
-						: 'bg-gray-900 text-white'
+						: 'bg-gray-900 text-white hover:shadow-lg'
 				}`}
 			>
 				{#if $scannerStatus === 'loading'}
