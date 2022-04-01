@@ -5,17 +5,17 @@
 	export let key;
 
 	//   state
-	const pageTransitionDuration = 200;
+	const pageTransitionDuration = 300;
 </script>
 
 {#key key}
 	<div
 		in:fly={{
-			x: -5,
+			x: -15,
 			duration: pageTransitionDuration,
 			delay: pageTransitionDuration,
 		}}
-		out:fly={{ x: 5, duration: pageTransitionDuration }}
+		out:fly={{ x: 15, duration: pageTransitionDuration }}
 	>
 		<slot />
 	</div>
