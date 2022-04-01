@@ -16,7 +16,7 @@
 </script>
 
 {#if id}
-	<Link to={`./${id}/`}>
+	<Link to={`./${id}/`} replace={true}>
 		<span
 			on:mouseenter={() => (hoverActive = true)}
 			on:mouseleave={() => (hoverActive = false)}

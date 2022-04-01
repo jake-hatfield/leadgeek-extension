@@ -7,21 +7,21 @@
 
 	// pages
 	import Dashboard from '@pages/index.svelte';
+	import IssueScanner from '@pages/issueScanner.svelte';
 	import Login from '@pages/login/index.svelte';
-	import Widget from '@pages/widget.svelte';
 </script>
 
-<main>
+<div>
+	<Route>
+		<h3>404</h3>
+	</Route>
 	<Route path="login">
 		<Login />
 	</Route>
-	<PrivateRoute path="/" let:location>
+	<PrivateRoute path="" let:location>
 		<Dashboard />
 	</PrivateRoute>
-	<PrivateRoute path="/:dId" let:location>
-		<Dashboard />
+	<PrivateRoute path="issue-scanner" let:location>
+		<IssueScanner />
 	</PrivateRoute>
-	<PrivateRoute path=":dId/:wId" let:location>
-		<Widget />
-	</PrivateRoute>
-</main>
+</div>

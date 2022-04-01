@@ -1,21 +1,42 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+
 	// packages
 	import { useNavigate, useLocation } from 'svelte-navigator';
 
 	// store
-	import { user } from '@stores/auth';
+	import { isAuthenticated, status } from '@stores/auth';
+
+	//   utils
+	import { authenticateUser } from '@utils/authHelpers';
 
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	$: if (!$user) {
+	const navigateToLogin = () => {
 		navigate('/login', {
 			state: { from: $location.pathname },
 			replace: true,
 		});
+	};
+
+	onMount(() => {
+		try {
+			authenticateUser();
+		} catch (error) {
+			navigateToLogin();
+		}
+	});
+
+	$: if (!$isAuthenticated && $status === 'idle') {
+		navigateToLogin();
 	}
 </script>
 
-{#if $user}
+{#if $isAuthenticated && $status === 'idle'}
 	<slot />
+{:else if $status === 'loading'}
+	<p>Put a loading spinner here...</p>
+{:else}
+	<p>There was a server error</p>
 {/if}

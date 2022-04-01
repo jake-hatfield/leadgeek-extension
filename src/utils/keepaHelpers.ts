@@ -20,7 +20,6 @@ const responseHandler = (response: AxiosResponse<any>): AxiosResponse<any> => {
 	// eslint-disable-next-line no-constant-condition
 	if (response.config.method === 'GET' || response.config.method === 'get') {
 		if (response.config.url && !isURLInWhiteList(response.config.url)) {
-			console.log('storing in cache');
 			cache.store(response.config.url, JSON.stringify(response.data));
 		}
 	}
@@ -29,7 +28,6 @@ const responseHandler = (response: AxiosResponse<any>): AxiosResponse<any> => {
 
 const errorHandler = (error: any) => {
 	if (error.headers.cached === true) {
-		console.log('received cached data in response, serving it directly');
 		return Promise.resolve(error);
 	}
 	return Promise.reject(error);
@@ -40,7 +38,6 @@ const requestHandler = (request: AxiosRequestConfig) => {
 	if (request.method === 'GET' || request.method === 'get') {
 		const checkIsValidResponse = cache.isValid(request.url || '');
 		if (checkIsValidResponse.isValid) {
-			console.log('serving cached data');
 			request.headers.cached = true;
 			request.data = JSON.parse(checkIsValidResponse.value || '{}');
 			return Promise.reject(request);

@@ -5,7 +5,7 @@
 	//   components
 	import Button from '@components/utils/Button.svelte';
 	import Input from '@components/utils/Input.svelte';
-	import UnauthLayout from '@components/layouts/UnauthLayout.svelte';
+	import UnauthLayout from '@components/layout/UnauthLayout.svelte';
 
 	//   lib
 	import { getCurrentTime } from '@lib/dateTimeHelpers';
@@ -22,8 +22,6 @@
 	let passwordValue = '';
 	let welcomeText = 'Hello there!';
 	const currentTime = getCurrentTime();
-
-	$: defaultDashboardId = layout.defaultDashboardId();
 
 	//   functions
 	const navigate = useNavigate();
@@ -44,7 +42,7 @@
 
 	$: if ($status === 'idle' && $isAuthenticated && $user) {
 		layout.set($user.extension.layout ? $user.extension.layout : []);
-		navigate(`/${defaultDashboardId}`, {
+		navigate('/', {
 			state: { from: $location.pathname },
 			replace: true,
 		});
@@ -52,7 +50,10 @@
 </script>
 
 <UnauthLayout>
-	<section class="all-center p-3 bg-splatter" data-testId="login-page">
+	<section
+		class="all-center min-h-[550px] p-3 bg-splatter"
+		data-testId="login-page"
+	>
 		<article class="w-full card-padding-y cs-light-100 card-200">
 			<header class="card-padding-x pb-3 border-b border-200">
 				<h1 class="text-2xl font-bold text-300 outline-none">
@@ -103,9 +104,3 @@
 		</article>
 	</section>
 </UnauthLayout>
-
-<style>
-	section {
-		min-height: 550px;
-	}
-</style>

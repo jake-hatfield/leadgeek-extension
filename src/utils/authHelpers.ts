@@ -9,10 +9,25 @@ import type User from '$types/User';
 
 // stores
 import { isAuthenticated, status, token, user } from '@stores/auth';
-import { layout } from '@stores/layout';
+import { currentDashboard, layout } from '@stores/layout';
+
+export const authenticateUser = () => {
+	// check for a token in LS
+	handleJwt(localStorage.token);
+
+	// load the user data
+	getUserData();
+
+	// log user out from all tabs if they log out from one tab
+	window.addEventListener('storage', () => {
+		if (!localStorage.token) removeUserData();
+	});
+};
 
 const setUserLayout = (userLayout) => {
-	return layout.set(userLayout);
+	layout.set(userLayout);
+	currentDashboard.set(layout.defaultDashboard());
+	return;
 };
 
 // get a user's data

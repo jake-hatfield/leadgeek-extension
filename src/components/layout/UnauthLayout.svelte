@@ -2,8 +2,8 @@
 	import { onMount } from 'svelte';
 
 	// components
-	import AuthNav from '@components/navigation/AuthNav.svelte';
 	import Alert from '@components/utils/Alert.svelte';
+	import UnauthNav from '@components/layout/navigation/UnauthNav.svelte';
 
 	//   utils
 	import { getUserData, handleJwt, removeUserData } from '@utils/authHelpers';
@@ -21,12 +21,10 @@
 			if (!localStorage.token) removeUserData();
 		});
 	});
-
-	// TODO<Jake>: Transition all colors for dark mode switching
 </script>
 
-<main class="relative text-base cs-light-500 transition-colors">
-	<AuthNav />
+<main class="relative text-base">
+	<UnauthNav />
 	<slot />
 	<Alert />
 </main>

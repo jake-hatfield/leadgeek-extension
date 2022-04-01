@@ -176,7 +176,7 @@
 		<!-- logo -->
 		<div>
 			<Link
-				to={`/${$layout.length > 0 ? $layout[0].id : ''}`}
+				to="/"
 				class="block py-2 rounded-lg outline-none"
 				data-testId="main-nav-logo-link"
 			>

@@ -1,6 +1,6 @@
 <script lang="ts">
 	// components
-	import UnauthLayout from '@components/layouts/UnauthLayout.svelte';
+	import UnauthLayout from '@components/layout/UnauthLayout.svelte';
 </script>
 
 <UnauthLayout>

@@ -8,8 +8,8 @@ describe('empty layout state', () => {
 		layout.set([]);
 	});
 
-	test('layout.defaultDashboard() should return empty string', () => {
-		expect(layout.defaultDashboardId()).toBe('');
+	test('layout.defaultDashboard() should return null', () => {
+		expect(layout.defaultDashboard()).toBe(null);
 	});
 
 	test('layout.getDashboardById() should return null', () => {
@@ -26,6 +26,7 @@ describe('populated state layout', () => {
 		layout.set([
 			{
 				id: '123456',
+				default: true,
 				title: 'Test dashboard #1',
 				color: 'bg-teal-500',
 				widgets: [
@@ -70,6 +71,7 @@ describe('populated state layout', () => {
 			},
 			{
 				id: '654321',
+				default: false,
 				title: 'Test dashboard #2',
 				color: 'bg-purple-500',
 				widgets: [
@@ -116,7 +118,51 @@ describe('populated state layout', () => {
 	});
 
 	test("layout.defaultDashboardId() should return first dashboard's id", () => {
-		expect(layout.defaultDashboardId()).toBe('123456');
+		expect(layout.defaultDashboard()).toStrictEqual({
+			id: '123456',
+			default: true,
+			title: 'Test dashboard #1',
+			color: 'bg-teal-500',
+			widgets: [
+				{
+					id: '1',
+					title: 'Profit analysis',
+					data: [
+						{ title: 'Est.sales/mo', value: 1500000 },
+						{ title: 'Est.sales/mo', value: 79 },
+						{ title: 'Est.sales/mo', value: 79 },
+						{ title: 'Est.sales/mo', value: 1500000 },
+					],
+				},
+				{
+					id: '12',
+					title: 'Sales/mo',
+					data: [
+						{ title: 'Est.sales/mo', value: 79 },
+						{ title: 'Est.sales/mo', value: 79 },
+						{ title: 'Est.sales/mo', value: 79 },
+					],
+				},
+				{
+					id: '123',
+					title: 'Competition',
+					data: [
+						{ title: 'Est.sales/mo', value: 79 },
+						{ title: 'Est.sales/mo', value: 79 },
+						{ title: 'Est.sales/mo', value: 79 },
+					],
+				},
+				{
+					id: '1234',
+					title: 'Variations',
+					data: [
+						{ title: 'Est.sales/mo', value: 80 },
+						{ title: 'Est.sales/mo', value: 79 },
+						{ title: 'Est.sales/mo', value: 79 },
+					],
+				},
+			],
+		});
 	});
 
 	test('layout.getDashboardById() should return appropriate dashboard', () => {
