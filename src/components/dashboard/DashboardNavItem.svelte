@@ -39,7 +39,7 @@
 
 	const onInput = (node) => {
 		console.log(node.style);
-		node.style.width = `${titleValue.length * 10 + 15}px`;
+		node.style.width = `${titleValue.length * 9 + 20}px`;
 		node.focus();
 		handleClickOutside(node, {
 			enabled: editTitle,
@@ -120,7 +120,7 @@
 						e.currentTarget.style.width = `${
 							e.currentTarget.value.length === 0
 								? '150'
-								: e.currentTarget.value.length * 10 + 15
+								: e.currentTarget.value.length * 9 + 20
 						}px`;
 					}}
 					autocomplete="off"

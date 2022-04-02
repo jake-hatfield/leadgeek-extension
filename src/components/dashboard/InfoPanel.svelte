@@ -2,7 +2,7 @@
 	import { fade, fly } from 'svelte/transition';
 
 	// components
-	import Icon from '@components/utils/Icon.svelte';
+	import ButtonIcon from '@components/utils/ButtonIcon.svelte';
 	import InfoPanelItem from '@components/dashboard/InfoPanelItem.svelte';
 	import Loader from '@components/utils/Loader.svelte';
 
@@ -120,20 +120,18 @@
 			class="absolute top-0 z-30 w-full h-full bg-white"
 			data-testId="info-panel-details"
 		>
-			<div class="flex items-end justify-between p-3 border-b border-200">
+			<div class="center-between p-3 border-b border-200">
 				<header>
 					<h2 class="text-xl font-semibold">Issues</h2>
 				</header>
-				<button
-					on:click={() => {
+
+				<ButtonIcon
+					action={() => {
 						toggleIssues();
 						toggleButton();
 					}}
-					class="p-1 rounded-lg bg-gray-100 border border-200 ring-gray transition-main"
-					data-testId="info-panel-close-button"
-				>
-					<Icon type="solid" title="x" />
-				</button>
+					title="x"
+				/>
 			</div>
 			<div
 				class="center-between pt-3 px-3 border-b border-200"
@@ -190,7 +188,7 @@
 					{#each issues as issue, i (i)}
 						<InfoPanelItem {issue} />
 					{:else}
-						<div>No data to display</div>
+						<div transition:fade={{ delay: 200 }}>No data to display</div>
 					{/each}
 				</ul>
 			</div>

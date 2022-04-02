@@ -26,7 +26,7 @@
 			<h5 class="font-semibold text-lg">
 				{$alert.title}
 			</h5>
-			<p class="mt-3 text-grey-400 break-words">
+			<p class="mt-3 text-gray-400 break-words">
 				{$alert.description}
 			</p>
 		</header>
