@@ -14,7 +14,11 @@
 <button
 	on:click={action}
 	{disabled}
-	class="p-1.5 bg-gray-100 rounded-lg border border-200 ring-gray"
+	class="p-1.5 bg-transparent hover:bg-gray-100 rounded-lg border border-transparent hover:border-gray-200 dark:hover:border-darkGray-100 ring-gray group transition-main"
 >
-	<Icon type="solid" {title} class={$$props.class} />
+	<Icon
+		type="solid"
+		{title}
+		class={`${$$props.class} group-hover:text-gray-800`}
+	/>
 </button>

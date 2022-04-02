@@ -5,6 +5,7 @@
 	import { Link } from 'svelte-navigator';
 
 	//  components
+	import ButtonIcon from '@components/utils/ButtonIcon.svelte';
 	import Icon from '@components/utils/Icon.svelte';
 	import Logo from '@components/utils/Logo.svelte';
 	import Skeleton from '@components/utils/Skeleton.svelte';
@@ -35,7 +36,7 @@
 		{
 			title: 'Issue scanner',
 			link: 'issue-scanner',
-			icon: 'cog',
+			icon: 'lightning-bolt',
 			shortcut: 'S',
 		},
 	];
@@ -45,7 +46,7 @@
 		return window.close();
 	};
 
-	const settingsModal = () => {
+	const toggleSettingsModal = () => {
 		settingsModalActive = !settingsModalActive;
 	};
 
@@ -70,17 +71,11 @@
 		<div
 			use:handleClickOutside={{
 				enabled: settingsModalActive,
-				cb: () => settingsModalActive && settingsModal(),
+				cb: () => settingsModalActive && toggleSettingsModal(),
 			}}
 			class="relative"
 		>
-			<button
-				on:click={settingsModal}
-				class="p-1.5 rounded-lg bg-gray-100 border border-200 ring-gray transition-main"
-				data-testId="main-nav-settings-button"
-			>
-				<Icon type="solid" title="cog" />
-			</button>
+			<ButtonIcon action={() => toggleSettingsModal()} title="cog" />
 
 			<!-- settings modal -->
 			{#if settingsModalActive}
@@ -114,9 +109,7 @@
 						<ul class="py-1.5">
 							{#each settingsModalLinks as settingsModalLink}
 								<li
-									on:click={() => {
-										settingsModal();
-									}}
+									on:click={toggleSettingsModal}
 									class="mx-3 rounded-lg hover:bg-gray-100 hover:text-200 transition-main group"
 								>
 									<Link
@@ -185,12 +178,6 @@
 		</div>
 
 		<!-- close button -->
-		<button
-			on:click={closeExtension}
-			class="p-1.5 rounded-lg bg-gray-100 border border-200 ring-gray transition-main"
-			data-testId="main-nav-close-button"
-		>
-			<Icon type="solid" title="x" />
-		</button>
+		<ButtonIcon action={() => closeExtension()} title="x" />
 	</nav>
 {/if}

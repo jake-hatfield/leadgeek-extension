@@ -7,7 +7,7 @@
 	import Button from '@components/utils/Button.svelte';
 	import DashboardNavOption from '@components/dashboard/DashboardNavItem.svelte';
 	import Icon from '@components/utils/Icon.svelte';
-	import IconButton from '@components/utils/IconButton.svelte';
+	import IconButton from '@components/utils/ButtonIcon.svelte';
 	import Modal from '@components/utils/Modal.svelte';
 	import Skeleton from '@components/utils/Skeleton.svelte';
 
@@ -117,7 +117,11 @@
 		<!-- navigate dashboard left -->
 		{#if prevDashboard}
 			<Link to={`/${prevDashboard}`} replace={true}>
-				<IconButton title="chevron-left" class="text-purple-500" />
+				<IconButton
+					action={() => alert('prevDashboard')}
+					title="chevron-left"
+					class="text-purple-500"
+				/>
 			</Link>
 		{:else}
 			<IconButton

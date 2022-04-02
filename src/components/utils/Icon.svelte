@@ -2302,7 +2302,7 @@
 		xmlns="http://www.w3.org/2000/svg"
 		role="img"
 		aria-label={ariaLabel}
-		class={`flex-none text-gray-400 ${
+		class={`flex-none text-gray-600 ${
 			size === 'sm' ? 'svg-sm' : size === 'lg' ? 'h-7 w-7' : 'svg-base'
 		} ${$$props.class}`}
 		{fill}

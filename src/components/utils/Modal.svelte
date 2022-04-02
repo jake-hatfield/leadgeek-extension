@@ -20,7 +20,7 @@
 				<h5 class="font-semibold text-lg">
 					{title}
 				</h5>
-				<div class="mt-3 text-grey-400 break-words">
+				<div class="mt-3 text-gray-400 break-words">
 					<slot name="description" />
 				</div>
 			</header>

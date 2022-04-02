@@ -817,6 +817,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .h-0 {
   height: 0px;
 }
+.h-\[2px\] {
+  height: 2px;
+}
 .min-h-full {
   min-height: 100%;
 }
@@ -887,6 +890,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .w-0 {
   width: 0px;
+}
+.w-\[2px\] {
+  width: 2px;
 }
 .min-w-fit {
   min-width: -webkit-fit-content;
@@ -1154,6 +1160,9 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-bg-opacity: 1;
   background-color: rgb(30 44 60 / var(--tw-bg-opacity));
 }
+.bg-transparent {
+  background-color: transparent;
+}
 .p-3 {
   padding: 0.75rem;
 }
@@ -1388,6 +1397,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 .text-teal-300 {
   --tw-text-opacity: 1;
   color: rgb(142 237 199 / var(--tw-text-opacity));
+}
+.text-gray-700 {
+  --tw-text-opacity: 1;
+  color: rgb(72 101 129 / var(--tw-text-opacity));
 }
 .opacity-75 {
   opacity: 0.75;
@@ -2319,6 +2332,11 @@ html {
   border-color: rgb(112 105 250 / var(--tw-border-opacity));
 }
 
+.hover\:border-gray-200:hover {
+  --tw-border-opacity: 1;
+  border-color: rgb(230 235 240 / var(--tw-border-opacity));
+}
+
 .hover\:bg-purple-500:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(112 105 250 / var(--tw-bg-opacity));
@@ -2357,6 +2375,11 @@ html {
 .hover\:text-purple-600:hover {
   --tw-text-opacity: 1;
   color: rgb(93 85 250 / var(--tw-text-opacity));
+}
+
+.hover\:text-gray-600:hover {
+  --tw-text-opacity: 1;
+  color: rgb(98 125 152 / var(--tw-text-opacity));
 }
 
 .hover\:shadow-lg:hover {
@@ -2415,6 +2438,16 @@ html {
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
+.group:hover .group-hover\:text-gray-600 {
+  --tw-text-opacity: 1;
+  color: rgb(98 125 152 / var(--tw-text-opacity));
+}
+
+.group:hover .group-hover\:text-gray-800 {
+  --tw-text-opacity: 1;
+  color: rgb(51 78 104 / var(--tw-text-opacity));
+}
+
 .group:hover .group-hover\:shadow {
   --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
@@ -2454,6 +2487,11 @@ html {
 .dark .dark\:bg-purple-300 {
   --tw-bg-opacity: 1;
   background-color: rgb(162 165 252 / var(--tw-bg-opacity));
+}
+
+.dark .dark\:hover\:border-darkGray-100:hover {
+  --tw-border-opacity: 1;
+  border-color: rgb(30 44 60 / var(--tw-border-opacity));
 }
 
 .dark .dark\:hover\:bg-darkGray-300:hover {
