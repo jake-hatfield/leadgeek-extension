@@ -38,7 +38,6 @@
 	};
 
 	const onInput = (node) => {
-		console.log(node.style);
 		node.style.width = `${titleValue.length * 9 + 20}px`;
 		node.focus();
 		handleClickOutside(node, {

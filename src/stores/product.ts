@@ -22,7 +22,7 @@ const createScannerIssues = () => {
 			category: '',
 			description: 'Test issue description 1',
 			priority: 1,
-			sortKey: 'urgent',
+			sortKey: 'none',
 			title: 'Test issue title 1',
 		},
 		{
@@ -38,7 +38,7 @@ const createScannerIssues = () => {
 			category: '',
 			description: 'Test issue description 3',
 			priority: 3,
-			sortKey: 'urgent',
+			sortKey: 'none',
 			title: 'Test issue title 3',
 		},
 	]);

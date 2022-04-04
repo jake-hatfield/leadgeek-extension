@@ -6,32 +6,46 @@
 	import InfoPanelItem from '@components/dashboard/InfoPanelItem.svelte';
 	import Loader from '@components/utils/Loader.svelte';
 
-	//  lib
+	// lib
 	import { pluralize } from '@lib/stringHelpers';
 
-	//  stores
+	// types
+	import type Issue from '$types/Issue';
+
+	// stores
 	import { scannerStatus, scannerIssues } from '@stores/product';
 	import { onMount } from 'svelte';
 
-	//  state
-	const buttons = [
-		{
-			title: 'All',
-			value: $scannerIssues.length,
-			sortKey: '',
-		},
-		{
-			title: 'Urgent',
-			value: $scannerIssues.filter((i) => i.sortKey === 'urgent').length,
-			sortKey: 'urgent',
-		},
-	];
+	// state
 	let buttonActive = true;
 	let currentSortingHeader = 0;
 	let currentSortKey = '';
-	let issuesPanelActive = true;
+	let issuesPanelActive = false;
+
+	// reactive state
+	$: sortingHeaders = createSortingHeaders($scannerIssues);
 
 	//  functions
+	const createSortingHeaders = (
+		scannerIssues: Issue[]
+	): {
+		title: string;
+		value: number;
+		sortKey: 'none' | 'urgent';
+	}[] => {
+		return [
+			{
+				title: 'All',
+				value: scannerIssues.length,
+				sortKey: 'none',
+			},
+			{
+				title: 'Urgent',
+				value: scannerIssues.filter((i) => i.sortKey === 'urgent').length,
+				sortKey: 'urgent',
+			},
+		];
+	};
 	const toggleIssues = () => {
 		issuesPanelActive = !issuesPanelActive;
 	};
@@ -43,7 +57,7 @@
 	onMount(() => {
 		setTimeout(() => {
 			scannerStatus.set('idle');
-		}, 6000);
+		}, 500);
 	});
 
 	$: issues =
@@ -117,7 +131,7 @@
 	{#if issuesPanelActive}
 		<section
 			transition:fly={{ y: 300, duration: 400 }}
-			class="absolute top-0 z-30 w-full h-full bg-white"
+			class="absolute top-0 z-30 max-w-[400px] w-full h-full bg-white"
 			data-testId="info-panel-details"
 		>
 			<div class="center-between p-3 border-b border-200">
@@ -131,6 +145,7 @@
 						toggleButton();
 					}}
 					title="x"
+					data-testId="info-panel-close-button"
 				/>
 			</div>
 			<div
@@ -138,12 +153,12 @@
 				data-testId="info-panel-sorting-headers"
 			>
 				<ul aria-label="sorting-headers" class="flex items-center">
-					{#each buttons as button, i}
+					{#each sortingHeaders as sortingHeader, i}
 						<li class="first:ml-0 ml-8">
 							<button
 								on:click={() => {
 									currentSortingHeader = i;
-									currentSortKey = button.sortKey;
+									currentSortKey = sortingHeader.sortKey;
 								}}
 								class={`flex items-end -mb-px pb-3 px-1.5 font-semibold group border-b-2 outline-none ${
 									currentSortingHeader === i
@@ -158,7 +173,7 @@
 											: 'text-gray-400 group-hover:text-gray-900'
 									}`}
 								>
-									{button.title}
+									{sortingHeader.title}
 								</h3>
 								<span
 									class={`all-center h-5 w-5 ml-2.5 p-0.5 rounded-md  shadow-sm font-semibold text-xs ${
@@ -166,7 +181,7 @@
 											? 'bg-gray-900 dark:bg-darkGray-200 text-white'
 											: 'bg-gray-200 group-hover:bg-gray-900 dark:bg-darkGray-200 group-hover:shadow text-gray-400 group-hover:text-white'
 									}`}
-									>{button.value}
+									>{sortingHeader.value}
 								</span>
 							</button>
 						</li>
@@ -185,19 +200,18 @@
 			</div>
 			<div class="h-full">
 				<ul class="p-3">
-					{#each issues as issue, i (i)}
+					{#each issues as issue}
 						<InfoPanelItem {issue} />
 					{:else}
-						<div transition:fade={{ delay: 200 }}>No data to display</div>
+						<p in:fade={{ delay: 200 }}>
+							You're all caught up <span
+								role="img"
+								aria-label="Sunglasses emoji">😎</span
+							>
+						</p>
 					{/each}
 				</ul>
 			</div>
 		</section>
 	{/if}
 </section>
-
-<style>
-	section {
-		max-width: 400px;
-	}
-</style>

@@ -15,6 +15,7 @@
 	on:click={action}
 	{disabled}
 	class="p-1.5 bg-transparent hover:bg-gray-100 rounded-lg border border-transparent hover:border-gray-200 dark:hover:border-darkGray-100 ring-gray group transition-main"
+	{...$$restProps}
 >
 	<Icon
 		type="solid"

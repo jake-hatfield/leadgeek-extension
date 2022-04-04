@@ -1,5 +1,5 @@
 import { fireEvent, render, waitFor } from '@testing-library/svelte';
-import { screen, within } from '@testing-library/dom';
+import { within } from '@testing-library/dom';
 import '@testing-library/jest-dom';
 
 // component
