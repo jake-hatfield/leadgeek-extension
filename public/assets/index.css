@@ -911,9 +911,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   -webkit-animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
           animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
-.cursor-default {
-  cursor: default;
-}
 .cursor-text {
   cursor: text;
 }
@@ -1018,9 +1015,9 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-border-opacity: 1;
   border-color: rgb(72 101 129 / var(--tw-border-opacity));
 }
-.border-purple-600 {
+.border-gray-200 {
   --tw-border-opacity: 1;
-  border-color: rgb(93 85 250 / var(--tw-border-opacity));
+  border-color: rgb(230 235 240 / var(--tw-border-opacity));
 }
 .bg-white {
   --tw-bg-opacity: 1;
@@ -1104,6 +1101,12 @@ Ensure the default browser behavior of the `hidden` attribute.
 .p-3 {
   padding: 0.75rem;
 }
+.p-1\.5 {
+  padding: 0.375rem;
+}
+.p-1 {
+  padding: 0.25rem;
+}
 .p-5 {
   padding: 1.25rem;
 }
@@ -1112,12 +1115,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .p-0 {
   padding: 0px;
-}
-.p-1 {
-  padding: 0.25rem;
-}
-.p-1\.5 {
-  padding: 0.375rem;
 }
 .p-2 {
   padding: 0.5rem;
@@ -1224,6 +1221,18 @@ Ensure the default browser behavior of the `hidden` attribute.
 .pb-4 {
   padding-bottom: 1rem;
 }
+.pl-3 {
+  padding-left: 0.75rem;
+}
+.pr-2 {
+  padding-right: 0.5rem;
+}
+.pt-0\.5 {
+  padding-top: 0.125rem;
+}
+.pt-0 {
+  padding-top: 0px;
+}
 .text-left {
   text-align: left;
 }
@@ -1272,13 +1281,17 @@ Ensure the default browser behavior of the `hidden` attribute.
 .tracking-wider {
   letter-spacing: 0.05em;
 }
-.text-purple-500 {
-  --tw-text-opacity: 1;
-  color: rgb(112 105 250 / var(--tw-text-opacity));
+.\!text-gray-300 {
+  --tw-text-opacity: 1 !important;
+  color: rgb(188 204 220 / var(--tw-text-opacity)) !important;
 }
 .text-gray-300 {
   --tw-text-opacity: 1;
   color: rgb(188 204 220 / var(--tw-text-opacity));
+}
+.text-purple-500 {
+  --tw-text-opacity: 1;
+  color: rgb(112 105 250 / var(--tw-text-opacity));
 }
 .text-red-300 {
   --tw-text-opacity: 1;
@@ -1307,10 +1320,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .text-teal-300 {
   --tw-text-opacity: 1;
   color: rgb(142 237 199 / var(--tw-text-opacity));
-}
-.\!text-gray-300 {
-  --tw-text-opacity: 1 !important;
-  color: rgb(188 204 220 / var(--tw-text-opacity)) !important;
 }
 .opacity-75 {
   opacity: 0.75;

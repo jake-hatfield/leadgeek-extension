@@ -22,7 +22,7 @@
 {#if $status === 'idle'}
 	<li class="min-h-full cs-light-400 card-100">
 		<header
-			class="relative flex items-end justify-between p-3 pb-1.5 border-b border-200"
+			class="relative flex items-end justify-between pt-3 pl-3 pr-2 pb-1.5 border-b border-200"
 		>
 			<h3 class="pb-1 uppercase tracking-wider font-semibold text-sm text-100">
 				{widget.title}
@@ -30,17 +30,16 @@
 			<button
 				on:mouseenter={() => (hoverActive = true)}
 				on:mouseleave={() => (hoverActive = false)}
+				class={`relative flex items-center p-1 rounded-md border ring-gray transition-main group ${
+					hoverActive
+						? 'bg-gray-100 border-gray-200'
+						: 'border-transparent text-gray-400'
+				}`}
 			>
-				<span
-					class={`relative flex items-center p-1 rounded-md ring-gray transition-main group ${
-						hoverActive ? 'bg-gray-100' : 'text-gray-400'
-					}`}
-				>
-					<Icon type="solid" title="chevron-right" />
-					{#if hoverActive}
-						<Badge badge={{ title: 'View details' }} position="right-8" />
-					{/if}
-				</span>
+				<Icon type="solid" title="chevron-right" />
+				{#if hoverActive}
+					<Badge badge={{ title: 'View details' }} position="right-8" />
+				{/if}
 			</button>
 		</header>
 		<ul class="pt-4 cs-light-400 rounded-b-md">

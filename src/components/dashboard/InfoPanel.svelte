@@ -31,13 +31,13 @@
 	): {
 		title: string;
 		value: number;
-		sortKey: 'none' | 'urgent';
+		sortKey: '' | 'urgent';
 	}[] => {
 		return [
 			{
 				title: 'All',
 				value: scannerIssues.length,
-				sortKey: 'none',
+				sortKey: '',
 			},
 			{
 				title: 'Urgent',
@@ -70,7 +70,7 @@
 	// TODO<Jake>: Create a test list of 5, with grouping and stacking
 </script>
 
-<section class="">
+<section>
 	<div class="absolute z-20 bottom-3 left-1/2 transform -translate-x-1/2">
 		<!-- button  -->
 		{#if buttonActive}
@@ -199,7 +199,7 @@
 				</button>
 			</div>
 			<div class="h-full">
-				<ul class="p-3">
+				<ul class="p-3" data-testId="info-panel-details-issue-items">
 					{#each issues as issue}
 						<InfoPanelItem {issue} />
 					{:else}

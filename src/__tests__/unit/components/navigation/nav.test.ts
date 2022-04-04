@@ -1,10 +1,10 @@
-import { fireEvent } from '@testing-library/svelte';
 import {
+	fireEvent,
 	getByRole,
 	getByTestId,
 	queryByTestId,
 	within,
-} from '@testing-library/dom';
+} from '@testing-library/svelte';
 import '@testing-library/jest-dom';
 
 // lib
