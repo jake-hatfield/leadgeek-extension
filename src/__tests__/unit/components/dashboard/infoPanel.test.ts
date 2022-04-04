@@ -1,5 +1,6 @@
 import {
 	fireEvent,
+	getAllByRole,
 	render,
 	screen,
 	waitFor,
@@ -12,12 +13,12 @@ import InfoPanel from '@components/dashboard/InfoPanel.svelte';
 
 // store
 import { scannerStatus, scannerIssues } from '@stores/product';
+import { getByTestId } from '@testing-library/dom';
+
+// types
+import type Issue from '$types/Issue';
 
 // TODO<Jake>: Loading state should be present initially
-// TODO<Jake>: Detailed list should show array of issues
-// TODO<Jake>: Clearing an issue changes the count
-// TODO<Jake>: Issues have a categorization header: https://dribbble.com/shots/17502424-Notifications-Recommendations/attachments/12640754?mode=media
-// TODO<Jake>: Clear button for issue groups
 // TODO<Jake>: Switching tabs changes view
 
 describe('loading state', () => {
@@ -52,27 +53,29 @@ describe('active state', () => {
 	let infoPanelButton;
 	let infoPanelDetails;
 
+	const testIssues: Issue[] = [
+		{
+			id: 'test-issue-id-1',
+			category: 'testGroup1',
+			description: 'Test issue description 1',
+			priority: 1,
+			sortKey: 'urgent',
+			title: 'Test issue title 1',
+		},
+		{
+			id: 'test-issue-id-2',
+			category: 'testGroup2',
+			description: 'Test issue description 2',
+			priority: 2,
+			sortKey: 'none',
+			title: 'Test issue title 2',
+		},
+	];
+
 	beforeEach(async () => {
 		const { findByTestId, queryByTestId } = render(InfoPanel);
 
-		scannerIssues.set([
-			{
-				id: 'test-issue-id-1',
-				category: '',
-				description: 'Test issue description 1',
-				priority: 1,
-				sortKey: 'urgent',
-				title: 'Test issue title 1',
-			},
-			{
-				id: 'test-issue-id-2',
-				category: '',
-				description: 'Test issue description 2',
-				priority: 2,
-				sortKey: 'none',
-				title: 'Test issue title 2',
-			},
-		]);
+		scannerIssues.set(testIssues);
 		scannerStatus.set('idle');
 
 		infoPanelButton = await findByTestId('info-panel-button-active');
@@ -192,7 +195,64 @@ describe('active state', () => {
 				expect(issues).toStrictEqual([]);
 			});
 		});
-	});
 
-	test.todo('should stack the cards by group & priority');
+		describe('issue items', () => {
+			let issueItemList, issueItems;
+
+			beforeEach(() => {
+				issueItemList = getByTestId(
+					infoPanelDetails,
+					'info-panel-details-issue-items'
+				);
+
+				issueItems = getAllByRole(issueItemList, 'listitem');
+			});
+
+			test('should render list and corrent # of items', () => {
+				expect(issueItemList).toBeInTheDocument();
+				expect(issueItems.length).toBe(2);
+			});
+
+			test('should change active count on IssueItem clear', async () => {
+				const urgentTestItem = getAllByRole(issueItemList, 'listitem')[0];
+
+				await fireEvent.mouseEnter(urgentTestItem);
+
+				let urgentTestItemButton;
+
+				await waitFor(() => {
+					urgentTestItemButton = getByTestId(
+						urgentTestItem,
+						'clear-issue-button'
+					);
+				});
+
+				await fireEvent.click(urgentTestItemButton);
+
+				await waitFor(() => {
+					const sortingHeadersListItemNames = sortingHeadersListItems.map((i) =>
+						i.textContent.trim()
+					);
+
+					expect(sortingHeadersListItemNames).toEqual(['All 1', 'Urgent 0']);
+				});
+			});
+
+			test('should stack the cards by group & priority', () => {
+				scannerIssues.set([
+					...testIssues,
+					{
+						id: 'test-issue-id-3',
+						category: 'testGroup1',
+						description: 'Test issue description 3',
+						priority: 2,
+						sortKey: 'urgent',
+						title: 'Test issue title 3',
+					},
+				]);
+
+				// YO FUTURE JAKE PICK UP HERE
+			});
+		});
+	});
 });

@@ -1,5 +1,11 @@
-import { fireEvent, render, screen } from '@testing-library/svelte';
-import { findByTestId, getByText, getByRole } from '@testing-library/dom';
+import {
+	fireEvent,
+	findByTestId,
+	getByText,
+	getByRole,
+	render,
+	screen,
+} from '@testing-library/svelte';
 import '@testing-library/jest-dom';
 
 // components

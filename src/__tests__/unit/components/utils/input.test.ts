@@ -1,5 +1,4 @@
-import { fireEvent, render } from '@testing-library/svelte';
-import { queryByTestId } from '@testing-library/dom';
+import { fireEvent, render, queryByTestId } from '@testing-library/svelte';
 import '@testing-library/jest-dom';
 
 // component

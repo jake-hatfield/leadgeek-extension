@@ -1,5 +1,4 @@
-import { fireEvent, render, waitFor } from '@testing-library/svelte';
-import { within } from '@testing-library/dom';
+import { fireEvent, render, waitFor, within } from '@testing-library/svelte';
 import '@testing-library/jest-dom';
 
 // component
@@ -10,6 +9,8 @@ import { scannerIssues, scannerStatus } from '@stores/product';
 
 // types
 import type Issue from '$types/Issue';
+
+// TODO<Jake>: Should only show button on mouse enter
 
 describe('active state with one issue', () => {
 	let issue: HTMLElement,
@@ -42,8 +43,13 @@ describe('active state with one issue', () => {
 
 		title = within(issue).getByText(/^Test issue title 1$/);
 		description = within(issue).getByText(/^Test issue description 1$/);
-		button = within(issue).getByRole('button', {
-			name: 'clear-issue-button',
+
+		await fireEvent.mouseEnter(issue);
+
+		await waitFor(() => {
+			button = within(issue).getByRole('button', {
+				name: 'clear-issue-button',
+			});
 		});
 	});
 

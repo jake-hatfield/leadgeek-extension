@@ -19,7 +19,7 @@ const createScannerIssues = () => {
 	const { subscribe, set, update } = writable<Issue[]>([
 		{
 			id: 'test-issue-id-1',
-			category: '',
+			category: 'Buy box',
 			description: 'Test issue description 1',
 			priority: 1,
 			sortKey: 'none',
@@ -27,7 +27,7 @@ const createScannerIssues = () => {
 		},
 		{
 			id: 'test-issue-id-2',
-			category: '',
+			category: 'Selling restrictions',
 			description: 'Test issue description 2',
 			priority: 2,
 			sortKey: 'urgent',
@@ -35,7 +35,7 @@ const createScannerIssues = () => {
 		},
 		{
 			id: 'test-issue-id-3',
-			category: '',
+			category: 'Profitability',
 			description: 'Test issue description 3',
 			priority: 3,
 			sortKey: 'none',
