@@ -7,7 +7,7 @@
 	import Button from '@components/utils/Button.svelte';
 	import DashboardNavOption from '@components/dashboard/DashboardNavItem.svelte';
 	import Icon from '@components/utils/Icon.svelte';
-	import IconButton from '@components/utils/ButtonIcon.svelte';
+	import ButtonIcon from '@components/utils/ButtonIcon.svelte';
 	import Modal from '@components/utils/Modal.svelte';
 	import Skeleton from '@components/utils/Skeleton.svelte';
 
@@ -87,9 +87,6 @@
 		if (newDashboard.active && !newDashboard.title)
 			return (newDashboard.active = !newDashboard.active);
 
-		if (newDashboard.title.length > 2) {
-		}
-
 		layout.createDashboard(newDashboard.title);
 		newDashboard = {
 			...newDashboard,
@@ -116,19 +113,11 @@
 	>
 		<!-- navigate dashboard left -->
 		{#if prevDashboard}
-			<Link to={`/${prevDashboard}`} replace={true}>
-				<IconButton
-					action={() => alert('prevDashboard')}
-					title="chevron-left"
-					class="text-purple-500"
-				/>
-			</Link>
+			<ButtonIcon action={() => alert('prevDashboard')} title="chevron-left" />
 		{:else}
-			<IconButton
-				disabled={!prevDashboard}
-				title="chevron-left"
-				class="cursor-default"
-			/>
+			<span class="p-1.5">
+				<Icon type="solid" title="chevron-left" class="!text-gray-300" />
+			</span>
 		{/if}
 
 		<!-- dashboard select -->
@@ -238,15 +227,11 @@
 
 		<!-- navigate dashboard right -->
 		{#if nextDashboard}
-			<Link to={`/${nextDashboard}`}>
-				<IconButton title="chevron-right" />
-			</Link>
+			<ButtonIcon action={() => alert('nextDashboard')} title="chevron-right" />
 		{:else}
-			<IconButton
-				disabled={!nextDashboard}
-				title="chevron-right"
-				class="cursor-default"
-			/>
+			<span class="p-1.5">
+				<Icon type="solid" title="chevron-right" class="!text-gray-300" />
+			</span>
 		{/if}
 
 		<!-- confirm dashboard deletion modal -->

@@ -1,7 +1,8 @@
 <script lang="ts">
 	// components
+	import Badge from '@components/utils/Badge.svelte';
+	import Icon from '@components/utils/Icon.svelte';
 	import Skeleton from '@components/utils/Skeleton.svelte';
-	import WidgetButton from '@components/widget/WidgetButton.svelte';
 
 	// types
 	import type Widget from '$types/Widget';
@@ -12,6 +13,9 @@
 	//   props
 	export let widget: Widget;
 
+	//   state
+	let hoverActive = false;
+
 	//   TODO<Jake>: Truncate text in widgets OR max character length in widget title (15 chars?)
 </script>
 
@@ -20,10 +24,24 @@
 		<header
 			class="relative flex items-end justify-between p-3 pb-1.5 border-b border-200"
 		>
-			<h3 class="uppercase tracking-wider font-semibold text-sm text-100">
+			<h3 class="pb-1 uppercase tracking-wider font-semibold text-sm text-100">
 				{widget.title}
 			</h3>
-			<WidgetButton id={widget.id} />
+			<button
+				on:mouseenter={() => (hoverActive = true)}
+				on:mouseleave={() => (hoverActive = false)}
+			>
+				<span
+					class={`relative flex items-center p-1 rounded-md ring-gray transition-main group ${
+						hoverActive ? 'bg-gray-100' : 'text-gray-400'
+					}`}
+				>
+					<Icon type="solid" title="chevron-right" />
+					{#if hoverActive}
+						<Badge badge={{ title: 'View details' }} position="right-8" />
+					{/if}
+				</span>
+			</button>
 		</header>
 		<ul class="pt-4 cs-light-400 rounded-b-md">
 			{#each widget.data as widgetItem}

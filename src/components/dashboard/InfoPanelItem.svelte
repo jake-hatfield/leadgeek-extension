@@ -2,7 +2,7 @@
 	import { fly } from 'svelte/transition';
 
 	// components
-	import IconButton from '@components/utils/ButtonIcon.svelte';
+	import ButtonIcon from '@components/utils/ButtonIcon.svelte';
 
 	// stores
 	import { scannerIssues } from '@stores/product';
@@ -15,10 +15,15 @@
 
 	// state
 	let hoverActive = false;
+
+	let buttonIconProps = {
+		label: 'clear-issue-button',
+		testId: 'clear-issue-button',
+	};
 </script>
 
 <li
-	out:fly={{ x: -15, duration: 150 }}
+	transition:fly={{ x: -15, duration: 150 }}
 	on:mouseenter={() => (hoverActive = true)}
 	on:mouseleave={() => (hoverActive = false)}
 	aria-label={issue.id}
@@ -42,11 +47,10 @@
 	</div>
 	{#if hoverActive}
 		<!-- close button -->
-		<IconButton
-			type="solid"
-			title="x"
+		<ButtonIcon
 			action={() => scannerIssues.deleteIssue(issue.id)}
-			aria-label="clear-issue-button"
+			title="x"
+			{...buttonIconProps}
 		/>
 	{/if}
 </li>
