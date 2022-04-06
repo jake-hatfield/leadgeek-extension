@@ -239,6 +239,7 @@ describe('active state', () => {
 			});
 
 			test('should stack the cards by group & priority', () => {
+				// add an item to testGroup1 but with lower priority
 				scannerIssues.set([
 					...testIssues,
 					{
@@ -251,7 +252,14 @@ describe('active state', () => {
 					},
 				]);
 
-				// YO FUTURE JAKE PICK UP HERE
+				issueItemList = screen.getByTestId('info-panel-details-issue-items');
+
+				issueItems = screen.getAllByRole('listitem', { name: 'issue-item' });
+
+				expect(issueItems.length).toBe(3);
+
+				// 1. stack the cards by group
+				// 2. stack the cards by priority
 			});
 		});
 	});

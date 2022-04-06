@@ -11,6 +11,7 @@
 
 	// types
 	import type Issue from '$types/Issue';
+	import type IssueGroup from '$types/IssueGroup';
 
 	// stores
 	import { scannerStatus, scannerIssues } from '@stores/product';
@@ -23,29 +24,23 @@
 	let issuesPanelActive = false;
 
 	// reactive state
-	$: sortingHeaders = createSortingHeaders($scannerIssues);
+	$: sortingHeaders = [
+		{
+			title: 'All',
+			value: scannerIssues.getFlattenedIssues().length,
+			sortKey: '',
+		},
+		{
+			title: 'Urgent',
+			value: scannerIssues
+				.getFlattenedIssues()
+				.filter((i) => i.sortKey === 'urgent').length,
+			sortKey: 'urgent',
+		},
+	];
 
 	//  functions
-	const createSortingHeaders = (
-		scannerIssues: Issue[]
-	): {
-		title: string;
-		value: number;
-		sortKey: '' | 'urgent';
-	}[] => {
-		return [
-			{
-				title: 'All',
-				value: scannerIssues.length,
-				sortKey: '',
-			},
-			{
-				title: 'Urgent',
-				value: scannerIssues.filter((i) => i.sortKey === 'urgent').length,
-				sortKey: 'urgent',
-			},
-		];
-	};
+
 	const toggleIssues = () => {
 		issuesPanelActive = !issuesPanelActive;
 	};
@@ -60,10 +55,13 @@
 		}, 500);
 	});
 
-	$: issues =
-		currentSortKey !== ''
-			? $scannerIssues.filter((i) => i.sortKey === currentSortKey)
-			: $scannerIssues;
+	console.log(scannerIssues.getFlattenedIssues());
+
+	// $: issues =
+	// 	currentSortKey !== ''
+	// 		? $scannerIssues.filter((i) => i.sortKey === currentSortKey)
+	// 		: $scannerIssues;
+	$: issues = $scannerIssues;
 
 	// TODO<Jake>: Loading icon while issue scanner is processing - don't block rendering while analysing a product
 	// TODO<Jake>: Style issue items like: https://dribbble.com/shots/15784542-Notification-list-in-side-sheet
@@ -138,7 +136,6 @@
 				<header>
 					<h2 class="text-xl font-semibold">Issues</h2>
 				</header>
-
 				<ButtonIcon
 					action={() => {
 						toggleIssues();
@@ -188,6 +185,17 @@
 					{/each}
 				</ul>
 				<button
+					on:click={() =>
+						scannerIssues.createIssue('test-category-id-3', {
+							description: 'YO',
+							priority: 2,
+							sortKey: 'urgent',
+							title: 'REE',
+						})}
+				>
+					Create a new issue
+				</button>
+				<button
 					on:click={() => {
 						scannerIssues.set([]);
 						toggleIssues();
@@ -200,8 +208,28 @@
 			</div>
 			<div class="h-full">
 				<ul class="p-3" data-testId="info-panel-details-issue-items">
-					{#each issues as issue}
-						<InfoPanelItem {issue} />
+					{#each issues as issueGroup}
+						{#if issueGroup.children.length > 1}
+							<li class="first:mt-0 mt-6">
+								<ul class="relative h-[68px] w-full">
+									{#each issueGroup.children as issue, i}
+										<InfoPanelItem
+											category={issueGroup.category}
+											{issue}
+											isStacked={true}
+											index={i}
+										/>
+									{/each}
+								</ul>
+							</li>
+						{:else}
+							<InfoPanelItem
+								category={issueGroup.category}
+								issue={issueGroup.children[0]}
+								isStacked={false}
+								index={0}
+							/>
+						{/if}
 					{:else}
 						<p in:fade={{ delay: 200 }}>
 							You're all caught up <span
