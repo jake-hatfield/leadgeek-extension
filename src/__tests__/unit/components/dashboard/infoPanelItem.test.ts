@@ -33,13 +33,11 @@ describe('active state with one issue', () => {
 	scannerStatus.set('idle');
 
 	beforeEach(async () => {
-		const { findByRole } = render(InfoPanelIssue, {
+		const { findByTestId } = render(InfoPanelIssue, {
 			issue: testIssues[0],
 		});
 
-		issue = await findByRole('listitem', {
-			name: 'test-issue-id-1',
-		});
+		issue = await findByTestId('test-issue-id-1');
 
 		title = within(issue).getByText(/^Test issue title 1$/);
 		description = within(issue).getByText(/^Test issue description 1$/);

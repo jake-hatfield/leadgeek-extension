@@ -38,6 +38,4 @@
 	}
 </script>
 
-<Transition key={url}>
-	<slot />
-</Transition>
+<slot />

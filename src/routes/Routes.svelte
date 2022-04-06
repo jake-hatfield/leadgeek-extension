@@ -3,6 +3,7 @@
 	import { Route } from 'svelte-navigator';
 
 	// components
+	import AuthLayout from '@components/layout/AuthLayout.svelte';
 	import PrivateRoute from '@routes/PrivateRoute.svelte';
 
 	// pages
@@ -18,10 +19,12 @@
 	<Route path="login">
 		<Login />
 	</Route>
-	<PrivateRoute path="" let:location>
-		<Dashboard />
-	</PrivateRoute>
-	<PrivateRoute path="issue-scanner" let:location>
-		<IssueScanner />
-	</PrivateRoute>
+	<AuthLayout>
+		<PrivateRoute path="" let:location>
+			<Dashboard />
+		</PrivateRoute>
+		<PrivateRoute path="issue-scanner" let:location>
+			<IssueScanner />
+		</PrivateRoute>
+	</AuthLayout>
 </div>
