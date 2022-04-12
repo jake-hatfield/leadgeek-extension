@@ -478,6 +478,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .-right-1 {
   right: -0.25rem;
 }
+.-top-14 {
+  top: -3.5rem;
+}
 .bottom-2 {
   bottom: 0.5rem;
 }

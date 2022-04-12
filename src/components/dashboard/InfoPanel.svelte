@@ -123,7 +123,7 @@
 	{#if issuesPanelActive}
 		<section
 			transition:fly={{ y: 300, duration: 400 }}
-			class="absolute top-0 z-30 max-w-[400px] w-full h-full bg-white"
+			class="absolute -top-14 z-30 max-w-[400px] w-full h-full bg-white"
 			data-testId="info-panel-details"
 		>
 			<div class="center-between p-3 border-b border-200">
