@@ -9,36 +9,4 @@
 	<p>Issue scanner</p>
 	<p>Issue scanner</p>
 	<p>Issue scanner</p>
-	<p>Issue scanner</p>
-	<p>Issue scanner</p>
-	<p>Issue scanner</p>
-	<p>Issue scanner</p>
-	<p>Issue scanner</p>
-	<p>Issue scanner</p>
-	<p>Issue scanner</p>
-	<p>Issue scanner</p>
-	<p>Issue scanner</p>
-	<p>Issue scanner</p>
-	<p>Issue scanner</p>
-	<p>Issue scanner</p>
-	<p>Issue scanner</p>
-	<p>Issue scanner</p>
-	<p>Issue scanner</p>
-	<p>Issue scanner</p>
-	<p>Issue scanner</p>
-	<p>Issue scanner</p>
-	<p>Issue scanner</p>
-	<p>Issue scanner</p>
-	<p>Issue scanner</p>
-	<p>Issue scanner</p>
-	<p>Issue scanner</p>
-	<p>Issue scanner</p>
-	<p>Issue scanner</p>
-	<p>Issue scanner</p>
-	<p>Issue scanner</p>
-	<p>Issue scanner</p>
-	<p>Issue scanner</p>
-	<p>Issue scanner</p>
-	<p>Issue scanner</p>
-	<p>Issue scanner</p>
 </div>

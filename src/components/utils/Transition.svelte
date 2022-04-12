@@ -5,13 +5,14 @@
 	export let key: string | number;
 
 	//   state
-	const duration = 500;
+	const duration = 200;
 </script>
 
 {#key key}
 	<div
 		class="absolute top-0 left-0 w-full"
 		in:fly={{
+			delay: duration,
 			duration,
 			x: -150,
 		}}
