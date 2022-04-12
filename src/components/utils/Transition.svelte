@@ -2,12 +2,10 @@
 	import { fly } from 'svelte/transition';
 
 	//   props
-	export let key;
+	export let key: string | number;
 
 	//   state
 	const duration = 500;
-
-	console.log(key);
 </script>
 
 {#key key}
