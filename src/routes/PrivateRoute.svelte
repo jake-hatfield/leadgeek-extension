@@ -4,7 +4,6 @@
 
 	// components
 	import PrivateRouteGuard from '@routes/PrivateRouteGuard.svelte';
-	import AuthLayout from '@components/layout/AuthLayout.svelte';
 
 	export let path;
 </script>

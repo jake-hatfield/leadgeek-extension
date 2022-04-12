@@ -9,12 +9,12 @@
 	// lib
 	import { pluralize } from '@lib/stringHelpers';
 
-	// types
-	import type Issue from '$types/Issue';
-	import type IssueGroup from '$types/IssueGroup';
-
 	// stores
-	import { scannerStatus, scannerIssues } from '@stores/product';
+	import {
+		scannerStatus,
+		scannerIssueGroups,
+		scannerIssues,
+	} from '@stores/product';
 	import { onMount } from 'svelte';
 
 	// state
@@ -23,18 +23,18 @@
 	let currentSortKey = '';
 	let issuesPanelActive = false;
 
+	$: allIssues = $scannerIssues.length;
+
 	// reactive state
 	$: sortingHeaders = [
 		{
 			title: 'All',
-			value: scannerIssues.getFlattenedIssues().length,
+			value: allIssues,
 			sortKey: '',
 		},
 		{
 			title: 'Urgent',
-			value: scannerIssues
-				.getFlattenedIssues()
-				.filter((i) => i.sortKey === 'urgent').length,
+			value: $scannerIssues.filter((i) => i.sortKey === 'urgent').length,
 			sortKey: 'urgent',
 		},
 	];
@@ -55,17 +55,12 @@
 		}, 500);
 	});
 
-	console.log(scannerIssues.getFlattenedIssues());
-
-	// $: issues =
-	// 	currentSortKey !== ''
-	// 		? $scannerIssues.filter((i) => i.sortKey === currentSortKey)
-	// 		: $scannerIssues;
-	$: issues = $scannerIssues;
+	$: issues =
+		currentSortKey !== ''
+			? $scannerIssueGroups.filter((i) => i.sortKey === currentSortKey)
+			: $scannerIssueGroups;
 
 	// TODO<Jake>: Loading icon while issue scanner is processing - don't block rendering while analysing a product
-	// TODO<Jake>: Style issue items like: https://dribbble.com/shots/15784542-Notification-list-in-side-sheet
-	// TODO<Jake>: Create a test list of 5, with grouping and stacking
 </script>
 
 <section>
@@ -76,7 +71,7 @@
 				in:fade={{ delay: 400 }}
 				out:fly={{ y: 15, duration: 200 }}
 				class={`w-full rounded-lg whitespace-nowrap shadow transition-main ${
-					buttonActive && $scannerIssues.length === 0
+					buttonActive && $scannerIssueGroups.length === 0
 						? 'bg-teal-200 border-teal-500 text-teal-900'
 						: 'bg-gray-900 text-white hover:shadow-lg'
 				}`}
@@ -87,7 +82,7 @@
 						<p class="ml-3">Scanning for potential issues</p>
 					</div>
 				{:else if $scannerStatus === 'idle'}
-					{#if $scannerIssues.length !== 0}
+					{#if allIssues !== 0}
 						<div>
 							<button
 								on:click={() => {
@@ -97,9 +92,8 @@
 								class="p-3"
 								data-testId="info-panel-button-active"
 							>
-								{pluralize($scannerIssues.length, 'issue')}
-								{$scannerIssues.length === 1 ? 'requires' : 'require'} your attention
-								🔎
+								{pluralize(allIssues, 'issue')}
+								{allIssues === 1 ? 'requires' : 'require'} your attention 🔎
 							</button>
 							<span class="absolute -top-1 -right-1 flex h-3 w-3">
 								<span
@@ -186,7 +180,7 @@
 				</ul>
 				<button
 					on:click={() =>
-						scannerIssues.createIssue('test-category-id-3', {
+						scannerIssueGroups.createIssue('test-category-id-3', {
 							description: 'YO',
 							priority: 2,
 							sortKey: 'urgent',
@@ -197,7 +191,7 @@
 				</button>
 				<button
 					on:click={() => {
-						scannerIssues.set([]);
+						scannerIssueGroups.set([]);
 						toggleIssues();
 					}}
 					class="mb-2 text-purple-500 hover:text-purple-600 outline-none transition-main"

@@ -5,19 +5,21 @@
 	export let key;
 
 	//   state
-	const pageTransitionDuration = 200;
+	const duration = 500;
+
+	console.log(key);
 </script>
 
 {#key key}
 	<div
+		class="absolute top-0 left-0 w-full"
 		in:fly={{
-			delay: pageTransitionDuration,
-			duration: pageTransitionDuration,
-			x: -15,
+			duration,
+			x: -150,
 		}}
 		out:fly={{
-			duration: pageTransitionDuration,
-			x: 15,
+			duration,
+			x: 150,
 		}}
 	>
 		<slot />

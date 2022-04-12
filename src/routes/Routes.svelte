@@ -1,6 +1,6 @@
 <script lang="ts">
 	// packages
-	import { Route } from 'svelte-navigator';
+	import { Route, Router } from 'svelte-navigator';
 
 	// components
 	import AuthLayout from '@components/layout/AuthLayout.svelte';
@@ -10,16 +10,18 @@
 	import Dashboard from '@pages/index.svelte';
 	import IssueScanner from '@pages/issueScanner.svelte';
 	import Login from '@pages/login/index.svelte';
+
+	const isProd = process.env.isProd;
 </script>
 
-<div>
-	<Route>
-		<h3>404</h3>
-	</Route>
-	<Route path="login">
-		<Login />
-	</Route>
+<Router basepath={isProd ? '/index.html' : '/'} primary={false}>
 	<AuthLayout>
+		<Route>
+			<h3>404</h3>
+		</Route>
+		<Route path="login">
+			<Login />
+		</Route>
 		<PrivateRoute path="" let:location>
 			<Dashboard />
 		</PrivateRoute>
@@ -27,4 +29,4 @@
 			<IssueScanner />
 		</PrivateRoute>
 	</AuthLayout>
-</div>
+</Router>
