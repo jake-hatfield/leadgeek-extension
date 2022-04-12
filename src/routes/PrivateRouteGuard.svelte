@@ -4,9 +4,6 @@
 	// packages
 	import { useNavigate, useLocation } from 'svelte-navigator';
 
-	// components
-	import Transition from '@components/utils/Transition.svelte';
-
 	// store
 	import { isAuthenticated, status } from '@stores/auth';
 
@@ -15,8 +12,6 @@
 
 	const navigate = useNavigate();
 	const location = useLocation();
-
-	let url = $location.pathname;
 
 	const navigateToLogin = () => {
 		navigate('/login', {
@@ -38,6 +33,4 @@
 	}
 </script>
 
-<Transition key={url}>
-	<slot />
-</Transition>
+<slot />

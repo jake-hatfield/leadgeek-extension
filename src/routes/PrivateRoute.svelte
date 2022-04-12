@@ -5,7 +5,7 @@
 	// components
 	import PrivateRouteGuard from '@routes/PrivateRouteGuard.svelte';
 
-	export let path;
+	export let path: string;
 </script>
 
 <Route {path} let:params let:location let:navigate>
