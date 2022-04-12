@@ -8,6 +8,7 @@ import { config } from '@lib/apiHelpers';
 import type User from '$types/User';
 
 // stores
+import { alert } from '@stores/alert';
 import { isAuthenticated, status, token, user } from '@stores/auth';
 import { currentDashboard, layout } from '@stores/layout';
 
@@ -40,8 +41,12 @@ export const getUserData = async () => {
 		}>('https://app.leadgeek.io/api/auth/');
 
 		if (res.status !== 200) {
-			// TODO<Jake>: Handle this error
-			return;
+			return alert.create({
+				type: 'danger',
+				title: 'Login error',
+				description:
+					"There might be something wrong with Leadgeek's servers. Please try again later or contact support if the issue persists.",
+			});
 		}
 
 		// return user data to store
@@ -79,8 +84,11 @@ export const handleJwt = async (token: string) => {
 export const login = async (email: string, password: string) => {
 	try {
 		if (!email || !password) {
-			// TODO<Jake>: Handle this error
-			console.log('Email or password missing');
+			return alert.create({
+				type: 'danger',
+				title: 'Information required',
+				description: "Please make sure you've entered an email and password.",
+			});
 		}
 
 		status.set('loading');
@@ -101,9 +109,13 @@ export const login = async (email: string, password: string) => {
 
 		//   if status is not successful, alert user with message
 		if (res.status !== 200) {
-			//   TODO<Jake>: Handle this error
 			status.set('error');
-			return;
+
+			return alert.create({
+				type: 'danger',
+				title: 'Login error',
+				description: res.data.message,
+			});
 		}
 
 		if (res.data.token) {
@@ -117,7 +129,11 @@ export const login = async (email: string, password: string) => {
 		return status.set('idle');
 	} catch (error) {
 		console.log(error.response.data.message);
-		// TODO<Jake>: Dispatch a login error
+		alert.create({
+			type: 'danger',
+			title: 'Login error',
+			description: error.response.data.message,
+		});
 		token.set(null);
 		isAuthenticated.set(false);
 		user.set(null);
