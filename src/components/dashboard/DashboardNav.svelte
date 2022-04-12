@@ -1,7 +1,6 @@
 <script lang="ts">
 	// packages
 	import { fade, fly } from 'svelte/transition';
-	import { Link } from 'svelte-navigator';
 
 	// components
 	import Button from '@components/utils/Button.svelte';
@@ -113,7 +112,11 @@
 	>
 		<!-- navigate dashboard left -->
 		{#if prevDashboard}
-			<ButtonIcon action={() => alert('prevDashboard')} title="chevron-left" />
+			<ButtonIcon
+				action={() =>
+					currentDashboard.set(layout.getDashboardById(prevDashboard))}
+				title="chevron-left"
+			/>
 		{:else}
 			<span class="p-1.5">
 				<Icon type="solid" title="chevron-left" class="!text-gray-300" />
@@ -227,7 +230,11 @@
 
 		<!-- navigate dashboard right -->
 		{#if nextDashboard}
-			<ButtonIcon action={() => alert('nextDashboard')} title="chevron-right" />
+			<ButtonIcon
+				action={() =>
+					currentDashboard.set(layout.getDashboardById(nextDashboard))}
+				title="chevron-right"
+			/>
 		{:else}
 			<span class="p-1.5">
 				<Icon type="solid" title="chevron-right" class="!text-gray-300" />

@@ -444,6 +444,12 @@ Ensure the default browser behavior of the `hidden` attribute.
 .relative {
   position: relative;
 }
+.inset-0 {
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+}
 .inset-x-1 {
   left: 0.25rem;
   right: 0.25rem;
