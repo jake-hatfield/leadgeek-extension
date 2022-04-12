@@ -1,4 +1,4 @@
-import { get, Writable, writable } from 'svelte/store';
+import { derived, get, Writable, writable } from 'svelte/store';
 
 // packages
 import { v4 as uuidv4 } from 'uuid';
@@ -16,7 +16,7 @@ export const data: Writable<KeepaProduct | {}> = writable({});
 export const scannerStatus: Writable<'loading' | 'idle' | 'error'> =
 	writable('loading');
 
-const createScannerIssues = () => {
+const createscannerIssueGroups = () => {
 	const { subscribe, set, update } = writable<
 		{ id: string; category: string; children: Issue[] }[]
 	>([
@@ -124,9 +124,9 @@ const createScannerIssues = () => {
 		},
 	]);
 
-	const deleteIssue = (category: string, id: string) => {
+	const deleteIssue = (groupId: string, id: string) => {
 		update((scannerIssueGroups: IssueGroup[]) =>
-			scannerIssueGroups.filter((ig) => ig.category === category)
+			scannerIssueGroups.filter((ig) => ig.id === groupId)
 		);
 	};
 
@@ -139,28 +139,24 @@ const createScannerIssues = () => {
 			title: string;
 		}
 	) => {
-		const newIssue: Issue = {
-			id: uuidv4(),
-			...data,
-		};
-
 		const handleCreateIssue = (scannerIssueGroups: IssueGroup[]) => {
+			// create the new issue
+			const newIssue: Issue = {
+				id: uuidv4(),
+				...data,
+			};
+
+			// make a copy of the array
 			let tempScannerIssueGroups = [...scannerIssueGroups];
 
+			// search for the appropriate group id
 			for (let i in tempScannerIssueGroups) {
 				if (tempScannerIssueGroups[i].id === groupId) {
-					const newSortedIssues = [
+					// insert the new issue and sort by priority
+					tempScannerIssueGroups[i].children = [
 						...tempScannerIssueGroups[i].children,
 						newIssue,
-					];
-
-					console.log(
-						newSortedIssues.sort((a, b) => {
-							return a.priority - b.priority;
-						})
-					);
-
-					tempScannerIssueGroups[i].children = newSortedIssues.sort((a, b) => {
+					].sort((a, b) => {
 						return a.priority - b.priority;
 					});
 					break;
@@ -170,17 +166,13 @@ const createScannerIssues = () => {
 			return tempScannerIssueGroups;
 		};
 
-		// Create the new issue's data
-		// find the right category
-		// splice in by priority
-		// CURRENT METHOD ONLY INSERTS AT END
 		update((scannerIssueGroups: IssueGroup[]) =>
 			handleCreateIssue(scannerIssueGroups)
 		);
 	};
 
 	const getFlattenedIssues = () => {
-		const issueGroups = get(scannerIssues);
+		const issueGroups = get(scannerIssueGroups);
 
 		return issueGroups.flatMap((ig) => ig.children);
 	};
@@ -194,4 +186,9 @@ const createScannerIssues = () => {
 	};
 };
 
-export const scannerIssues = createScannerIssues();
+export const scannerIssueGroups = createscannerIssueGroups();
+
+export const scannerIssues = derived(
+	scannerIssueGroups,
+	($scannerIssueGroups) => $scannerIssueGroups.flatMap((ig) => ig.children)
+);

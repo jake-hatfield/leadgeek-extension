@@ -5,7 +5,7 @@
 	import ButtonIcon from '@components/utils/ButtonIcon.svelte';
 
 	// stores
-	import { scannerIssues } from '@stores/product';
+	import { scannerIssueGroups } from '@stores/product';
 
 	// types
 	import type Issue from '$types/Issue';
@@ -91,7 +91,8 @@
 	{#if hoverActive}
 		<!-- close button -->
 		<ButtonIcon
-			action={() => scannerIssues.deleteIssue('ree', issue.id)}
+			action={() =>
+				scannerIssueGroups.deleteIssue('test-category-id-1', issue.id)}
 			title="x"
 			aria-label="clear-issue-button"
 			data-testId="clear-issue-button"
