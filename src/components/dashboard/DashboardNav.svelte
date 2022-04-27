@@ -107,7 +107,7 @@
 
 {#if $status === 'idle'}
 	<nav
-		class="center-between py-2 px-3 border-b border-200"
+		class="center-between p-3 border-b border-200"
 		data-testId="dashboard-nav"
 	>
 		<!-- navigate dashboard left -->

@@ -66,7 +66,7 @@
 		</Skeleton>
 	</div>
 {:else}
-	<nav class="center-between py-2 px-3 border-b border-200">
+	<nav class="center-between p-3 border-b border-200">
 		<!-- settings modal -->
 		{#if $user}
 			<div
@@ -76,7 +76,10 @@
 				}}
 				class="relative"
 			>
-				<ButtonIcon action={() => toggleSettingsModal()} title="cog" />
+				<ButtonIcon
+					action={() => toggleSettingsModal()}
+					title="dots-vertical"
+				/>
 
 				<!-- settings modal -->
 				{#if settingsModalActive}

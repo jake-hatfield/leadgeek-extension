@@ -9,6 +9,7 @@
 	export let action: any;
 	export let disabled: boolean = false;
 	export let title: IconTitles;
+	export let type: 'solid' | 'outline' = 'solid';
 </script>
 
 <button
@@ -17,9 +18,5 @@
 	class="p-1.5 bg-transparent hover:bg-gray-100 rounded-lg border border-transparent hover:border-gray-200 dark:hover:border-darkGray-100 ring-gray group transition-main"
 	{...$$restProps}
 >
-	<Icon
-		type="solid"
-		{title}
-		class={`${$$props.class} group-hover:text-gray-800`}
-	/>
+	<Icon {type} {title} class={`${$$props.class} group-hover:text-gray-800`} />
 </button>

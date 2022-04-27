@@ -1,23 +1,20 @@
 <!-- TODO<Jake>: Create a custom non-private route component and conditionally render based on "isPrivate" prop -->
 <script lang="ts">
-	// packages
-	import { useLocation } from 'svelte-navigator';
-
 	// components
-	import PrivateRoute from '@routes/PrivateRoute.svelte';
-	import PublicRoute from '@routes/PublicRoute.svelte';
+	import TransitionRoute from '@routes/TransitionRoute.svelte';
 
 	// props
 	export let isPrivate = true;
 	export let path: string;
+	export let url: string;
 </script>
 
 {#if isPrivate}
-	<PrivateRoute {path} {url}>
+	<TransitionRoute {path} {url}>
 		<slot />
-	</PrivateRoute>
+	</TransitionRoute>
 {:else}
-	<PublicRoute {path} {url}>
+	<TransitionRoute {path} {url}>
 		<slot />
-	</PublicRoute>
+	</TransitionRoute>
 {/if}
