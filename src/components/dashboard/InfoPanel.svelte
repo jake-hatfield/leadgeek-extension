@@ -70,6 +70,8 @@
 		<!-- button  -->
 		{#if buttonActive}
 			<div
+				in:fade={{ delay: 400 }}
+				out:fade
 				class={`w-full rounded-lg whitespace-nowrap shadow transition-main ${
 					buttonActive && $scannerIssueGroups.length === 0
 						? 'bg-teal-200 border-teal-500 text-teal-900'
@@ -126,10 +128,8 @@
 			class="absolute -top-14 z-30 max-w-[400px] w-full h-full bg-white"
 			data-testId="info-panel-details"
 		>
-			<div class="center-between p-3 border-b border-200">
-				<header>
-					<h2 class="text-xl font-semibold">Issues</h2>
-				</header>
+			<header class="center-between p-3 border-b border-200">
+				<h2 class="text-xl font-semibold">Issues</h2>
 				<ButtonIcon
 					action={() => {
 						toggleIssues();
@@ -138,14 +138,14 @@
 					title="x"
 					data-testId="info-panel-close-button"
 				/>
-			</div>
+			</header>
 			<div
 				class="center-between pt-3 px-3 border-b border-200"
 				data-testId="info-panel-sorting-headers"
 			>
 				<ul aria-label="sorting-headers" class="flex items-center">
 					{#each sortingHeaders as sortingHeader, i}
-						<li class="first:ml-0 ml-8">
+						<li class="first:ml-0 ml-3">
 							<button
 								on:click={() => {
 									currentSortingHeader = i;
