@@ -3,13 +3,15 @@
 	import { Route } from 'svelte-navigator';
 
 	// components
-	import PrivateRouteGuard from '@routes/PrivateRouteGuard.svelte';
+	import Transition from '@components/utils/Transition.svelte';
 
+	// props
 	export let path: string;
+	export let url: string;
 </script>
 
 <Route {path} let:params let:location let:navigate>
-	<PrivateRouteGuard>
+	<Transition key={url} duration={500} x={200}>
 		<slot {params} {location} {navigate} />
-	</PrivateRouteGuard>
+	</Transition>
 </Route>

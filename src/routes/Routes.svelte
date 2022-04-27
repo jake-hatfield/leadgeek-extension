@@ -1,38 +1,32 @@
 <script lang="ts">
 	// packages
-	import { Link, Route, Router } from 'svelte-navigator';
+	import { useLocation } from 'svelte-navigator';
 
 	// components
-	import AuthLayout from '@components/layout/AuthLayout.svelte';
 	import Alert from '@components/utils/Alert.svelte';
-	import RouteGuard from '@routes/RouteGuard.svelte';
-	import Nav from '@components/layout/Nav.svelte';
+	import TransitionRoute from '@routes/TransitionRoute.svelte';
 
 	// pages
 	import Dashboard from '@pages/index.svelte';
 	import IssueScanner from '@pages/issueScanner.svelte';
 	import Login from '@pages/login/index.svelte';
 
-	const isProd = process.env.isProd;
+	const location = useLocation();
+
+	let url = $location.pathname;
 </script>
 
-<Router basepath={isProd ? '/index.html' : '/'} primary={false}>
-	<Nav />
-	<main>
-		<div class="relative ">
-			<RouteGuard isPrivate={false} path="login">
-				<Login />
-			</RouteGuard>
-			<RouteGuard isPrivate={false} path="forgot-password">
-				<p>Forgot password</p>
-			</RouteGuard>
-			<RouteGuard isPrivate={true} path="">
-				<Dashboard />
-			</RouteGuard>
-			<RouteGuard isPrivate={true} path="issue-scanner">
-				<IssueScanner />
-			</RouteGuard>
-		</div>
-	</main>
-	<Alert />
-</Router>
+<div class="relative">
+	<TransitionRoute path="login" {url}>
+		<Login />
+	</TransitionRoute>
+	<TransitionRoute path="forgot-password" {url}>
+		<p>Forgot password</p>
+	</TransitionRoute>
+	<TransitionRoute path="" {url}>
+		<Dashboard />
+	</TransitionRoute>
+	<TransitionRoute path="issue-scanner" {url}>
+		<IssueScanner />
+	</TransitionRoute>
+</div>

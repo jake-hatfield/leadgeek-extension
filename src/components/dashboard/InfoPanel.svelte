@@ -55,10 +55,12 @@
 		}, 500);
 	});
 
-	$: issues =
-		currentSortKey !== ''
-			? $scannerIssueGroups.filter((i) => i.sortKey === currentSortKey)
-			: $scannerIssueGroups;
+	// $: issues =
+	// 	currentSortKey !== ''
+	// 		? $scannerIssueGroups.filter((i) => i.sortKey === currentSortKey)
+	// 		: $scannerIssueGroups;
+
+	$: issues = $scannerIssueGroups;
 
 	// TODO<Jake>: Loading icon while issue scanner is processing - don't block rendering while analysing a product
 </script>
@@ -68,8 +70,6 @@
 		<!-- button  -->
 		{#if buttonActive}
 			<div
-				in:fade={{ delay: 400 }}
-				out:fly={{ y: 15, duration: 200 }}
 				class={`w-full rounded-lg whitespace-nowrap shadow transition-main ${
 					buttonActive && $scannerIssueGroups.length === 0
 						? 'bg-teal-200 border-teal-500 text-teal-900'
