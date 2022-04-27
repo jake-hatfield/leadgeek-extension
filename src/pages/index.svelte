@@ -55,6 +55,8 @@
 	});
 </script>
 
-<DashboardNav {nextDashboard} {prevDashboard} />
-<Dashboard />
-<InfoPanel />
+<AuthLayout>
+	<DashboardNav {nextDashboard} {prevDashboard} />
+	<Dashboard />
+	<InfoPanel />
+</AuthLayout>

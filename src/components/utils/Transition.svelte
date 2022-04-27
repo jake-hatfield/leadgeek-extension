@@ -3,9 +3,11 @@
 
 	//   props
 	export let key: string | number;
+	export let duration = 200;
+	export let direction: 'forward' | 'backward' = 'forward';
+	export let x = 50;
 
-	//   state
-	const duration = 200;
+	$: directionFactor = direction === 'forward' ? 1 : -1;
 </script>
 
 {#key key}
@@ -14,11 +16,11 @@
 		in:fly={{
 			delay: duration,
 			duration,
-			x: -150,
+			x: x * directionFactor,
 		}}
 		out:fly={{
 			duration,
-			x: 150,
+			x: -x * directionFactor,
 		}}
 	>
 		<slot />

@@ -1,13 +1,38 @@
 <script lang="ts">
-	// components
-	import Alert from '@components/utils/Alert.svelte';
-	import AuthNav from '@components/layout/navigation/AuthNav.svelte';
+	import { onMount } from 'svelte';
 
+	// packages
+	import { useNavigate, useLocation } from 'svelte-navigator';
+
+	// store
+	import { isAuthenticated, status } from '@stores/auth';
+
+	//   utils
+	import { authenticateUser } from '@utils/authHelpers';
+	const navigate = useNavigate();
+	const location = useLocation();
+
+	const navigateToLogin = () => {
+		navigate('/login', {
+			state: { from: $location.pathname },
+			replace: true,
+		});
+	};
+
+	onMount(() => {
+		try {
+			authenticateUser();
+		} catch (error) {
+			navigateToLogin();
+		}
+	});
+
+	$: if (!$isAuthenticated && $status === 'idle') {
+		navigateToLogin();
+	}
 	// TODO<Jake>: Transition all colors for dark mode switching
 </script>
 
-<AuthNav />
-<main class="relative w-full">
+<main class="z-30 h-[484px] w-full">
 	<slot />
 </main>
-<Alert />
