@@ -3,12 +3,11 @@
 	import { useLocation } from 'svelte-navigator';
 
 	// components
-	import Alert from '@components/utils/Alert.svelte';
 	import TransitionRoute from '@routes/TransitionRoute.svelte';
 
 	// pages
 	import Dashboard from '@pages/index.svelte';
-	import IssueScanner from '@pages/issueScanner.svelte';
+	import Scanner from '@pages/scanner.svelte';
 	import Login from '@pages/login/index.svelte';
 
 	const location = useLocation();
@@ -26,7 +25,10 @@
 	<TransitionRoute path="" {url}>
 		<Dashboard />
 	</TransitionRoute>
-	<TransitionRoute path="issue-scanner" {url}>
-		<IssueScanner />
+	<TransitionRoute path="scanner" {url}>
+		<Scanner />
+	</TransitionRoute>
+	<TransitionRoute path="scanner/:category" {url}>
+		<div>hello</div>
 	</TransitionRoute>
 </div>

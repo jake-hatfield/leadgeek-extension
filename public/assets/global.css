@@ -235,9 +235,10 @@ html {
 	@apply focus:outline-none focus:ring focus:ring-gray-300;
 }
 
-/* .minimal-scrollbar {
-    @apply scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-300;
-  } */
+.minimal-scrollbar {
+	@apply !scrollbar-thin !scrollbar-thumb-gray-600 !scrollbar-track-gray-300;
+	overflow-y: scroll;
+}
 
 .bg-splatter {
 	background: #fff url('../assets/pngs/bg-splatter.png') top;
