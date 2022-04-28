@@ -23,7 +23,6 @@
 
 	//  stores
 	import { isAuthenticated, status, user } from '@stores/auth';
-	import { layout } from '@stores/layout';
 
 	//  state
 	let settingsModalActive = false;
@@ -35,7 +34,7 @@
 	}[] = [
 		{
 			title: 'Issue scanner',
-			link: 'issue-scanner',
+			link: 'scanner',
 			icon: 'lightning-bolt',
 			shortcut: 'S',
 		},
