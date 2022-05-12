@@ -8,19 +8,29 @@
 
 	// utils
 	import { kebabCase } from '@lib/stringHelpers';
+	import { keyboardShortcut } from '@lib/clickHelpers';
+	import type IconTitles from '$types/Icon';
 
 	// state
 	let searchInput = '';
+	let searchInputRef;
 
-	const categories = [
-		// {
-		// 	title: 'All',
-		// 	children: [],
-		// },
-		// {
-		// 	title: 'Avail.',
-		// 	children: [{}],
-		// },
+	interface Subfeature {
+		title: string;
+	}
+
+	interface Feature {
+		title: string;
+		icon: IconTitles;
+		children: Subfeature[];
+	}
+
+	interface Category {
+		title: string;
+		children: Feature[];
+	}
+
+	const categories: Category[] = [
 		{
 			title: 'Availability',
 			children: [
@@ -30,12 +40,10 @@
 					children: [
 						{
 							title: 'Amazon fulfillment offers',
-							active: true,
 						},
-						{ title: 'Merchant fulfillment offers', active: false },
+						{ title: 'Merchant fulfillment offers' },
 						{
 							title: 'Total offer count',
-							active: true,
 						},
 					],
 				},
@@ -50,11 +58,9 @@
 					children: [
 						{
 							title: 'Applicable categories',
-							active: true,
 						},
 						{
 							title: 'Parent category',
-							active: true,
 						},
 					],
 				},
@@ -62,21 +68,18 @@
 					title: 'Identifying codes',
 					icon: 'qrcode',
 					children: [
-						{ title: 'ASIN', active: true },
+						{ title: 'ASIN' },
 						{
 							title: 'European Article Number(s)',
-							active: false,
 						},
 						{
 							title: 'Model number(s)',
-							active: true,
 						},
-						{ title: 'Parent ASIN', active: false },
+						{ title: 'Parent ASIN' },
 						{
 							title: 'Universal Product Code(s)',
-							active: true,
 						},
-						{ title: 'Variation ASIN', active: true },
+						{ title: 'Variation ASIN' },
 					],
 				},
 				{
@@ -85,15 +88,12 @@
 					children: [
 						{
 							title: 'Date created',
-							active: false,
 						},
 						{
 							title: 'Date first tracked',
-							active: true,
 						},
 						{
 							title: 'Last updated',
-							active: true,
 						},
 					],
 				},
@@ -101,12 +101,11 @@
 					title: 'Production',
 					icon: 'globe-alt',
 					children: [
-						{ title: 'Manufacturer', active: false },
-						{ title: 'Brand', active: true },
-						{ title: 'Author', active: true },
+						{ title: 'Manufacturer' },
+						{ title: 'Brand' },
+						{ title: 'Author' },
 						{
 							title: 'Binding',
-							active: true,
 						},
 					],
 				},
@@ -116,19 +115,15 @@
 					children: [
 						{
 							title: 'Package dimensions',
-							active: true,
 						},
 						{
 							title: 'Package weight',
-							active: true,
 						},
 						{
 							title: 'Item dimensions',
-							active: true,
 						},
 						{
 							title: 'Item weight',
-							active: true,
 						},
 					],
 				},
@@ -141,36 +136,32 @@
 					title: 'Sales rank',
 					icon: 'trending-up',
 					children: [
-						{ title: '30 day average', active: true },
-						{ title: '90 day average', active: true },
-						{ title: '180 day average', active: true },
-						{ title: '30 day estimated drops', active: false },
-						{ title: '90 day estimated drops', active: false },
-						{ title: '180 dayestimated  drops', active: false },
+						{ title: '30 day average' },
+						{ title: '90 day average' },
+						{ title: '180 day average' },
+						{ title: '30 day estimated drops' },
+						{ title: '90 day estimated drops' },
+						{ title: '180 day estimated  drops' },
 						{
 							title: 'Last updated',
-							active: false,
 						},
-						{ title: 'Reference category', active: false },
+						{ title: 'Reference category' },
 					],
 				},
 				{
 					title: 'Buy box status',
 					icon: 'cash',
 					children: [
-						{ title: 'Amazon', active: true },
+						{ title: 'Amazon' },
 						{
 							title: 'Backorder',
-							active: false,
 						},
 						{
 							title: 'Preorder',
-							active: false,
 						},
-						{ title: 'Fulfillment by Amazon', active: true },
+						{ title: 'Fulfillment by Amazon' },
 						{
 							title: 'Suppressed',
-							active: false,
 						},
 					],
 				},
@@ -178,14 +169,12 @@
 					title: 'Buy box information',
 					icon: 'information-circle',
 					children: [
-						{ title: 'Current price', active: true },
+						{ title: 'Current price' },
 						{
 							title: 'Maximum order quantity',
-							active: false,
 						},
 						{
 							title: 'Minimum order quantity',
-							active: false,
 						},
 					],
 				},
@@ -195,11 +184,9 @@
 					children: [
 						{
 							title: '30 day average',
-							active: false,
 						},
 						{
 							title: '90 day average',
-							active: false,
 						},
 					],
 				},
@@ -211,30 +198,90 @@
 				{
 					title: 'Validation',
 					icon: 'badge-check',
-					children: [{ title: 'Minimum advertised price', active: false }],
+					children: [{ title: 'Minimum advertised price' }],
 				},
 				{
 					title: 'History',
 					icon: 'clock',
 					children: [
-						{ title: 'Buy Box price', active: false },
-						{ title: 'Maximum price', active: false },
-						{ title: 'Minimum price', active: true },
+						{ title: 'Buy Box price' },
+						{ title: 'Maximum price' },
+						{ title: 'Minimum price' },
 					],
 				},
 				{
 					title: 'Selling costs',
 					icon: 'currency-dollar',
-					children: [{ title: 'Fulfillment by Amazon fees', active: false }],
+					children: [{ title: 'Fulfillment by Amazon fees' }],
 				},
 			],
 		},
 	];
 
-	$: filteredFeatures = categories;
+	const searchNestedArray = (categories: Category[], query: string) => {
+		let result: Category[] = [];
+
+		if (!query) return categories;
+
+		// string matching validator
+		const isMatch = (str: string, query: string) => {
+			if (str.toLowerCase().includes(query)) return true;
+			else return false;
+		};
+
+		// iterate over each category
+		for (const category of categories) {
+			// if the category title matches, return the category title + all features + subfeatures of the category
+			if (isMatch(category.title, query))
+				return (result = [...result, category]);
+
+			let features: Feature[] = [];
+
+			// iterate over each feature
+			for (const feature of category.children) {
+				// if the feature title matches, return the category title, the feature title, and all subfeatures
+				if (isMatch(feature.title, query)) {
+					features = [...features, feature];
+					return (result = [...result, { ...category, children: features }]);
+				}
+
+				let subfeatures: Subfeature[] = [];
+
+				// iterate over the subfeatures
+				for (const subfeature of feature.children) {
+					// if the subfeature title matches, add it to the subfeatures array
+					if (isMatch(subfeature.title, query)) {
+						subfeatures = [...subfeatures, subfeature];
+					}
+				}
+
+				features = [...features, { ...feature, children: subfeatures }];
+			}
+
+			return (result = [
+				...result,
+				{
+					...category,
+					children: features,
+				},
+			]);
+		}
+
+		return (result = []);
+	};
+
+	$: filteredCategories = searchNestedArray(
+		categories,
+		searchInput.toLowerCase()
+	);
+
+	// const highlight = (str: string, query) => {
+
+	// }
 
 	// https://dribbble.com/shots/15388627-Global-Search
 	// TODO<Jake>: On add, ask which widget to add it to
+	// TODO<Jake>: Ctrl+K shortcut to highlight search / Esc to close it
 </script>
 
 <AuthLayout>
@@ -245,6 +292,7 @@
 				<input
 					type="text"
 					bind:value={searchInput}
+					bind:this={searchInputRef}
 					placeholder="Search for a feature..."
 					class="w-full py-1.5 pl-10 pr-12 border border-200 rounded-lg ring ring-transparent hover:ring-gray-400 outline-none"
 				/>
@@ -253,9 +301,19 @@
 						class="all-center h-5 w-min-content py-0.5 px-1 rounded-md bg-gray-200 dark:bg-darkGray-200 shadow-sm group-hover:shadow font-semibold text-sm text-100"
 					>
 						{#if searchInput}
-							<button class="font-semibold"> Esc </button>
+							<button
+								use:keyboardShortcut={{ code: 'Escape' }}
+								on:click={() => (searchInput = '')}
+								class="font-semibold">Esc</button
+							>
 						{:else}
-							Ctrl+K
+							<button
+								use:keyboardShortcut={{ shift: true, code: 'Digit1' }}
+								on:click|preventDefault={() => searchInputRef.focus()}
+								class="font-semibold"
+							>
+								Ctrl+K
+							</button>
 						{/if}
 					</span>
 				</div>
@@ -263,83 +321,89 @@
 		</header>
 
 		<div class="h-[421px] pt-5 pb-3 pl-3 pr-5 minimal-scrollbar">
-			<ul>
-				{#each filteredFeatures as category}
-					<li class="first:mt-0 mt-5">
-						<ul>
-							<li
-								class="uppercase font-semibold text-sm tracking-widest text-gray-500"
-							>
-								<h2>
-									{category.title}
-								</h2>
-							</li>
-							{#each category.children as subcategory}
-								<li class="mt-3">
-									<ul>
-										<li class="rounded-lg hover:bg-gray-100">
-											<Link
-												to={`/scanner/${kebabCase(subcategory.title)}`}
-												class="center-between p-3"
-											>
-												<header class="flex items-center">
-													<Icon type="solid" title={subcategory.icon} />
-													<h3 class="ml-3">
-														{subcategory.title}
-													</h3>
-												</header>
-												<Icon
-													type="solid"
-													title="chevron-right"
-													class="!text-gray-300"
-												/>
-											</Link>
-										</li>
-										<li class="mt-1.5 ml-1.5">
-											<ul class="border-l border-200">
-												{#each subcategory.children as feature}
-													<li
-														class="mt-1.5 ml-1.5 rounded-lg hover:bg-gray-100"
-													>
-														<Link
-															to={`/scanner/${kebabCase(
-																subcategory.title
-															)}#${kebabCase(feature.title)}`}
-															class="center-between py-2 pl-3 pr-1.5"
-														>
-															<header class="flex items-center">
-																<Icon
-																	type="solid"
-																	title="hashtag"
-																	class="!text-gray-300"
-																/>
-																<h4 class="ml-3">
-																	{feature.title}
-																</h4>
-															</header>
-															<button
-																class="p-1.5 rounded-lg hover:bg-gray-900"
-															>
-																<Icon
-																	type="solid"
-																	title={feature.active
-																		? 'minus-sm'
-																		: 'plus-sm'}
-																	class="!text-gray-300"
-																/>
-															</button>
-														</Link>
-													</li>
-												{/each}
-											</ul>
-										</li>
-									</ul>
+			{#if filteredCategories.length > 0}
+				<ul>
+					{#each filteredCategories as category}
+						<li class="first:mt-0 mt-5">
+							<ul>
+								<li
+									class="uppercase font-semibold text-sm tracking-widest text-gray-500"
+								>
+									<h2>
+										{category.title}
+									</h2>
 								</li>
-							{/each}
-						</ul>
-					</li>
-				{/each}
-			</ul>
+								{#each category.children as subcategory}
+									<li class="mt-3">
+										<ul>
+											<li class="rounded-lg hover:bg-gray-100">
+												<Link
+													to={`/scanner/${kebabCase(subcategory.title)}`}
+													class="center-between p-3"
+												>
+													<header class="flex items-center">
+														<Icon type="solid" title={subcategory.icon} />
+														<h3 class="ml-3">
+															{subcategory.title}
+														</h3>
+													</header>
+													<Icon
+														type="solid"
+														title="chevron-right"
+														class="!text-gray-300"
+													/>
+												</Link>
+											</li>
+											<li class="mt-1.5 ml-1.5">
+												<ul class="border-l border-200">
+													{#each subcategory.children as feature}
+														<li
+															class="mt-1.5 ml-1.5 rounded-lg hover:bg-gray-100"
+														>
+															<Link
+																to={`/scanner/${kebabCase(
+																	subcategory.title
+																)}#${kebabCase(feature.title)}`}
+																class="center-between p-3"
+															>
+																<header class="flex items-center">
+																	<Icon
+																		type="solid"
+																		title="hashtag"
+																		class="!text-gray-300"
+																	/>
+																	<h4 class="ml-3">
+																		{feature.title}
+																	</h4>
+																</header>
+																<Icon
+																	type="solid"
+																	title="chevron-right"
+																	class="!text-gray-300"
+																/>
+															</Link>
+														</li>
+													{/each}
+												</ul>
+											</li>
+										</ul>
+									</li>
+								{/each}
+							</ul>
+						</li>
+					{/each}
+				</ul>
+			{:else}
+				<div>
+					<header class="text-center">
+						<h2>No results for "{searchInput}"</h2>
+					</header>
+					<p class="mt-5">Try searching for:</p>
+					<ul class="mt-3">
+						<li>Accessibility</li>
+					</ul>
+				</div>
+			{/if}
 		</div>
 	</section>
 </AuthLayout>
