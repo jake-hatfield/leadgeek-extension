@@ -1959,6 +1959,23 @@ html {
   background-color: rgb(27 38 49 / var(--tw-bg-opacity));
 }
 
+.highlight {
+  border-radius: 0.125rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(112 105 250 / var(--tw-bg-opacity));
+  padding-left: 0.125rem;
+  padding-right: 0.125rem;
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.dark .highlight {
+  --tw-bg-opacity: 1;
+  background-color: rgb(196 198 255 / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: rgb(29 14 190 / var(--tw-text-opacity));
+}
+
 .button-gray-100 {
   --tw-text-opacity: 1;
   color: rgb(159 179 200 / var(--tw-text-opacity));

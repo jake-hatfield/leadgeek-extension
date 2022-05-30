@@ -5,6 +5,7 @@
 	// components
 	import AuthLayout from '@components/layout/AuthLayout.svelte';
 	import Icon from '@components/utils/Icon.svelte';
+	import HighlightableText from '@components/utils/HighlightableText.svelte';
 
 	// utils
 	import { kebabCase } from '@lib/stringHelpers';
@@ -218,12 +219,74 @@
 		},
 	];
 
-	const searchNestedArray = (categories: Category[], query: string) => {
-		let result: Category[] = [];
+	// const searchNestedArray = (categories: Category[], query: string) => {
+	// 	// instantiate an empty array to store the matching items
+	// 	let result: Category[] = [];
 
+	// 	// ensure that items show without an input
+	// 	if (!query) return categories;
+
+	// 	// validate string matches
+	// 	const isMatch = (str: string, query: string) => {
+	// 		if (str.toLowerCase().includes(query)) return true;
+	// 		else return false;
+	// 	};
+
+	// 	// iterate over each category
+	// 	for (const category of categories) {
+	// 		console.log(category);
+	// 		// if the category title matches, return the category title + all features + subfeatures of the category
+	// 		if (isMatch(category.title, query))
+	// 			return (result = [...result, category]);
+
+	// 		// let features: Feature[] = [];
+
+	// 		// iterate over each feature
+	// 		// for (const feature of category.children) {
+	// 		// 	// if the feature title matches, return the category title, the feature title, and all subfeatures
+	// 		// 	if (isMatch(feature.title, query)) {
+	// 		// 		features = [...features, feature];
+	// 		// 		return (result = [...result, { ...category, children: features }]);
+	// 		// 	}
+
+	// 		// 	let subfeatures: Subfeature[] = [];
+
+	// 		// 	// iterate over each subfeature
+	// 		// 	for (const subfeature of feature.children) {
+	// 		// 		// if the subfeature title matches, add it to the subfeatures array
+	// 		// 		if (isMatch(subfeature.title, query)) {
+	// 		// 			subfeatures = [...subfeatures, subfeature];
+	// 		// 		}
+	// 		// 	}
+
+	// 		// 	features = [...features, { ...feature, children: subfeatures }];
+	// 		// }
+
+	// 		// return (result = [
+	// 		// 	...result,
+	// 		// 	{
+	// 		// 		...category,
+	// 		// 		children: features,
+	// 		// 	},
+	// 		// ]);
+	// 		return result;
+	// 	}
+
+	// 	// return (result = []);
+	// };
+
+	const highlightChunkedText = (text: string, query: string) => {
+		const chunks = highlightWords({ text, query });
+	};
+
+	const searchNestedArray = (categories: Category[], query: string) => {
+		// ensure that items show without an input
 		if (!query) return categories;
 
-		// string matching validator
+		// instantiate an empty array to store the matching items
+		let result: Category[] = [];
+
+		// validate string matches
 		const isMatch = (str: string, query: string) => {
 			if (str.toLowerCase().includes(query)) return true;
 			else return false;
@@ -231,43 +294,45 @@
 
 		// iterate over each category
 		for (const category of categories) {
+			// instantiate empty arrays to store the matching items
+			let features: Feature[] = [];
+			let subfeatures: Subfeature[] = [];
+
 			// if the category title matches, return the category title + all features + subfeatures of the category
 			if (isMatch(category.title, query))
 				return (result = [...result, category]);
-
-			let features: Feature[] = [];
-
-			// iterate over each feature
-			for (const feature of category.children) {
-				// if the feature title matches, return the category title, the feature title, and all subfeatures
-				if (isMatch(feature.title, query)) {
-					features = [...features, feature];
-					return (result = [...result, { ...category, children: features }]);
-				}
-
-				let subfeatures: Subfeature[] = [];
-
-				// iterate over the subfeatures
-				for (const subfeature of feature.children) {
-					// if the subfeature title matches, add it to the subfeatures array
-					if (isMatch(subfeature.title, query)) {
-						subfeatures = [...subfeatures, subfeature];
+			else {
+				// iterate over each feature
+				for (const feature of category.children) {
+					// if the feature title matches, return the category title, the feature title, and all subfeatures
+					if (isMatch(feature.title, query)) {
+						features = [...features, feature];
+						return (result = [...result, { ...category, children: features }]);
+					} else {
+						// iterate over each subfeature
+						for (const subfeature of feature.children) {
+							// if the subfeature title matches, add it to the subfeatures array
+							if (isMatch(subfeature.title, query)) {
+								subfeatures = [...subfeatures, subfeature];
+								features = [{ ...feature, children: subfeatures }];
+							}
+						}
 					}
 				}
-
-				features = [...features, { ...feature, children: subfeatures }];
+				// if the category has matching features, add them to the result
+				if (features.length > 0) {
+					result = [
+						...result,
+						{
+							...category,
+							children: features,
+						},
+					];
+				}
 			}
-
-			return (result = [
-				...result,
-				{
-					...category,
-					children: features,
-				},
-			]);
 		}
 
-		return (result = []);
+		return result;
 	};
 
 	$: filteredCategories = searchNestedArray(
@@ -281,7 +346,8 @@
 
 	// https://dribbble.com/shots/15388627-Global-Search
 	// TODO<Jake>: On add, ask which widget to add it to
-	// TODO<Jake>: Ctrl+K shortcut to highlight search / Esc to close it
+	// TODO<Jake>: OS detection for ctrl or cmd keyboard shortcut prompt
+	// TODO<Jake>: Animate list changing
 </script>
 
 <AuthLayout>
@@ -308,18 +374,17 @@
 							>
 						{:else}
 							<button
-								use:keyboardShortcut={{ shift: true, code: 'Digit1' }}
+								use:keyboardShortcut={{ control: true, code: 'KeyK' }}
 								on:click|preventDefault={() => searchInputRef.focus()}
 								class="font-semibold"
 							>
-								Ctrl+K
+								Ctrl + k
 							</button>
 						{/if}
 					</span>
 				</div>
 			</div>
 		</header>
-
 		<div class="h-[421px] pt-5 pb-3 pl-3 pr-5 minimal-scrollbar">
 			{#if filteredCategories.length > 0}
 				<ul>
@@ -329,8 +394,11 @@
 								<li
 									class="uppercase font-semibold text-sm tracking-widest text-gray-500"
 								>
-									<h2>
-										{category.title}
+									<h2 aria-label={category.title}>
+										<HighlightableText
+											text={category.title}
+											query={searchInput}
+										/>
 									</h2>
 								</li>
 								{#each category.children as subcategory}
@@ -342,9 +410,15 @@
 													class="center-between p-3"
 												>
 													<header class="flex items-center">
-														<Icon type="solid" title={subcategory.icon} />
+														<!-- A stale icon is shown if key block is left out -->
+														{#key filteredCategories}
+															<Icon type="solid" title={subcategory.icon} />
+														{/key}
 														<h3 class="ml-3">
-															{subcategory.title}
+															<HighlightableText
+																text={subcategory.title}
+																query={searchInput}
+															/>
 														</h3>
 													</header>
 													<Icon
@@ -373,7 +447,10 @@
 																		class="!text-gray-300"
 																	/>
 																	<h4 class="ml-3">
-																		{feature.title}
+																		<HighlightableText
+																			text={feature.title}
+																			query={searchInput}
+																		/>
 																	</h4>
 																</header>
 																<Icon
