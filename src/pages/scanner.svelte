@@ -1,6 +1,7 @@
 <script lang="ts">
 	// packages
 	import { Link } from 'svelte-navigator';
+	import { fade } from 'svelte/transition';
 
 	// components
 	import AuthLayout from '@components/layout/AuthLayout.svelte';
@@ -10,6 +11,7 @@
 	// utils
 	import { kebabCase } from '@lib/stringHelpers';
 	import { keyboardShortcut } from '@lib/clickHelpers';
+	import { testIsMacintosh } from '@utils/authHelpers';
 	import type IconTitles from '$types/Icon';
 
 	// state
@@ -219,66 +221,6 @@
 		},
 	];
 
-	// const searchNestedArray = (categories: Category[], query: string) => {
-	// 	// instantiate an empty array to store the matching items
-	// 	let result: Category[] = [];
-
-	// 	// ensure that items show without an input
-	// 	if (!query) return categories;
-
-	// 	// validate string matches
-	// 	const isMatch = (str: string, query: string) => {
-	// 		if (str.toLowerCase().includes(query)) return true;
-	// 		else return false;
-	// 	};
-
-	// 	// iterate over each category
-	// 	for (const category of categories) {
-	// 		console.log(category);
-	// 		// if the category title matches, return the category title + all features + subfeatures of the category
-	// 		if (isMatch(category.title, query))
-	// 			return (result = [...result, category]);
-
-	// 		// let features: Feature[] = [];
-
-	// 		// iterate over each feature
-	// 		// for (const feature of category.children) {
-	// 		// 	// if the feature title matches, return the category title, the feature title, and all subfeatures
-	// 		// 	if (isMatch(feature.title, query)) {
-	// 		// 		features = [...features, feature];
-	// 		// 		return (result = [...result, { ...category, children: features }]);
-	// 		// 	}
-
-	// 		// 	let subfeatures: Subfeature[] = [];
-
-	// 		// 	// iterate over each subfeature
-	// 		// 	for (const subfeature of feature.children) {
-	// 		// 		// if the subfeature title matches, add it to the subfeatures array
-	// 		// 		if (isMatch(subfeature.title, query)) {
-	// 		// 			subfeatures = [...subfeatures, subfeature];
-	// 		// 		}
-	// 		// 	}
-
-	// 		// 	features = [...features, { ...feature, children: subfeatures }];
-	// 		// }
-
-	// 		// return (result = [
-	// 		// 	...result,
-	// 		// 	{
-	// 		// 		...category,
-	// 		// 		children: features,
-	// 		// 	},
-	// 		// ]);
-	// 		return result;
-	// 	}
-
-	// 	// return (result = []);
-	// };
-
-	const highlightChunkedText = (text: string, query: string) => {
-		const chunks = highlightWords({ text, query });
-	};
-
 	const searchNestedArray = (categories: Category[], query: string) => {
 		// ensure that items show without an input
 		if (!query) return categories;
@@ -340,14 +282,7 @@
 		searchInput.toLowerCase()
 	);
 
-	// const highlight = (str: string, query) => {
-
-	// }
-
-	// https://dribbble.com/shots/15388627-Global-Search
 	// TODO<Jake>: On add, ask which widget to add it to
-	// TODO<Jake>: OS detection for ctrl or cmd keyboard shortcut prompt
-	// TODO<Jake>: Animate list changing
 </script>
 
 <AuthLayout>
@@ -378,7 +313,7 @@
 								on:click|preventDefault={() => searchInputRef.focus()}
 								class="font-semibold"
 							>
-								Ctrl + k
+								{testIsMacintosh() ? 'Cmd' : 'Ctrl'} + k
 							</button>
 						{/if}
 					</span>
@@ -388,7 +323,7 @@
 		<div class="h-[421px] pt-5 pb-3 pl-3 pr-5 minimal-scrollbar">
 			{#if filteredCategories.length > 0}
 				<ul>
-					{#each filteredCategories as category}
+					{#each filteredCategories as category (category.title)}
 						<li class="first:mt-0 mt-5">
 							<ul>
 								<li
@@ -401,22 +336,24 @@
 										/>
 									</h2>
 								</li>
-								{#each category.children as subcategory}
+								{#each category.children as feature}
 									<li class="mt-3">
 										<ul>
 											<li class="rounded-lg hover:bg-gray-100">
 												<Link
-													to={`/scanner/${kebabCase(subcategory.title)}`}
+													to={`/scanner/${kebabCase(
+														category.title
+													)}/${kebabCase(feature.title)}`}
 													class="center-between p-3"
 												>
 													<header class="flex items-center">
 														<!-- A stale icon is shown if key block is left out -->
 														{#key filteredCategories}
-															<Icon type="solid" title={subcategory.icon} />
+															<Icon type="solid" title={feature.icon} />
 														{/key}
 														<h3 class="ml-3">
 															<HighlightableText
-																text={subcategory.title}
+																text={feature.title}
 																query={searchInput}
 															/>
 														</h3>
@@ -430,14 +367,16 @@
 											</li>
 											<li class="mt-1.5 ml-1.5">
 												<ul class="border-l border-200">
-													{#each subcategory.children as feature}
+													{#each feature.children as subfeature}
 														<li
 															class="mt-1.5 ml-1.5 rounded-lg hover:bg-gray-100"
 														>
 															<Link
 																to={`/scanner/${kebabCase(
-																	subcategory.title
-																)}#${kebabCase(feature.title)}`}
+																	category.title
+																)}/${kebabCase(feature.title)}#${kebabCase(
+																	subfeature.title
+																)}`}
 																class="center-between p-3"
 															>
 																<header class="flex items-center">
@@ -448,7 +387,7 @@
 																	/>
 																	<h4 class="ml-3">
 																		<HighlightableText
-																			text={feature.title}
+																			text={subfeature.title}
 																			query={searchInput}
 																		/>
 																	</h4>
@@ -471,13 +410,34 @@
 					{/each}
 				</ul>
 			{:else}
-				<div>
+				<div in:fade={{ delay: 150 }}>
 					<header class="text-center">
-						<h2>No results for "{searchInput}"</h2>
+						<h2>
+							No results for "<span class="font-semibold">{searchInput}</span>"
+							<span role="img" aria-label="Sweat smile emoji">😅</span>
+						</h2>
 					</header>
 					<p class="mt-5">Try searching for:</p>
 					<ul class="mt-3">
-						<li>Accessibility</li>
+						{#each categories as category}
+							<li class="rounded-lg hover:bg-gray-100">
+								<Link
+									to={`/scanner/${kebabCase(category.title)}`}
+									class="center-between p-3"
+								>
+									<header>
+										<h3>
+											{category.title}
+										</h3>
+									</header>
+									<Icon
+										type="solid"
+										title="chevron-right"
+										class="!text-gray-300"
+									/>
+								</Link>
+							</li>
+						{/each}
 					</ul>
 				</div>
 			{/if}
