@@ -12,7 +12,7 @@
 {#if isActive && title}
 	<aside
 		transition:fly={{ duration: 150, y: -15 }}
-		class="absolute -top-12 z-40 inset-x-1 rounded-lg bg-gray-900 text-white shadow-lg border border-gray-800"
+		class="absolute -top-24 z-40 inset-x-1 rounded-lg bg-gray-900 text-white shadow-lg border border-gray-800"
 		data-testId="modal"
 	>
 		<div class="flex items-start justify-between p-5">
@@ -24,6 +24,7 @@
 					<slot name="description" />
 				</div>
 			</header>
+
 			<!-- close button -->
 			<button
 				on:click={() => (isActive = false)}
@@ -33,6 +34,8 @@
 				<Icon type="solid" title="x" />
 			</button>
 		</div>
+
+		<!-- action -->
 		<div class="p-5 rounded-b-lg bg-darkGray-100">
 			<slot name="action" />
 		</div>
