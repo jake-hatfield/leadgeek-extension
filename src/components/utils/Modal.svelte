@@ -12,7 +12,7 @@
 {#if isActive && title}
 	<aside
 		transition:fly={{ duration: 150, y: -15 }}
-		class="absolute top-2 z-40 inset-x-1 rounded-lg bg-gray-900 text-white shadow-lg border border-gray-800"
+		class="absolute -top-12 z-40 inset-x-1 rounded-lg bg-gray-900 text-white shadow-lg border border-gray-800"
 		data-testId="modal"
 	>
 		<div class="flex items-start justify-between p-5">

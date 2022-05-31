@@ -1,4 +1,9 @@
-import { fireEvent, queryByTestId, within } from '@testing-library/svelte';
+import {
+	fireEvent,
+	screen,
+	queryByTestId,
+	within,
+} from '@testing-library/svelte';
 import '@testing-library/jest-dom';
 
 // component
@@ -19,7 +24,6 @@ describe('dashboard nav without layout state', () => {
 			layout.set([]);
 
 			const component = renderWithRouter(DashboardNav, {
-				currentDashboard: null,
 				prevDashboard: '',
 				nextDashboard: '',
 			});
@@ -37,7 +41,6 @@ describe('dashboard nav without layout state', () => {
 
 		beforeEach(async () => {
 			const { findByRole } = renderWithRouter(DashboardNav, {
-				currentDashboard: null,
 				prevDashboard: '',
 				nextDashboard: '',
 			});
@@ -131,7 +134,6 @@ describe('dashboard nav with layout state', () => {
 		layout.set(dashboards);
 
 		const { queryByRole } = renderWithRouter(DashboardNav, {
-			currentDashboard: dashboards[0].title,
 			prevDashboard: '',
 			nextDashboard: '',
 		});
@@ -199,9 +201,7 @@ describe('dashboard nav with layout state', () => {
 				beforeEach(async () => {
 					await fireEvent.click(select);
 
-					options = await queryByTestId(nav, 'dashboard-select-options');
-
-					button = await within(options).queryByRole('button');
+					button = await screen.findByTestId('dashboard-select-button');
 				});
 
 				test('should render', () => {
@@ -209,7 +209,7 @@ describe('dashboard nav with layout state', () => {
 				});
 
 				test('should contain CTA text', () => {
-					expect(button).toHaveTextContent('Create a dashboard');
+					expect(button).toHaveTextContent('Add dashboard');
 				});
 
 				test('should create a new option on click', async () => {

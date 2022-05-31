@@ -248,8 +248,7 @@
 				title={`Confirm deletion ${
 					targetDashboard.title ? `of "${targetDashboard.title}"` : ''
 				}`}
-			>
-				<div slot="description">
+				><div slot="description">
 					<p>
 						Deleting a dashboard will delete all widgets within it. <span
 							class="text-red-300">This action cannot be undone.</span

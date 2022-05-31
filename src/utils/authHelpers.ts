@@ -31,6 +31,10 @@ const setUserLayout = (userLayout) => {
 	return;
 };
 
+export const testIsMacintosh = () => {
+	return navigator.platform.indexOf('Mac') > -1;
+};
+
 // get a user's data
 export const getUserData = async () => {
 	try {
