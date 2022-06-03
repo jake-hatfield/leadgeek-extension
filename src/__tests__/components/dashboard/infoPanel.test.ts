@@ -12,7 +12,11 @@ import '@testing-library/jest-dom';
 import InfoPanel from '@components/dashboard/InfoPanel.svelte';
 
 // store
-import { scannerStatus, scannerIssues } from '@stores/product';
+import {
+	scannerStatus,
+	scannerIssueGroups,
+	scannerIssues,
+} from '@stores/product';
 import { getByTestId } from '@testing-library/dom';
 
 // types
@@ -31,7 +35,7 @@ describe('null state', () => {
 	beforeEach(async () => {
 		const { findByTestId } = render(InfoPanel);
 
-		scannerIssues.set([]);
+		scannerIssueGroups.set([]);
 		scannerStatus.set('idle');
 
 		infoPanelButton = await findByTestId('info-panel-button-inactive');
@@ -53,29 +57,39 @@ describe('active state', () => {
 	let infoPanelButton;
 	let infoPanelDetails;
 
-	const testIssues: Issue[] = [
+	const testIssues: { id: string; category: string; children: Issue[] }[] = [
 		{
-			id: 'test-issue-id-1',
-			category: 'testGroup1',
-			description: 'Test issue description 1',
-			priority: 1,
-			sortKey: 'urgent',
-			title: 'Test issue title 1',
+			id: 'test-category-id-1',
+			category: 'test-group-1',
+			children: [
+				{
+					id: 'test-issue-id-1',
+					description: 'Test issue description 1',
+					priority: 1,
+					sortKey: 'urgent',
+					title: 'Test issue title 1',
+				},
+			],
 		},
 		{
-			id: 'test-issue-id-2',
-			category: 'testGroup2',
-			description: 'Test issue description 2',
-			priority: 2,
-			sortKey: 'none',
-			title: 'Test issue title 2',
+			id: 'test-category-id-2',
+			category: 'test-group-2',
+			children: [
+				{
+					id: 'test-issue-id-2',
+					description: 'Test issue description 2',
+					priority: 2,
+					sortKey: 'none',
+					title: 'Test issue title 2',
+				},
+			],
 		},
 	];
 
 	beforeEach(async () => {
 		const { findByTestId, queryByTestId } = render(InfoPanel);
 
-		scannerIssues.set(testIssues);
+		scannerIssueGroups.set(testIssues);
 		scannerStatus.set('idle');
 
 		infoPanelButton = await findByTestId('info-panel-button-active');
@@ -86,7 +100,7 @@ describe('active state', () => {
 		expect(infoPanelButton).toBeInTheDocument();
 	});
 
-	test('should not render details by default', () => {
+	test('should not render details by ', () => {
 		expect(infoPanelDetails).not.toBeInTheDocument();
 	});
 
@@ -95,16 +109,12 @@ describe('active state', () => {
 			'2 issues require your attention 🔎'
 		);
 
-		scannerIssues.set([
-			{
-				id: 'test-issue-id-1',
-				category: '',
-				description: 'Test issue description 1',
-				priority: 1,
-				sortKey: 'urgent',
-				title: 'Test issue title 1',
-			},
-		]);
+		scannerIssueGroups.createIssue('test-issue-category-1', {
+			description: 'Test issue description 1',
+			priority: 1,
+			sortKey: 'urgent',
+			title: 'Test issue title 1',
+		});
 
 		await waitFor(() =>
 			expect(infoPanelButton).toHaveTextContent(
@@ -240,17 +250,12 @@ describe('active state', () => {
 
 			test('should stack the cards by group & priority', () => {
 				// add an item to testGroup1 but with lower priority
-				scannerIssues.set([
-					...testIssues,
-					{
-						id: 'test-issue-id-3',
-						category: 'testGroup1',
-						description: 'Test issue description 3',
-						priority: 2,
-						sortKey: 'urgent',
-						title: 'Test issue title 3',
-					},
-				]);
+				scannerIssueGroups.createIssue('test-category-id-3', {
+					description: 'Test issue description 3',
+					priority: 2,
+					sortKey: 'urgent',
+					title: 'Test issue title 3',
+				});
 
 				issueItemList = screen.getByTestId('info-panel-details-issue-items');
 

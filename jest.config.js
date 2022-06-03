@@ -12,8 +12,8 @@ module.exports = {
 		'^.+\\.ts$': 'ts-jest',
 		'^.+\\.js$': 'babel-jest',
 	},
-	testEnvironment: 'jsdom',
-	moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths),
-	modulePaths: ['<rootDir>'],
 	moduleFileExtensions: ['js', 'ts', 'svelte'],
+	testEnvironment: 'jsdom',
+	modulePaths: ['<rootDir>'],
+	moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths),
 };

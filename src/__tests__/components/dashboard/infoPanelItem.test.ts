@@ -5,10 +5,11 @@ import '@testing-library/jest-dom';
 import InfoPanelIssue from '@components/dashboard/InfoPanelItem.svelte';
 
 // store
-import { scannerIssues, scannerStatus } from '@stores/product';
-
-// types
-import type Issue from '$types/Issue';
+import {
+	scannerIssueGroups,
+	scannerIssues,
+	scannerStatus,
+} from '@stores/product';
 
 // TODO<Jake>: Should only show button on mouse enter
 
@@ -18,23 +19,24 @@ describe('active state with one issue', () => {
 		description: HTMLElement,
 		button: HTMLElement;
 
-	const testIssues: Issue[] = [
-		{
-			id: 'test-issue-id-1',
-			category: '',
-			description: 'Test issue description 1',
-			priority: 1,
-			sortKey: 'urgent',
-			title: 'Test issue title 1',
-		},
-	];
+	const testIssue: {
+		description: string;
+		priority: number;
+		sortKey: 'urgent' | 'none';
+		title: string;
+	} = {
+		description: 'Test issue description 1',
+		priority: 1,
+		sortKey: 'urgent',
+		title: 'Test issue title 1',
+	};
 
-	scannerIssues.set(testIssues);
+	scannerIssueGroups.createIssue('test-category-id-1', testIssue);
 	scannerStatus.set('idle');
 
 	beforeEach(async () => {
 		const { findByTestId } = render(InfoPanelIssue, {
-			issue: testIssues[0],
+			issue: testIssue,
 		});
 
 		issue = await findByTestId('test-issue-id-1');
