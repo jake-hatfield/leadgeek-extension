@@ -14,7 +14,7 @@
 		"dev:extension": "nodemon --watch src --ext .* --exec \"npm run build\"",
 		"start": "sirv public --single",
 		"test": "jest",
-		"test:watch": "npm test --watch",
+		"test:watch": "npm test -- --watch",
 		"test:coverage": "jest --coverage"
 	},
 	"devDependencies": {

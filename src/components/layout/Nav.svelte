@@ -78,6 +78,7 @@
 				<ButtonIcon
 					action={() => toggleSettingsModal()}
 					title="dots-vertical"
+					data-testId="main-nav-settings-button"
 				/>
 
 				<!-- settings modal -->
@@ -187,6 +188,10 @@
 		</div>
 
 		<!-- close button -->
-		<ButtonIcon action={() => closeExtension()} title="x" />
+		<ButtonIcon
+			action={() => closeExtension()}
+			title="x"
+			data-TestId="main-nav-close-button"
+		/>
 	</nav>
 {/if}

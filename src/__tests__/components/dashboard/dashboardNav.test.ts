@@ -3,6 +3,7 @@ import {
 	screen,
 	queryByTestId,
 	within,
+	waitFor,
 } from '@testing-library/svelte';
 import '@testing-library/jest-dom';
 
@@ -82,56 +83,9 @@ describe('dashboard nav without layout state', () => {
 
 describe('dashboard nav with layout state', () => {
 	let nav;
-	const dashboards = [
-		{
-			id: '1',
-			default: true,
-			title: 'Dashboard #1',
-			color: 'bg-teal-500',
-			widgets: [
-				{
-					id: '1',
-					title: 'Profit analysis',
-					data: [
-						{ title: 'Est.sales/mo', value: 1500000 },
-						{ title: 'Est.sales/mo', value: 79 },
-						{ title: 'Est.sales/mo', value: 79 },
-						{ title: 'Est.sales/mo', value: 1500000 },
-					],
-				},
-				{
-					id: '1234',
-					title: 'Sales/mo',
-					data: [
-						{ title: 'Est.sales/mo', value: 79 },
-						{ title: 'Est.sales/mo', value: 79 },
-						{ title: 'Est.sales/mo', value: 79 },
-					],
-				},
-				{
-					id: '1263',
-					title: 'Competition',
-					data: [
-						{ title: 'Est.sales/mo', value: 79 },
-						{ title: 'Est.sales/mo', value: 79 },
-						{ title: 'Est.sales/mo', value: 79 },
-					],
-				},
-				{
-					id: '12333',
-					title: 'Variations',
-					data: [
-						{ title: 'Est.sales/mo', value: 80 },
-						{ title: 'Est.sales/mo', value: 79 },
-						{ title: 'Est.sales/mo', value: 79 },
-					],
-				},
-			],
-		},
-	];
 
 	beforeEach(async () => {
-		layout.set(dashboards);
+		layout.createDashboard('Dashboard #1');
 
 		const { queryByRole } = renderWithRouter(DashboardNav, {
 			prevDashboard: '',
@@ -156,8 +110,10 @@ describe('dashboard nav with layout state', () => {
 			expect(select).toBeInTheDocument();
 		});
 
-		test('should contain first dashboard option text', () => {
-			expect(select).toHaveTextContent('Dashboard #1');
+		test('should contain first dashboard option text', async () => {
+			await waitFor(() => {
+				expect(select).toHaveTextContent('Dashboard #1');
+			});
 		});
 
 		describe('options list', () => {
@@ -190,9 +146,9 @@ describe('dashboard nav with layout state', () => {
 			test('should close on double click', async () => {
 				await fireEvent.doubleClick(select);
 
-				options = await queryByTestId(nav, 'dashboard-select-options');
-
-				expect(options).not.toBeInTheDocument();
+				await waitFor(() => {
+					expect(options).not.toBeInTheDocument();
+				});
 			});
 
 			describe('create dashboard button', () => {
