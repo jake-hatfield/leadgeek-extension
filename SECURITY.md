@@ -8,4 +8,4 @@
 
 ## Reporting a Vulnerability
 
-Email support@leadgeek.io with an explanation of your assessment.
+[Email Leadgeek support](mailto:support@leadgeek.io) with an explanation of your assessment of any security vulnerabilities and it will be reviewed ASAP.
