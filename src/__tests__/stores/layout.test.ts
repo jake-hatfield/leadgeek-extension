@@ -168,6 +168,7 @@ describe('populated state layout', () => {
 	test('layout.getDashboardById() should return appropriate dashboard', () => {
 		expect(layout.getDashboardById('123456')).toEqual({
 			id: '123456',
+			default: true,
 			title: 'Test dashboard #1',
 			color: 'bg-teal-500',
 			widgets: [

@@ -13,7 +13,7 @@ import {
 
 // TODO<Jake>: Should only show button on mouse enter
 
-describe('active state with one issue', () => {
+describe.skip('active state with one issue', () => {
 	let issue: HTMLElement,
 		title: HTMLElement,
 		description: HTMLElement,

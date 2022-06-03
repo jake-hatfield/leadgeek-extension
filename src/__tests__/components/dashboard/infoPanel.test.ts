@@ -29,7 +29,7 @@ describe('loading state', () => {
 	test.todo('loading state');
 });
 
-describe('null state', () => {
+describe.skip('null state', () => {
 	let infoPanelButton;
 
 	beforeEach(async () => {
@@ -53,7 +53,7 @@ describe('null state', () => {
 	});
 });
 
-describe('active state', () => {
+describe.skip('active state', () => {
 	let infoPanelButton;
 	let infoPanelDetails;
 

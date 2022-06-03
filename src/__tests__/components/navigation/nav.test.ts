@@ -3,6 +3,7 @@ import {
 	getByRole,
 	getByTestId,
 	queryByTestId,
+	waitFor,
 	within,
 } from '@testing-library/svelte';
 import '@testing-library/jest-dom';
@@ -155,7 +156,9 @@ describe('main nav without props', () => {
 
 				await fireEvent.click(document.body);
 
-				expect(settingsModal).not.toBeInTheDocument();
+				await waitFor(() => {
+					expect(settingsModal).not.toBeInTheDocument();
+				});
 			});
 
 			test('should close on double click', async () => {
