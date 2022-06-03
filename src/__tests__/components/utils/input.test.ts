@@ -9,12 +9,16 @@ describe('input [text]', () => {
 	let label;
 	let eyeIcon;
 	beforeEach(async () => {
-		const { getByLabelText, getByText, queryByTestId } = render(Input, {
-			id: 'test-id',
-			type: 'text',
-			label: 'test-label',
-			value: 'test value',
-		});
+		const { getByLabelText, getByText, queryByTestId } = render(
+			Input,
+			{
+				id: 'test-id',
+				type: 'text',
+				label: 'test-label',
+				value: 'test value',
+			},
+			{}
+		);
 		input = await getByLabelText('test-label', { selector: 'input' });
 		label = await getByText('test-label', { selector: 'label' });
 		eyeIcon = await queryByTestId('icon-show-password');

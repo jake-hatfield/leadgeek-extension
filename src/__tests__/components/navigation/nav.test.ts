@@ -14,7 +14,7 @@ import renderWithRouter from '@lib/routerHelpers/renderWithRouter';
 import { status, user } from '@stores/auth';
 
 // component
-import Nav from '@components/navigation/AuthNav.svelte';
+import Nav from '@components/layout/Nav.svelte';
 
 describe('main nav without props', () => {
 	let nav;
