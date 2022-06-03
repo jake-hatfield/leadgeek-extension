@@ -1,6 +1,6 @@
 <script>
 	// packages
-	import { Router } from 'svelte-navigator';
+	import Router from 'svelte-navigator/src/Router.svelte';
 	// routes
 	import Alert from '@components/utils/Alert.svelte';
 	import Routes from '@routes/Routes.svelte';

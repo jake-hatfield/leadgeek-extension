@@ -2,6 +2,8 @@ const { pathsToModuleNameMapper } = require('ts-jest');
 const { compilerOptions } = require('./tsconfig');
 
 module.exports = {
+	resolver: '<rootDir>/jestResolver.cjs',
+	transformIgnorePatterns: ['<rootDir>/node_modules/(?!svelte-navigator)'],
 	transform: {
 		'^.+\\.svelte$': [
 			'svelte-jester',
