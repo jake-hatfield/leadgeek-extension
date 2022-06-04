@@ -4,7 +4,7 @@ import {
 	getByText,
 	getByRole,
 	render,
-	screen,
+	waitFor,
 } from '@testing-library/svelte';
 import '@testing-library/jest-dom';
 
@@ -57,21 +57,17 @@ describe('alert with props', () => {
 
 	describe('closing functionality', () => {
 		test('should close automatically after 4 seconds', async () => {
-			await new Promise((r) => setTimeout(r, 4200));
-
-			alertModal = screen.queryByTestId('alert');
-
-			expect(alertModal).not.toBeInTheDocument();
+			waitFor(() => {
+				expect(alertModal).not.toBeInTheDocument();
+			});
 		});
 
 		test('should close on alert.delete()', async () => {
 			alert.delete();
 
-			await new Promise((r) => setTimeout(r, 4200));
-
-			alertModal = screen.queryByTestId('alert');
-
-			expect(alertModal).not.toBeInTheDocument();
+			waitFor(() => {
+				expect(alertModal).not.toBeInTheDocument();
+			});
 		});
 
 		test('should close on button click', async () => {
@@ -79,11 +75,9 @@ describe('alert with props', () => {
 
 			await fireEvent.click(closeButton);
 
-			await new Promise((r) => setTimeout(r, 4200));
-
-			alertModal = screen.queryByTestId('alert');
-
-			expect(alertModal).not.toBeInTheDocument();
+			waitFor(() => {
+				expect(alertModal).not.toBeInTheDocument();
+			});
 		});
 	});
 });

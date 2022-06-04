@@ -6,9 +6,9 @@
 	import TransitionRoute from '@routes/TransitionRoute.svelte';
 
 	// pages
-	import Dashboard from '@pages/index.svelte';
-	import Scanner from '@pages/scanner.svelte';
-	import Login from '@pages/login/index.svelte';
+	import Dashboard from '@pages/Index.svelte';
+	import Scanner from '@pages/Scanner.svelte';
+	import Login from '@pages/login/Index.svelte';
 
 	const location = useLocation();
 
