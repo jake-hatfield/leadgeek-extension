@@ -116,7 +116,7 @@ describe.skip('active state', () => {
 			title: 'Test issue title 1',
 		});
 
-		await waitFor(() =>
+		waitFor(() =>
 			expect(infoPanelButton).toHaveTextContent(
 				'1 issue requires your attention 🔎'
 			)
@@ -126,7 +126,7 @@ describe.skip('active state', () => {
 	test('should close on click & open full details', async () => {
 		await fireEvent.click(infoPanelButton);
 
-		await waitFor(() => {
+		waitFor(() => {
 			infoPanelDetails = screen.getByTestId('info-panel-details');
 
 			expect(infoPanelDetails).toBeInTheDocument();
@@ -141,7 +141,7 @@ describe.skip('active state', () => {
 		beforeEach(async () => {
 			await fireEvent.click(infoPanelButton);
 
-			await waitFor(() => {
+			waitFor(() => {
 				infoPanelDetails = screen.getByTestId('info-panel-details');
 				sortingHeadersList = screen.getByRole('list', {
 					name: /sorting-headers/i,
@@ -156,7 +156,7 @@ describe.skip('active state', () => {
 
 			await fireEvent.click(closeButton);
 
-			await waitFor(() => {
+			waitFor(() => {
 				infoPanelDetails = screen.queryByTestId('info-panel-details');
 				infoPanelButton = screen.queryByTestId('info-panel-button-active');
 				expect(infoPanelButton).toBeInTheDocument();
@@ -197,7 +197,7 @@ describe.skip('active state', () => {
 
 			getIssues();
 
-			await waitFor(() => {
+			waitFor(() => {
 				infoPanelDetails = screen.queryByTestId('info-panel-details');
 				infoPanelButton = screen.queryByTestId('info-panel-button-active');
 				expect(infoPanelDetails).not.toBeInTheDocument();
