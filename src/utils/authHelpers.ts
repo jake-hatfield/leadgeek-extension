@@ -53,6 +53,8 @@ export const getUserData = async () => {
 			});
 		}
 
+		console.log(res);
+
 		// return user data to store
 		if (res.data.user) {
 			user.set(res.data.user);
@@ -62,7 +64,7 @@ export const getUserData = async () => {
 
 		return status.set('idle');
 	} catch (error) {
-		console.log(error.response.data.message);
+		console.log(error.response.date.message);
 		token.set(null);
 		isAuthenticated.set(false);
 		user.set(null);
