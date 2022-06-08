@@ -15,7 +15,7 @@
 	import { testIsMacintosh } from '@utils/authHelpers';
 
 	// types
-	import type { Category, Feature, Subfeature } from '$types/ScannerHelpers';
+	import type { Category } from '$types/ScannerHelpers';
 
 	// state
 	let searchInput = '';
@@ -195,7 +195,7 @@
 					title: 'History',
 					icon: 'clock',
 					children: [
-						{ title: 'Buy Box price' },
+						{ title: 'Buy box price' },
 						{ title: 'Maximum price' },
 						{ title: 'Minimum price' },
 					],
@@ -255,7 +255,7 @@
 		<div class="h-[421px] pt-5 pb-3 pl-3 pr-5 minimal-scrollbar">
 			{#if filteredCategories.length > 0}
 				<ul>
-					{#each filteredCategories as category (category.title)}
+					{#each filteredCategories as category}
 						<li class="first:mt-0 mt-5">
 							<ul>
 								<li
