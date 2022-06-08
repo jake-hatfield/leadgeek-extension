@@ -213,12 +213,10 @@
 		categories,
 		searchInput.toLowerCase()
 	);
-
-	// TODO<Jake>: On add, ask which widget to add it to
 </script>
 
 <AuthLayout>
-	<section>
+	<section data-testId="issue-scanner">
 		<header class="p-3 border-b border-200">
 			<div class="relative">
 				<Icon type="outline" title="search" class="absolute left-3 top-2.5" />
@@ -228,6 +226,7 @@
 					bind:this={searchInputRef}
 					placeholder="Search for a feature..."
 					class="w-full py-1.5 pl-10 pr-12 border border-200 rounded-lg ring ring-transparent hover:ring-gray-400 outline-none"
+					data-testId="search-input"
 				/>
 				<div class="absolute right-3 top-2.5">
 					<span
@@ -237,13 +236,15 @@
 							<button
 								use:keyboardShortcut={{ code: 'Escape' }}
 								on:click={() => (searchInput = '')}
-								class="font-semibold">Esc</button
+								class="font-semibold"
+								data-testId="esc-button">Esc</button
 							>
 						{:else}
 							<button
 								use:keyboardShortcut={{ control: true, code: 'KeyK' }}
 								on:click|preventDefault={() => searchInputRef.focus()}
 								class="font-semibold"
+								data-testId="search-button"
 							>
 								{testIsMacintosh() ? 'Cmd' : 'Ctrl'} + k
 							</button>
@@ -252,9 +253,12 @@
 				</div>
 			</div>
 		</header>
-		<div class="h-[421px] pt-5 pb-3 pl-3 pr-5 minimal-scrollbar">
+		<div
+			class="h-[421px] pt-5 pb-3 pl-3 pr-5 minimal-scrollbar"
+			data-testId="feature-list"
+		>
 			{#if filteredCategories.length > 0}
-				<ul>
+				<ul aria-label="filtered-feature-list">
 					{#each filteredCategories as category}
 						<li class="first:mt-0 mt-5">
 							<ul>
@@ -342,7 +346,7 @@
 					{/each}
 				</ul>
 			{:else}
-				<div in:fade={{ delay: 150 }}>
+				<article in:fade={{ delay: 150 }} data-testId="null-state">
 					<header class="text-center">
 						<h2>
 							No results for "<span class="font-semibold">{searchInput}</span>"
@@ -371,7 +375,7 @@
 							</li>
 						{/each}
 					</ul>
-				</div>
+				</article>
 			{/if}
 		</div>
 	</section>
