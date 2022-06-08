@@ -6,7 +6,7 @@
 	export let text: string;
 	export let query: string;
 
-	$: chunks = highlightWords({ text, query });
+	$: chunks = highlightWords({ text, query, matchExactly: true });
 </script>
 
 <span aria-hidden="true">

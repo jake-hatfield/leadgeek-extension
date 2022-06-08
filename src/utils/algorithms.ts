@@ -10,48 +10,42 @@ export const searchNestedArray = (categories: Category[], query: string) => {
 
 	// validate string matches
 	const isMatch = (str: string, query: string) => {
-		if (str.toLowerCase().includes(query)) return true;
-		else return false;
+		if (str.toLowerCase().includes(query.toLowerCase())) return true;
+		return false;
 	};
 
 	// iterate over each category
-	for (const category of categories) {
-		// instantiate empty arrays to store the matching items
-		let features: Feature[] = [];
-		let subfeatures: Subfeature[] = [];
-
-		// if the category title matches, return the category title + all features + subfeatures of the category
-		if (isMatch(category.title, query)) return (result = [...result, category]);
+	categories.forEach((category) => {
+		// if the category title matches, add the category title + all features + subfeatures of the category
+		if (isMatch(category.title, query)) result.push(category);
 		else {
+			// instantiate empty arrays to store the matching items
+			let features: Feature[] = [];
 			// iterate over each feature
-			for (const feature of category.children) {
-				// if the feature title matches, return the category title, the feature title, and all subfeatures
+			category.children.forEach((feature) => {
 				if (isMatch(feature.title, query)) {
-					features = [...features, feature];
-					return (result = [...result, { ...category, children: features }]);
+					// if the feature title matches, add the category title + the feature title + all subfeatures
+					features.push(feature);
 				} else {
+					let subfeatures: Subfeature[] = [];
 					// iterate over each subfeature
-					for (const subfeature of feature.children) {
+					feature.children.forEach((subfeature) => {
 						// if the subfeature title matches, add it to the subfeatures array
 						if (isMatch(subfeature.title, query)) {
-							subfeatures = [...subfeatures, subfeature];
-							features = [{ ...feature, children: subfeatures }];
+							subfeatures.push(subfeature);
 						}
-					}
+					});
+
+					if (subfeatures.length > 0)
+						return features.push({ ...feature, children: subfeatures });
 				}
-			}
+			});
+
 			// if the category has matching features, add them to the result
-			if (features.length > 0) {
-				result = [
-					...result,
-					{
-						...category,
-						children: features,
-					},
-				];
-			}
+			if (features.length > 0)
+				return result.push({ ...category, children: features });
 		}
-	}
+	});
 
 	return result;
 };
