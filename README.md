@@ -1,4 +1,6 @@
-# Leadgeek Amazon Product Analysis Browser Extension
+# Leadgeek Extension
+
+> This tool is incomplete in its current state. I scrapped the project for business reasons as [Leadgeek v2](https://leadgeek.io) covers some of the intended functionality in a different way.
 
 ## Description
 
