@@ -1,5 +1,3 @@
-import type IconTitles from '$types/Icon';
-
 export interface Subfeature {
 	title: string;
 }

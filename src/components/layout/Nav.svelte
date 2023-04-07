@@ -156,7 +156,13 @@
 								<li
 									class="mx-3 rounded-lg hover:bg-gray-100 hover:text-200 transition-main"
 								>
-									<button on:click={removeUserData} class="block w-full p-3">
+									<button
+										on:click={() => {
+											settingsModalActive = false;
+											removeUserData();
+										}}
+										class="block w-full p-3"
+									>
 										<span class="flex items-center">
 											<Icon
 												type="solid"

@@ -7,7 +7,7 @@
 
 	// pages
 	import Dashboard from '@pages/Index.svelte';
-	import Scanner from '@pages/Scanner.svelte';
+	import Scanner from '@pages/scanner/Index.svelte';
 	import Login from '@pages/login/Index.svelte';
 
 	const location = useLocation();
@@ -28,7 +28,7 @@
 	<TransitionRoute path="scanner" {url}>
 		<Scanner />
 	</TransitionRoute>
-	<TransitionRoute path="scanner/:category" {url}>
+	<TransitionRoute path="scanner/:feature" {url}>
 		<div>hello</div>
 	</TransitionRoute>
 </div>

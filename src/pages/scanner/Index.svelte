@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+
 	// packages
 	import { Link } from 'svelte-navigator';
 	import { fade } from 'svelte/transition';
@@ -213,6 +215,37 @@
 		categories,
 		searchInput.toLowerCase()
 	);
+
+	interface RecentSearchItem {
+		id: string;
+		category: 'Availability' | 'Information' | 'Metrics' | 'Pricing';
+		feature: string;
+		subfeature: string;
+		title: string;
+	}
+
+	let recentSearches: [
+		RecentSearchItem?,
+		RecentSearchItem?,
+		RecentSearchItem?
+	] = [
+		{
+			id: '12345',
+			category: 'Pricing',
+			feature: 'Validation',
+			subfeature: 'Minimum advertised price',
+			title: 'Minimum advertised price',
+		},
+	];
+
+	let recentSearchActive = true;
+
+	onMount(() => {
+		typeof localStorage !== 'undefined' &&
+			(recentSearchActive = JSON.parse(
+				localStorage.getItem('recentSearchActive')
+			));
+	});
 </script>
 
 <AuthLayout>
@@ -257,8 +290,71 @@
 			class="h-[421px] pt-5 pb-3 pl-3 pr-5 minimal-scrollbar"
 			data-testId="feature-list"
 		>
+			{#if !searchInput}
+				<ul>
+					<li
+						class="center-between uppercase font-semibold text-sm tracking-widest text-gray-500"
+					>
+						<h2 aria-label="Recent">Recent</h2>
+						<button
+							on:click={() => {
+								recentSearchActive = !recentSearchActive;
+								localStorage.setItem(
+									'recentSearchActive',
+									recentSearchActive.toString()
+								);
+							}}
+							class="mr-3"
+						>
+							{#if recentSearchActive}
+								<Icon
+									type="solid"
+									title="minus-sm"
+									class="!text-gray-300"
+								/>{:else}
+								<Icon type="solid" title="plus-sm" class="!text-gray-300" />
+							{/if}
+						</button>
+					</li>
+					{#if recentSearchActive && recentSearches.length > 0}
+						<li class="mt-3">
+							<ul>
+								{#each recentSearches as recentSearch}
+									<li class="rounded-lg hover:bg-gray-100">
+										<Link
+											to={`/scanner/${
+												recentSearch.title === recentSearch.feature
+													? kebabCase(recentSearch.feature)
+													: `${kebabCase(recentSearch.feature)}#${kebabCase(
+															recentSearch.subfeature
+													  )}`
+											}`}
+											class="center-between p-3"
+										>
+											<header class="flex items-center">
+												<!-- A stale icon is shown if key block is left out -->
+												{#key filteredCategories}
+													<Icon type="solid" title="hashtag" />
+												{/key}
+												<h3 class="ml-3">
+													{recentSearch.title}
+												</h3>
+											</header>
+											<Icon
+												type="solid"
+												title="chevron-right"
+												class="!text-gray-300"
+											/>
+										</Link>
+									</li>
+								{/each}
+							</ul>
+						</li>
+					{/if}
+				</ul>
+			{/if}
 			{#if filteredCategories.length > 0}
-				<ul aria-label="filtered-feature-list">
+				<ul class="mt-3" aria-label="filtered-feature-list">
 					{#each filteredCategories as category}
 						<li class="first:mt-0 mt-5">
 							<ul>
@@ -348,7 +444,7 @@
 			{:else}
 				<article in:fade={{ delay: 150 }} data-testId="null-state">
 					<header class="text-center">
-						<h2>
+						<h2 class="overflow-x-hidden truncate">
 							No results for "<span class="font-semibold">{searchInput}</span>"
 							<span role="img" aria-label="Sweat smile emoji">😅</span>
 						</h2>
@@ -357,9 +453,9 @@
 					<ul class="mt-3">
 						{#each categories as category}
 							<li class="rounded-lg hover:bg-gray-100">
-								<Link
-									to={`/scanner/${kebabCase(category.title)}`}
-									class="center-between p-3"
+								<button
+									on:click={() => (searchInput = category.title)}
+									class="w-full center-between p-3"
 								>
 									<header>
 										<h3>
@@ -371,7 +467,7 @@
 										title="chevron-right"
 										class="!text-gray-300"
 									/>
-								</Link>
+								</button>
 							</li>
 						{/each}
 					</ul>
